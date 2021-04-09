@@ -7,7 +7,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.yaroslavgorbach.voclevelup.R
-import com.example.yaroslavgorbach.voclevelup.data.RepoProvider
+import com.example.yaroslavgorbach.voclevelup.data.repo
 import kotlinx.coroutines.launch
 
 class AddWordFragment : Fragment(R.layout.fragment_add_word) {
@@ -15,18 +15,15 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
         fun closeAddWord()
     }
 
-    private val repo by lazy { RepoProvider.provideRepo() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initSaveButton(view)
-    }
-
-    private fun initSaveButton(view: View) {
+        // init save button
         val inputEt = view.findViewById<EditText>(R.id.addWordInput)
         val saveBtn = view.findViewById<View>(R.id.addWordSave)
         inputEt.doAfterTextChanged {
             saveBtn.isEnabled = it?.isNotBlank() == true
         }
+
         saveBtn.setOnClickListener {
             saveBtn.isEnabled = false
             lifecycleScope.launch {
