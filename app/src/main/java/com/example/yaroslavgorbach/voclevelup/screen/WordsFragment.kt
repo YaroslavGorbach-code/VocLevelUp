@@ -3,6 +3,7 @@ package com.example.yaroslavgorbach.voclevelup.screen
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -31,8 +32,12 @@ class WordsFragment : Fragment(R.layout.fragment_words) {
 
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(context)
+        val loadingPb = view.findViewById<View>(R.id.wordsProgress)
+        val emptyView = view.findViewById<View>(R.id.wordsEmpty)
         repo.getAllWords().observe(viewLifecycleOwner) {
             adapter.submitList(it)
+            emptyView.isVisible = it.isEmpty()
+            loadingPb.isVisible = false
         }
     }
 }
