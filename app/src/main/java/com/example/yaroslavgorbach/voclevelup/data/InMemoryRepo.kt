@@ -37,4 +37,8 @@ object InMemoryRepo : Repo {
         return "Translated: $text"
     }
 
+    override suspend fun addWord(text: String) {
+        words.value = words.value?.plus(Word(text))
+    }
+
 }

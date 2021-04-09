@@ -9,7 +9,7 @@ import com.example.yaroslavgorbach.voclevelup.screen.WordsFragment
 import com.example.yaroslavgorbach.voclevelup.screen.addword.AddWordFragment
 import com.example.yaroslavgorbach.voclevelup.screen.word.WordFragment
 
-class MainActivity : AppCompatActivity(R.layout.activity_main), WordsFragment.Host {
+class MainActivity : AppCompatActivity(R.layout.activity_main), WordsFragment.Host, AddWordFragment.Host {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -34,5 +34,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), WordsFragment.Ho
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             addToBackStack(null)
         }
+    }
+
+    override fun closeAddWord() {
+        supportFragmentManager.popBackStack()
     }
 }
