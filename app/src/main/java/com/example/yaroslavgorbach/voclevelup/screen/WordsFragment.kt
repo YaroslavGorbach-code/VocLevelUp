@@ -8,9 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.data.RepoProvider
+import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.screen.words.WordsListAdapter
 
 class WordsFragment : Fragment(R.layout.fragment_words) {
+
+    interface Host {
+        fun openWord(word: Word)
+    }
 
     private val repo = RepoProvider.provideRepo()
 
@@ -21,8 +26,9 @@ class WordsFragment : Fragment(R.layout.fragment_words) {
     private fun initWordsList(view: View) {
         val rv = view.findViewById<RecyclerView>(R.id.wordsList)
         val adapter = WordsListAdapter {
-            Toast.makeText(context, "Click on $it", Toast.LENGTH_SHORT).show()
+            (activity as Host).openWord(it)
         }
+
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(context)
         repo.getAllWords().observe(viewLifecycleOwner) {

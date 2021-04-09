@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">VocLevelUp</string>
+
+    <string name="cant_load_translation">"Can't load translation. Click to retry"</string>
+    <string name="loading_translation">Loading translation…</string>
 </resources>
