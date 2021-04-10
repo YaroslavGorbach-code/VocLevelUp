@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import androidx.core.text.trimmedLength
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -41,7 +40,6 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
             }
         }
 
-
         // init translation
         val transTv = view.findViewById<TextView>(R.id.addWordTranslation)
         lifecycleScope.launchWhenStarted {
@@ -75,6 +73,7 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
                 }
         }
     }
+
     sealed class TranslationResult {
         object Empty : TranslationResult()
         object Progress : TranslationResult()

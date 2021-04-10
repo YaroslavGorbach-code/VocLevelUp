@@ -14,7 +14,7 @@ import java.io.IOException
 class WordFragment : Fragment(R.layout.fragment_word) {
 
     companion object Args {
-        fun argsOf(word: Word) = bundleOf("word_tex" to word.text)
+        fun argsOf(word: Word) = bundleOf("word_text" to word.text)
         private val WordFragment.wordText get() = requireArguments()["word_text"] as String
     }
 
