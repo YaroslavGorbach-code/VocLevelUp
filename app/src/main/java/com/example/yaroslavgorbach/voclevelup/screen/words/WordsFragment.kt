@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.screen
+package com.example.yaroslavgorbach.voclevelup.screen.words
 
 import android.os.Bundle
 import android.view.View
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.data.repo
-import com.example.yaroslavgorbach.voclevelup.screen.words.WordsListAdapter
 
 class WordsFragment : Fragment(R.layout.fragment_words) {
 

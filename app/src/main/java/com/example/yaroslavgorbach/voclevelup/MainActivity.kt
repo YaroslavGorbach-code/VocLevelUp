@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.example.yaroslavgorbach.voclevelup.data.Word
-import com.example.yaroslavgorbach.voclevelup.screen.WordsFragment
+import com.example.yaroslavgorbach.voclevelup.screen.words.WordsFragment
 import com.example.yaroslavgorbach.voclevelup.screen.addword.AddWordFragment
 import com.example.yaroslavgorbach.voclevelup.screen.word.WordFragment
 
