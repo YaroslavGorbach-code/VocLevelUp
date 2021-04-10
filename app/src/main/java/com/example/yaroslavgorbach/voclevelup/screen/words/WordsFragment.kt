@@ -2,37 +2,17 @@ package com.example.yaroslavgorbach.voclevelup.screen.words
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.lifecycle.ViewModelProvider
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.nav
-import com.example.yaroslavgorbach.voclevelup.repo
-
 
 class WordsFragment : Fragment(R.layout.fragment_words) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // init words list
-        val rv = view.findViewById<RecyclerView>(R.id.wordsList)
-        val adapter = WordsListAdapter {
-            nav.openWord(it)
-        }
-        rv.adapter = adapter
-        rv.layoutManager = LinearLayoutManager(context)
-        val loadingPb = view.findViewById<View>(R.id.wordsProgress)
-        val emptyView = view.findViewById<View>(R.id.wordsEmpty)
-        repo.getAllWords().observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            emptyView.isVisible = it.isEmpty()
-            loadingPb.isVisible = false
-        }
-
-        // init add word button
-        val btn = view.findViewById<View>(R.id.wordsAdd)
-        btn.setOnClickListener{
-            nav.openAddWord()
-        }
+        val vm = ViewModelProvider(this)[WordsViewModel::class.java]
+        val wordsView = WordsViewImp(view, nav::openWord, nav::openAddWord)
+        vm.words.observe(viewLifecycleOwner, wordsView::setWords)
+        vm.loading.observe(viewLifecycleOwner, wordsView::setLoading)
     }
 }

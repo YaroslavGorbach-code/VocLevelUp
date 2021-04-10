@@ -3,18 +3,19 @@ package com.example.yaroslavgorbach.voclevelup.data
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import java.io.IOException
 import kotlin.random.Random
 
 object InMemoryRepo : Repo {
 
-    private val words = MutableLiveData<List<Word>>()
+    private val words: MutableStateFlow<List<Word>?> = MutableStateFlow(null)
 
     init {
         GlobalScope.launch {
             delay(Random.nextLong(200, 2000))
-            words.postValue(listOf(
+            words.value = (listOf(
                 Word("Hello"),
                 Word("Word"),
                 Word("Test"),
