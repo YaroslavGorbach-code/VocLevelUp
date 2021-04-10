@@ -9,20 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.data.repo
+import com.example.yaroslavgorbach.voclevelup.screen.nav
 
 class WordsFragment : Fragment(R.layout.fragment_words) {
-
-    interface Host {
-        fun openWord(word: Word)
-        fun openAddWord()
-    }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // init words list
         val rv = view.findViewById<RecyclerView>(R.id.wordsList)
         val adapter = WordsListAdapter {
-            (activity as Host).openWord(it)
+            nav.openWord(it)
         }
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(context)
@@ -37,7 +32,7 @@ class WordsFragment : Fragment(R.layout.fragment_words) {
         // init add word button
         val btn = view.findViewById<View>(R.id.wordsAdd)
         btn.setOnClickListener{
-            (activity as Host).openAddWord()
+            nav.openAddWord()
         }
     }
 }

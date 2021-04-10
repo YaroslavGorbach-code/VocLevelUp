@@ -2,14 +2,16 @@ package com.example.yaroslavgorbach.voclevelup
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.example.yaroslavgorbach.voclevelup.data.Word
+import com.example.yaroslavgorbach.voclevelup.screen.Navigation
 import com.example.yaroslavgorbach.voclevelup.screen.words.WordsFragment
 import com.example.yaroslavgorbach.voclevelup.screen.addword.AddWordFragment
 import com.example.yaroslavgorbach.voclevelup.screen.word.WordFragment
 
-class MainActivity : AppCompatActivity(R.layout.activity_main), WordsFragment.Host, AddWordFragment.Host {
+class MainActivity : AppCompatActivity(R.layout.activity_main), Navigation, AddWordFragment.Host {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,7 +38,8 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), WordsFragment.Ho
         }
     }
 
-    override fun closeAddWord() {
+    override fun onWordAdded(text: String) {
+        Toast.makeText(this, getString(R.string.word_saved, text), Toast.LENGTH_SHORT).show()
         supportFragmentManager.popBackStack()
     }
 }

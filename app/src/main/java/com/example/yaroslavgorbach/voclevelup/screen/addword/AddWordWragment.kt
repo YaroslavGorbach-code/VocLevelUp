@@ -20,7 +20,7 @@ import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature
 
 class AddWordFragment : Fragment(R.layout.fragment_add_word) {
     interface Host {
-        fun closeAddWord()
+        fun onWordAdded(text: String)
     }
 
     @ExperimentalCoroutinesApi
@@ -37,8 +37,9 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
         saveBtn.setOnClickListener {
             saveBtn.isEnabled = false
             lifecycleScope.launch {
-                repo.addWord(inputEt.text.toString())
-                (activity as Host).closeAddWord()
+                val wordText = inputEt.text.toString()
+                repo.addWord(wordText)
+                (activity as Host).onWordAdded(wordText)
             }
         }
 
