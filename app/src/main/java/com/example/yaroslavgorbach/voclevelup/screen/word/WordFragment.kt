@@ -8,12 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.data.Word
-import com.example.yaroslavgorbach.voclevelup.data.repo
 import com.example.yaroslavgorbach.voclevelup.util.clicks
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature.State.*
 import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature
+import com.example.yaroslavgorbach.voclevelup.repo
+
 class WordFragment : Fragment(R.layout.fragment_word) {
 
     companion object Args {

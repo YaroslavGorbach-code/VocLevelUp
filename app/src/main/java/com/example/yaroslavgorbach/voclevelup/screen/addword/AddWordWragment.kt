@@ -9,7 +9,6 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.yaroslavgorbach.voclevelup.R
-import com.example.yaroslavgorbach.voclevelup.data.repo
 import com.example.yaroslavgorbach.voclevelup.util.input
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -17,6 +16,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature.State.*
 import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature
+import com.example.yaroslavgorbach.voclevelup.repo
 
 class AddWordFragment : Fragment(R.layout.fragment_add_word) {
     interface Host {
