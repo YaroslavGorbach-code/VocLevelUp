@@ -33,7 +33,7 @@ class WordFragment : Fragment(R.layout.fragment_word) {
                 try {
                     transTv.text = repo.getTranslation(wordText)
                 } catch (e: IOException) {
-                    transTv.setText(R.string.cant_load_translation)
+                    transTv.setText(R.string.reload_translation)
                 }
                 transTv.isEnabled = true
             }
