@@ -4,7 +4,9 @@ import androidx.lifecycle.*
 import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature
 import com.example.yaroslavgorbach.voclevelup.repo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.flatMapLatest
 
 interface WordVm{
@@ -26,15 +28,16 @@ class WordVmImp(wordText: String): ViewModel(), WordVm {
     }
 
     private val transFeature = TranslationFeature(repo)
-    private val loadTransEvent = MutableStateFlow(Any())
+    private val retryEvent = Channel<Unit>()
 
     override val word: LiveData<String> = MutableLiveData(wordText)
     override val translation: LiveData<TranslationFeature.State> =
-        loadTransEvent
+        retryEvent
+            .consumeAsFlow()
             .flatMapLatest { transFeature.getTranslation(wordText) }
             .asLiveData()
 
     override fun onRetry() {
-        loadTransEvent.value = Any()
+        retryEvent.offer(Unit)
     }
 }
