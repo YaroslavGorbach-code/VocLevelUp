@@ -8,7 +8,12 @@ import com.example.yaroslavgorbach.voclevelup.repo
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.map
 
-class WordsViewModel: ViewModel() {
-    val words: LiveData<List<Word>> = repo.getAllWords().filterNotNull().asLiveData()
-    val loading: LiveData<Boolean> = repo.getAllWords().map { it == null }.asLiveData()
+interface WordsVm{
+    val words: LiveData<List<Word>>
+    val loading: LiveData<Boolean>
+}
+
+class WordsViewModel: ViewModel(), WordsVm {
+    override val words: LiveData<List<Word>> = repo.getAllWords().filterNotNull().asLiveData()
+    override val loading: LiveData<Boolean> = repo.getAllWords().map { it == null }.asLiveData()
 }

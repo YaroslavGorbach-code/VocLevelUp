@@ -11,7 +11,7 @@ import com.example.yaroslavgorbach.voclevelup.nav
 class WordsFragment : Fragment(R.layout.fragment_words) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val vm by viewModels<WordsViewModel>()
+        val vm: WordsVm by viewModels<WordsViewModel>()
         val v = WordsViewImp(
             FragmentWordsBinding.bind(view),
             nav::openWord, nav::openAddWord)

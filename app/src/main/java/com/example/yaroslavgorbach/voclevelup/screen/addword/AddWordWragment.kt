@@ -18,8 +18,7 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
     @ExperimentalCoroutinesApi
     @FlowPreview
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        val vm by viewModels<AddWordViewModel>()
+        val vm: AddWordVm by viewModels<AddWordVmImp>()
         val v = AddWordImp(FragmentAddWordBinding.bind(view),
             object: AddWordView.Callback{
             override fun onWordInput(text: String) = vm.onWordInput(text)
