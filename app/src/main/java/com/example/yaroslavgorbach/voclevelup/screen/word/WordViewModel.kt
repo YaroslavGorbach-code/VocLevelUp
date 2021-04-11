@@ -4,6 +4,8 @@ import androidx.lifecycle.*
 import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature
 import com.example.yaroslavgorbach.voclevelup.repo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 
 @ExperimentalCoroutinesApi
@@ -19,15 +21,15 @@ class WordViewModel(wordText: String): ViewModel() {
     }
 
     private val transFeature = TranslationFeature(repo)
-    private val transEvent = MutableLiveData(Unit)
+    private val transEvent = MutableStateFlow(Any())
 
     val word: LiveData<String> = MutableLiveData(wordText)
     val translation: LiveData<TranslationFeature.State> =
-        transEvent.asFlow()
+        transEvent
             .flatMapLatest { transFeature.getTranslation(wordText) }
             .asLiveData()
 
     fun onRetry() {
-        transEvent.value = Unit
+        transEvent.value = Any()
     }
 }

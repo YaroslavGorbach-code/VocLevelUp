@@ -15,12 +15,12 @@ import kotlinx.coroutines.launch
 @FlowPreview
 class AddWordViewModel : ViewModel() {
     private val transFeature = TranslationFeature(repo)
-    private val wordInput = MutableLiveData("")
-    private val isLoading = MutableLiveData(false)
+    private val wordInput = MutableStateFlow("")
+    private val isLoading = MutableStateFlow(false)
     private val addWordSuccess = Channel<String>(Channel.UNLIMITED)
 
     val translation:LiveData<TranslationFeature.State?> =
-        wordInput.asFlow()
+        wordInput
             .map { it.trim() }
             .distinctUntilChanged()
             .debounce(400)
@@ -30,7 +30,7 @@ class AddWordViewModel : ViewModel() {
             .asLiveData()
 
     val saveEnabled: LiveData<Boolean> =
-        combine(wordInput.asFlow(), isLoading.asFlow()){ input, loading ->
+        combine(wordInput, isLoading){ input, loading ->
             input.trimmedLength() > 1 && !loading
         }.asLiveData()
 
