@@ -8,6 +8,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.onStart
 
 interface WordVm{
     val word: LiveData<String>
@@ -34,6 +35,7 @@ class WordVmImp(wordText: String): ViewModel(), WordVm {
     override val translation: LiveData<TranslationFeature.State> =
         retryEvent
             .consumeAsFlow()
+            .onStart { emit(Unit) }
             .flatMapLatest { transFeature.getTranslation(wordText) }
             .asLiveData()
 

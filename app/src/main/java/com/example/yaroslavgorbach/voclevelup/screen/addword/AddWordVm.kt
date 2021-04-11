@@ -5,17 +5,18 @@ import androidx.lifecycle.*
 import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature
 import com.example.yaroslavgorbach.voclevelup.repo
+import com.example.yaroslavgorbach.voclevelup.util.LiveEvent
+import com.example.yaroslavgorbach.voclevelup.util.MutableLiveEvent
+import com.example.yaroslavgorbach.voclevelup.util.send
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 interface AddWordVm {
     val translation: LiveData<TranslationFeature.State?>
     val saveEnabled: LiveData<Boolean>
-    val onWordAdded: ReceiveChannel<String>
+    val onWordAdded: LiveEvent<String>
     val languages: LiveData<List<Language>>
     fun onWordInput(text: String)
     fun onSave()
@@ -44,7 +45,7 @@ class AddWordVmImp : ViewModel(), AddWordVm {
             input.trimmedLength() > 1 && !loading
         }.asLiveData()
 
-    override val onWordAdded = Channel<String>(Channel.UNLIMITED)
+    override val onWordAdded = MutableLiveEvent<String>()
 
     override val languages: LiveData<List<Language>> =
         repo.getTargetLang().map { listOf(it) + Language.values() }.asLiveData()

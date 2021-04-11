@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
+import com.example.yaroslavgorbach.voclevelup.util.consume
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
@@ -27,11 +28,6 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
         vm.translation.observe(viewLifecycleOwner, v::setTranslation)
         vm.saveEnabled.observe(viewLifecycleOwner, v::setSaveEnable)
         vm.languages.observe(viewLifecycleOwner, v::setLanguages)
-
-        lifecycleScope.launchWhenStarted {
-            for (event in vm.onWordAdded) {
-                (activity as Host).onWordAdded(event)
-            }
-        }
+        vm.onWordAdded.consume(viewLifecycleOwner, (activity as Host)::onWordAdded)
     }
 }
