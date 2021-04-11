@@ -7,6 +7,5 @@ import com.example.yaroslavgorbach.voclevelup.data.Repo
 import com.example.yaroslavgorbach.voclevelup.screen.Navigation
 
 val Fragment.nav get() = activity as Navigation
-val Fragment.repo: Repo get() = InMemoryRepo
 val ViewModel.repo: Repo get() = InMemoryRepo
 

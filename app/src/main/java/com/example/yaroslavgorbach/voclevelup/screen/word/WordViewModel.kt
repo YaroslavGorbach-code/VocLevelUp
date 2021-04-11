@@ -22,14 +22,15 @@ class WordViewModel(wordText: String): ViewModel() {
     }
 
     private val transFeature = TranslationFeature(repo)
-    private val transEvent = Event<Unit>(viewModelScope).apply { send() }
+    private val transEvent = MutableLiveData(Unit)
 
     val word: LiveData<String> = MutableLiveData(wordText)
     val translation: LiveData<TranslationFeature.State> =
-        transEvent.channel.consumeAsFlow()
+        transEvent.asFlow()
             .flatMapLatest { transFeature.getTranslation(wordText) }
             .asLiveData()
 
-    fun onRetryTranslation() = transEvent.send()
-
+    fun onRetryTranslation() {
+        transEvent.value = Unit
+    }
 }

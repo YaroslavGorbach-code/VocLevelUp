@@ -7,8 +7,10 @@ import android.widget.TextView
 import androidx.core.text.trimmedLength
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.yaroslavgorbach.voclevelup.R
+import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
 import com.example.yaroslavgorbach.voclevelup.util.input
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -17,6 +19,7 @@ import kotlinx.coroutines.launch
 import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature.State.*
 import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature
 import com.example.yaroslavgorbach.voclevelup.repo
+import java.util.*
 
 class AddWordFragment : Fragment(R.layout.fragment_add_word) {
     interface Host {
@@ -26,43 +29,19 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
     @ExperimentalCoroutinesApi
     @FlowPreview
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val inputEt = view.findViewById<EditText>(R.id.addWordInput)
 
-        // init save button
-        val saveBtn = view.findViewById<View>(R.id.addWordSave)
-        inputEt.doAfterTextChanged {
-            saveBtn.isEnabled = it != null && it.trimmedLength() > 1
-        }
-
-        saveBtn.setOnClickListener {
-            saveBtn.isEnabled = false
-            lifecycleScope.launch {
-                val wordText = inputEt.text.toString()
-                repo.addWord(wordText)
-                (activity as Host).onWordAdded(wordText)
-            }
-        }
-
-        // init translation
-        val trans = TranslationFeature(repo)
-        val transTv = view.findViewById<TextView>(R.id.addWordTranslation)
-        val transFlow = inputEt.input(lifecycleScope).consumeAsFlow()
-            .map { it.trim() }
-            .distinctUntilChanged()
-            .debounce(400)
-            .flatMapLatest {
-                if (it.length > 1) trans.getTranslation(it) else flowOf(null)
-            }
+        val vm by viewModels<AddWordViewModel>()
+        val v = AddWordImp(FragmentAddWordBinding.bind(view),
+            object: AddWordView.Callback{
+            override fun onWordInput(text: String) = vm.onWordInput(text)
+            override fun onSaveClick() = vm.onSave()
+        })
+        vm.translation.observe(viewLifecycleOwner, v::setTranslation)
+        vm.saveEnabled.observe(viewLifecycleOwner, v::setSaveEnable)
 
         lifecycleScope.launchWhenStarted {
-            transFlow.collect {
-                transTv.isEnabled = it is Success
-                when (it) {
-                    null -> transTv.text = ""
-                    Progress -> transTv.setText(R.string.loading_translation)
-                    Fail -> transTv.setText(R.string.cant_load_translation)
-                    is Success -> transTv.text = it.result
-                }
+            for (event in vm.onWordAdded) {
+                (activity as Host).onWordAdded(event)
             }
         }
     }
