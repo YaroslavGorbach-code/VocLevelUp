@@ -3,7 +3,7 @@ package com.example.yaroslavgorbach.voclevelup.data
 import kotlinx.coroutines.flow.Flow
 
 interface Repo {
-    fun getAllWords(): Flow<List<Word>?>
+    fun getAllWords(): Flow<List<Word>>
     suspend fun getTranslation(text: String): String
     suspend fun addWord(text: String)
     fun getTargetLang(): Flow<Language>
