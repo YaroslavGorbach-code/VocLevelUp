@@ -8,17 +8,22 @@ import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature.*
 
 
 interface WordView {
+
     fun setWordText(text: String)
     fun setTranslation(state: State)
+
+    interface CallBack{
+        fun onRetry()
+    }
 }
 
 class WordViewImp(
     private val binding: FragmentWordBinding,
-    private val onRetryClick: () -> Unit
+    callback: WordView.CallBack
 ) : WordView {
 
     init {
-        binding.wordTranslation.setOnClickListener { onRetryClick() }
+        binding.wordTranslation.setOnClickListener { callback.onRetry()}
     }
 
     override fun setWordText(text: String) {

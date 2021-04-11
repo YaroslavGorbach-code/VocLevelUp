@@ -3,10 +3,7 @@ package com.example.yaroslavgorbach.voclevelup.screen.word
 import androidx.lifecycle.*
 import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature
 import com.example.yaroslavgorbach.voclevelup.repo
-import com.example.yaroslavgorbach.voclevelup.util.Event
-import com.example.yaroslavgorbach.voclevelup.util.send
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.flatMapLatest
 
 @ExperimentalCoroutinesApi
@@ -30,7 +27,7 @@ class WordViewModel(wordText: String): ViewModel() {
             .flatMapLatest { transFeature.getTranslation(wordText) }
             .asLiveData()
 
-    fun onRetryTranslation() {
+    fun onRetry() {
         transEvent.value = Unit
     }
 }

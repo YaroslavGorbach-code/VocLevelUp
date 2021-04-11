@@ -19,7 +19,7 @@ interface AddWordView {
 
 class AddWordImp(
     private val binding: FragmentAddWordBinding,
-    private val callback: AddWordView.Callback
+    callback: AddWordView.Callback
 ) : AddWordView {
 
     init {
