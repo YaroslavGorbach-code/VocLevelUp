@@ -1,9 +1,12 @@
 package com.example.yaroslavgorbach.voclevelup.data
 
+import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import java.io.IOException
 import kotlin.random.Random
@@ -40,6 +43,28 @@ object InMemoryRepo : Repo {
 
     override suspend fun addWord(text: String) {
         words.value = words.value?.plus(Word(text))
+    }
+
+    private suspend fun getTargetLangPref(): Language? = null // TODO: 8/10/2020 get from prefs
+
+    private fun suggestTargetLang(): Language {
+        val userLocales = LocaleListCompat.getAdjustedDefault()
+        for (i in 0 until userLocales.size()) {
+            val supportedLang = Language.values().find { it.code == userLocales[i].language }
+            if (supportedLang != null) {
+                return supportedLang
+            }
+        }
+        return Language.English
+    }
+
+    override fun getTargetLang(): Flow<Language> = flow{
+        emit(getTargetLangPref() ?: suggestTargetLang())
+    }
+
+    override suspend fun setTargetLang(long: Language) {
+        TODO("not implemented")
+
     }
 
 }

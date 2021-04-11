@@ -2,6 +2,7 @@ package com.example.yaroslavgorbach.voclevelup.screen.addword
 
 import androidx.core.text.trimmedLength
 import androidx.lifecycle.*
+import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature
 import com.example.yaroslavgorbach.voclevelup.repo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,8 +16,10 @@ interface AddWordVm {
     val translation: LiveData<TranslationFeature.State?>
     val saveEnabled: LiveData<Boolean>
     val onWordAdded: ReceiveChannel<String>
+    val languages: LiveData<List<Language>>
     fun onWordInput(text: String)
     fun onSave()
+    fun chooseLang(lang: Language)
 }
 
 @ExperimentalCoroutinesApi
@@ -43,6 +46,9 @@ class AddWordVmImp : ViewModel(), AddWordVm {
 
     override val onWordAdded = Channel<String>(Channel.UNLIMITED)
 
+    override val languages: LiveData<List<Language>> =
+        repo.getTargetLang().map { listOf(it) + Language.values() }.asLiveData()
+
     override fun onWordInput(text: String) {
         wordInput.value = text
     }
@@ -54,5 +60,9 @@ class AddWordVmImp : ViewModel(), AddWordVm {
             repo.addWord(wordText)
             onWordAdded.send(wordText)
         }
+    }
+
+    override fun chooseLang(lang: Language) {
+        TODO("Not yet implemented")
     }
 }

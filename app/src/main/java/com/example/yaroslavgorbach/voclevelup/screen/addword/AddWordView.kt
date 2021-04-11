@@ -2,6 +2,7 @@ package com.example.yaroslavgorbach.voclevelup.screen.addword
 
 import androidx.core.widget.doAfterTextChanged
 import com.example.yaroslavgorbach.voclevelup.R
+import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
 import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature
 import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature.State.*
@@ -10,6 +11,7 @@ import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature.State.*
 interface AddWordView {
     fun setTranslation(state: TranslationFeature.State?)
     fun setSaveEnable(enabled: Boolean)
+    fun setLanguages(lang: List<Language>)
 
     interface Callback {
         fun onWordInput(text: String)
@@ -39,5 +41,9 @@ class AddWordImp(
 
     override fun setSaveEnable(enabled: Boolean) {
         binding.addWordSave.isEnabled = enabled
+    }
+
+    override fun setLanguages(lang: List<Language>) {
+        binding.addWordLang.text = lang.first().toString()
     }
 }

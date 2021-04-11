@@ -26,6 +26,7 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
         })
         vm.translation.observe(viewLifecycleOwner, v::setTranslation)
         vm.saveEnabled.observe(viewLifecycleOwner, v::setSaveEnable)
+        vm.languages.observe(viewLifecycleOwner, v::setLanguages)
 
         lifecycleScope.launchWhenStarted {
             for (event in vm.onWordAdded) {
