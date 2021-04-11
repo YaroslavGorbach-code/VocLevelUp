@@ -1,11 +1,11 @@
-package com.example.yaroslavgorbach.voclevelup.feature
+package com.example.yaroslavgorbach.voclevelup.component
 
 import com.example.yaroslavgorbach.voclevelup.data.Repo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
 
-class TranslationFeature(private val repo: Repo) {
+class Translation(private val repo: Repo) {
 
     sealed class State {
         object Fail : State()

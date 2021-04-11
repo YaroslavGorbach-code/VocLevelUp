@@ -1,20 +1,21 @@
-package com.example.yaroslavgorbach.voclevelup.screen.addword
+package com.example.yaroslavgorbach.voclevelup.component
 
 import androidx.core.text.trimmedLength
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import com.example.yaroslavgorbach.voclevelup.data.Language
-import com.example.yaroslavgorbach.voclevelup.feature.TranslationFeature
-import com.example.yaroslavgorbach.voclevelup.repo
+import com.example.yaroslavgorbach.voclevelup.data.Repo
 import com.example.yaroslavgorbach.voclevelup.util.LiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.MutableLiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.send
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-interface AddWordVm {
-    val translation: LiveData<TranslationFeature.State?>
+interface AddWordModel {
+    val translation: LiveData<Translation.State?>
     val saveEnabled: LiveData<Boolean>
     val onWordAdded: LiveEvent<String>
     val languages: LiveData<List<Language>>
@@ -25,12 +26,16 @@ interface AddWordVm {
 
 @ExperimentalCoroutinesApi
 @FlowPreview
-class AddWordVmImp : ViewModel(), AddWordVm {
-    private val transFeature = TranslationFeature(repo)
+class AddWordImp(
+    private val repo: Repo,
+    private val scope: CoroutineScope
+) : AddWordModel {
+
+    private val transFeature = Translation(repo)
     private val wordInput = MutableStateFlow("")
     private val isLoading = MutableStateFlow(false)
 
-    override val translation:LiveData<TranslationFeature.State?> =
+    override val translation: LiveData<Translation.State?> =
         wordInput
             .map { it.trim() }
             .distinctUntilChanged()
@@ -57,7 +62,7 @@ class AddWordVmImp : ViewModel(), AddWordVm {
     override fun onSave() {
         isLoading.value = true
         val wordText = requireNotNull(wordInput.value)
-        viewModelScope.launch {
+        scope.launch {
             repo.addWord(wordText)
             onWordAdded.send(wordText)
         }
