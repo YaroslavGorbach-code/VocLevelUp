@@ -29,7 +29,7 @@ interface AddWordModel {
 class AddWordImp(
     private val repo: Repo,
     private val scope: CoroutineScope
-) : AddWordModel {
+): AddWordModel {
 
     private val transFeature = Translation(repo)
     private val wordInput = MutableStateFlow("")
@@ -40,6 +40,7 @@ class AddWordImp(
             .map { it.trim() }
             .distinctUntilChanged()
             .debounce(400)
+            .combine(repo.getTargetLang()) { input, _ -> input }
             .flatMapLatest {
                 if (it.length > 1) transFeature.getTranslation(it) else flowOf(null)
             }
@@ -53,7 +54,10 @@ class AddWordImp(
     override val onWordAdded = MutableLiveEvent<String>()
 
     override val languages: LiveData<List<Language>> =
-        repo.getTargetLang().map { listOf(it) + Language.values() }.asLiveData()
+        repo.getTargetLang().map {
+            listOf(it) + (Language.values().toList() - it)
+        }.asLiveData()
+
 
     override fun onWordInput(text: String) {
         wordInput.value = text
@@ -69,6 +73,8 @@ class AddWordImp(
     }
 
     override fun chooseLang(lang: Language) {
-        TODO("Not yet implemented")
+        scope.launch {
+            repo.setTargetLang(lang)
+        }
     }
 }

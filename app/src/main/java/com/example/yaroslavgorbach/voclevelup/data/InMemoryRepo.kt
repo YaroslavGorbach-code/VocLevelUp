@@ -15,6 +15,7 @@ import kotlin.random.Random
 object InMemoryRepo : Repo {
 
     private val words: MutableStateFlow<List<Word>?> = MutableStateFlow(null)
+    private val targetLang = MutableStateFlow(suggestTargetLang())
 
     init {
         GlobalScope.launch {
@@ -29,6 +30,11 @@ object InMemoryRepo : Repo {
                 Word("Cat"),
                 Word("Dog")
             ))
+            GlobalScope.launch {
+                getTargetLangPref()?.let {
+                    targetLang.value = it
+                }
+            }
         }
     }
 
@@ -39,14 +45,17 @@ object InMemoryRepo : Repo {
         if (Random.nextInt() % 4 == 0) {
             throw IOException("Can't load translation")
         }
-        return "Translated: $text"
+        return "Translated to ${targetLang.value}: $text"
     }
 
     override suspend fun addWord(text: String) {
         words.value = words.value?.plus(Word(text))
     }
 
-    private suspend fun getTargetLangPref(): Language? = null // TODO: 8/10/2020 get from prefs
+    private suspend fun getTargetLangPref(): Language? {
+        delay(3000)
+        return null
+    }
 
     private fun suggestTargetLang(): Language {
         val userLocales = LocaleListCompat.getAdjustedDefault()
@@ -63,8 +72,8 @@ object InMemoryRepo : Repo {
         emit(getTargetLangPref() ?: suggestTargetLang())
     }
 
-    override suspend fun setTargetLang(long: Language) {
-        TODO("not implemented")
+    override suspend fun setTargetLang(lang: Language) {
+        targetLang.value = lang
     }
 
 }
