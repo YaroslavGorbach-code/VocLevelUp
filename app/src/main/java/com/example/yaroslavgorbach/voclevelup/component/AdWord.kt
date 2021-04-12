@@ -14,7 +14,7 @@ import java.io.IOException
 
 interface AddWord {
     val translation: LiveData<Translation>
-    val maxWordLength: LiveData<Int>
+    val maxWordLength: Int
     val saveEnabled: LiveData<Boolean>
     val onWordAdded: LiveEvent<String>
     val languages: LiveData<List<Language>>
@@ -64,7 +64,7 @@ class AddWordImp(
             }
             .asLiveData()
 
-    override val maxWordLength = MutableLiveData(WORD_RANGE.last)
+    override val maxWordLength = WORD_RANGE.last
 
     private fun normalizeInput(input: String) =
         input.trim().replace(Regex("\\s+"), "")
