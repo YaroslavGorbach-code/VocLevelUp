@@ -19,7 +19,7 @@ object InMemoryRepo : Repo {
 
     init {
         GlobalScope.launch {
-            delay(Random.nextLong(200, 2000))
+            delay(1000)
             words.value = (listOf(
                 Word("Hello"),
                 Word("Word"),
@@ -40,12 +40,50 @@ object InMemoryRepo : Repo {
 
     override fun getAllWords() = words.filterNotNull()
 
-    override suspend fun getTranslation(text: String): String {
-        delay(Random.nextLong(100, 2000))
-        if (Random.nextInt() % 4 == 0) {
-            throw IOException("Can't load translation")
-        }
-        return "Translated to ${targetLang.value}: $text"
+    override suspend fun getDetails(word: String): String {
+        delay(1000)
+        return "Details for: $word"
+    }
+
+    override suspend fun getTranslation(word: String, lang: Language): List<Definition> {
+        delay(1000)
+        return listOf(
+            Definition(
+                "hello",
+                "существительное",
+                "həˈləʊ",
+                listOf(
+                    Translation(
+                        "привет",
+                        listOf("добрый день", "Здравствуй"),
+                        listOf("hi", "good afternoon"),
+                        listOf(
+                            Example("big hello", "большой привет")
+                        )
+                    ),
+                    Translation("приветствие", emptyList(), emptyList(), emptyList())
+                )
+            ),
+            Definition(
+                "hello",
+                "глагол",
+                "həˈləʊ",
+                listOf(
+                    Translation("здравствуйте", emptyList(), listOf("hi"), emptyList()),
+                    Translation("поздороваться", emptyList(), listOf("greet"), emptyList()),
+                    Translation("приветствовать", emptyList(), emptyList(), emptyList())
+                )
+            ),
+            Definition(
+                "hello",
+                "междометие",
+                "həˈləʊ",
+                listOf(
+                    Translation("АЛЛО", emptyList(), emptyList(), emptyList()),
+                    Translation("ау", emptyList(), emptyList(), emptyList())
+                )
+            )
+        )
     }
 
     override suspend fun addWord(text: String) {

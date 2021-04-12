@@ -8,29 +8,21 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onStart
 
 interface WordDetails {
     val word: LiveData<String>
-    val translation: LiveData<Translation.State>
-    fun onRetry()
+    val details: LiveData<String?>
 }
 
 @ExperimentalCoroutinesApi
-class WordDetailsImp(wordText: String, repo: Repo) :
-    WordDetails {
-
-    private val transFeature = Translation(repo)
-    private val retryEvent = Channel<Unit>()
+class WordDetailsImp(wordText: String, repo: Repo): WordDetails {
 
     override val word: LiveData<String> = MutableLiveData(wordText)
-    override val translation: LiveData<Translation.State> =
-        retryEvent.consumeAsFlow()
-            .onStart { emit(Unit) }
-            .flatMapLatest { transFeature.getTranslation(wordText) }
-            .asLiveData()
 
-    override fun onRetry() {
-        retryEvent.offer(Unit)
-    }
+    override val details: LiveData<String?> = flow {
+        emit(null)
+        emit(repo.getDetails(wordText))
+    }.asLiveData()
 }

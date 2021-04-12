@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.example.yaroslavgorbach.voclevelup.R
-import com.example.yaroslavgorbach.voclevelup.component.Translation
+import com.example.yaroslavgorbach.voclevelup.component.TranslationLoader
+import com.example.yaroslavgorbach.voclevelup.data.Definition
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
 import com.example.yaroslavgorbach.voclevelup.util.consume
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,24 +28,28 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
         val binding = FragmentAddWordBinding.bind(view)
 
         with(vm.addWord) {
-            binding.addWordSave.setOnClickListener {
-                if (!binding.addWordSave.isOrWillBeHidden) {
-                    onSave()
-                }
-            }
+            binding.addWordSave.setOnClickListener { onSave() }
             binding.addWordInput.doAfterTextChanged { onWordInput(it.toString()) }
             translation.observe(viewLifecycleOwner) {
-                binding.addWordTranslation.isEnabled = it is Translation.State.Success
+                binding.addWordProgress.isVisible = it is TranslationLoader.State.Progress
+                binding.addWordTranslation.isVisible = it !is TranslationLoader.State.Progress
+
                 when (it) {
                     null -> binding.addWordTranslation.text = ""
-                    Translation.State.Progress -> binding.addWordTranslation.setText(R.string.loading_translation)
-                    Translation.State.Fail -> binding.addWordTranslation.setText(R.string.cant_load_translation)
-                    is Translation.State.Success -> binding.addWordTranslation.text = it.result
+
+                    TranslationLoader.State.Fail -> {
+                        binding.addWordTranslation.setText(R.string.cant_load_translation)
+                    }
+                    is TranslationLoader.State.Success -> {
+                        binding.addWordTranslation.text = it.result.map(Definition::text).toString()
+                    }
                 }
             }
+
             saveEnabled.observe(viewLifecycleOwner) {
-                if (it) binding.addWordSave.show() else binding.addWordSave.hide()
+                binding.addWordSave.isEnabled = it
             }
+
             languages.observe(viewLifecycleOwner) { languages ->
                 binding.addWordLang.text = languages.first().toString()
                 binding.addWordLang.setOnClickListener { v ->

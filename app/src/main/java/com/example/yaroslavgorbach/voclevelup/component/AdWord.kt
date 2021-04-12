@@ -1,6 +1,4 @@
 package com.example.yaroslavgorbach.voclevelup.component
-
-import androidx.core.text.trimmedLength
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.example.yaroslavgorbach.voclevelup.data.Language
@@ -8,14 +6,11 @@ import com.example.yaroslavgorbach.voclevelup.data.Repo
 import com.example.yaroslavgorbach.voclevelup.util.LiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.MutableLiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.send
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.launch
 
 interface AddWordModel {
-    val translation: LiveData<Translation.State?>
+    val translation: LiveData<TranslationLoader.State?>
     val saveEnabled: LiveData<Boolean>
     val onWordAdded: LiveEvent<String>
     val languages: LiveData<List<Language>>
@@ -31,24 +26,35 @@ class AddWordImp(
     private val scope: CoroutineScope
 ): AddWordModel {
 
-    private val transFeature = Translation(repo)
+    companion object {
+        private val WORD_RANGE = 2..20
+    }
+
+    private val transFeature = TranslationLoader(repo)
     private val wordInput = MutableStateFlow("")
     private val isLoading = MutableStateFlow(false)
 
-    override val translation: LiveData<Translation.State?> =
+    override val translation: LiveData<TranslationLoader.State?> =
         wordInput
-            .map { it.trim() }
-            .distinctUntilChanged()
-            .debounce(400)
-            .combine(repo.getTargetLang()) { input, _ -> input }
-            .flatMapLatest {
-                if (it.length > 1) transFeature.getTranslation(it) else flowOf(null)
+            .map { normalizeInput(it) }
+            .combine(repo.getTargetLang()) { input, lang -> input to lang }
+            .transformLatest { (input, lang) ->
+                if (input.length in WORD_RANGE) {
+                    emit(TranslationLoader.State.Progress)
+                    delay(400)
+                    emitAll(transFeature.loadTranslation(input, lang))
+                } else {
+                    emit(null)
+                }
             }
             .asLiveData()
 
+    private fun normalizeInput(input: String) =
+        input.trim().replace(Regex("\\s+"), "")
+
     override val saveEnabled: LiveData<Boolean> =
         combine(wordInput, isLoading){ input, loading ->
-            input.trimmedLength() > 1 && !loading
+            normalizeInput(input).length in WORD_RANGE && !loading
         }.asLiveData()
 
     override val onWordAdded = MutableLiveEvent<String>()

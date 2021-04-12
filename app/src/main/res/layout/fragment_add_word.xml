@@ -7,6 +7,13 @@
     android:clipToPadding="false"
     android:padding="16dp">
 
+    <ProgressBar
+        android:id="@+id/addWordProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
+
     <EditText
         android:id="@+id/addWordInput"
         android:layout_width="match_parent"
@@ -16,7 +23,8 @@
         android:inputType="textCapSentences"
         android:lines="1"
         android:paddingVertical="16dp"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"        tools:ignore="Autofill" />
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+        tools:ignore="Autofill" />
 
     <TextView
         android:id="@+id/addWordTranslation"
@@ -24,7 +32,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="center"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
         tools:text="@tools:sample/cities"
         />
 
@@ -40,12 +48,12 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
         tools:text="@tools:sample/cities"
         />
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/addWordSave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_save"
-        android:visibility="invisible"/>
+        android:text="@string/save_to_dict"
+        />
 
 </FrameLayout>
