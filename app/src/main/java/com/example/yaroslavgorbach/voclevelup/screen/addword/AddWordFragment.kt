@@ -1,6 +1,7 @@
 package com.example.yaroslavgorbach.voclevelup.screen.addword
 
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.Gravity
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
@@ -9,7 +10,8 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.yaroslavgorbach.voclevelup.R
-import com.example.yaroslavgorbach.voclevelup.component.TranslationLoader
+import com.example.yaroslavgorbach.voclevelup.component.AddWord
+import com.example.yaroslavgorbach.voclevelup.component.AddWord.Translation
 import com.example.yaroslavgorbach.voclevelup.data.Definition
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
 import com.example.yaroslavgorbach.voclevelup.util.consume
@@ -29,18 +31,15 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
 
         with(vm.addWord) {
             binding.addWordSave.setOnClickListener { onSave() }
-            binding.addWordInput.doAfterTextChanged { onWordInput(it.toString()) }
+            binding.addWordInput.editText?.doAfterTextChanged { onWordInput(it.toString()) }
             translation.observe(viewLifecycleOwner) {
-                binding.addWordProgress.isVisible = it is TranslationLoader.State.Progress
-                binding.addWordTranslation.isVisible = it !is TranslationLoader.State.Progress
+                binding.addWordProgress.isVisible = it is Translation.Progress
+                binding.addWordTranslation.isVisible = it !is Translation.Progress
 
                 when (it) {
-                    null -> binding.addWordTranslation.text = ""
-
-                    TranslationLoader.State.Fail -> {
-                        binding.addWordTranslation.setText(R.string.cant_load_translation)
-                    }
-                    is TranslationLoader.State.Success -> {
+                    Translation.Idle -> binding.addWordTranslation.text = ""
+                    Translation.Fail -> { binding.addWordTranslation.setText(R.string.cant_load_translation) }
+                    is Translation.Success -> {
                         binding.addWordTranslation.text = it.result.map(Definition::text).toString()
                     }
                 }
@@ -48,6 +47,10 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
 
             saveEnabled.observe(viewLifecycleOwner) {
                 binding.addWordSave.isEnabled = it
+            }
+
+            maxWordLength.observe(viewLifecycleOwner) {
+                binding.addWordInput.editText?.filters = arrayOf(InputFilter.LengthFilter(it))
             }
 
             languages.observe(viewLifecycleOwner) { languages ->
