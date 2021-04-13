@@ -1,65 +1,74 @@
 package com.example.yaroslavgorbach.voclevelup.component
+
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import com.example.yaroslavgorbach.voclevelup.data.Definition
 import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.data.Repo
-import com.example.yaroslavgorbach.voclevelup.util.LiveEvent
-import com.example.yaroslavgorbach.voclevelup.util.MutableLiveEvent
-import com.example.yaroslavgorbach.voclevelup.util.send
+import com.example.yaroslavgorbach.voclevelup.component.AddWord.TransState.*
+import com.example.yaroslavgorbach.voclevelup.data.Trans
+import com.example.yaroslavgorbach.voclevelup.util.asStateFlow
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import java.io.IOException
 
 interface AddWord {
-    val translation: LiveData<Translation>
     val maxWordLength: Int
-    val saveEnabled: LiveData<Boolean>
-    val onWordAdded: LiveEvent<String>
+    val translation: LiveData<TransState>
     val languages: LiveData<List<Language>>
     fun onInput(text: String)
-    fun onSave()
+    fun onSave(item: TransItem)
+    fun onRemove(item: TransItem)
     fun onChooseLang(lang: Language)
 
-    sealed class Translation {
-        object Idle : Translation()
-        object Progress : Translation()
-        data class Success(val result: List<Definition>) : Translation()
-        object Fail : Translation()
+    sealed class TransState {
+        object Idle : TransState()
+        object Progress : TransState()
+        data class Success(val result: List<TransItem>) : TransState()
+        object Fail : TransState()
     }
+
+    data class TransItem(val trans: Trans, val saved: Boolean)
 }
 
+@InternalCoroutinesApi
 @ExperimentalCoroutinesApi
 @FlowPreview
 class AddWordImp(
     private val repo: Repo,
     private val scope: CoroutineScope
-): AddWord {
+) : AddWord {
 
     companion object {
         private val WORD_RANGE = 2..30
     }
 
     private val wordInput = MutableStateFlow("")
-    private val isLoading = MutableStateFlow(false)
+    private val allWords = repo.getAllWords().asStateFlow(scope)
 
-    override val translation: LiveData<AddWord.Translation> =
+    override val translation: LiveData<AddWord.TransState> =
         wordInput
             .map { normalizeInput(it) }
             .combine(repo.getTargetLang()) { input, lang -> input to lang }
             .transformLatest { (input, lang) ->
                 if (input.length in WORD_RANGE) {
-                    emit(AddWord.Translation.Progress)
+                    emit(Progress)
                     delay(400)
                     val result = try {
                         repo.getTranslation(input, lang)
                     } catch (e: IOException) {
                         null
                     }
-                    emit(if (result != null) AddWord.Translation.Success(result) else AddWord.Translation.Fail)
+                    if (result != null) {
+                        emitAll(allWords.filterNotNull().map { savedWords ->
+                            Success(result.map { trans ->
+                                AddWord.TransItem(trans, savedWords.any { it.text == trans.text })
+                            })
+                        })
+                    } else {
+                        emit(Fail)
+                    }
                 } else {
-                    emit(AddWord.Translation.Idle)
+                    emit(Idle)
                 }
             }
             .asLiveData()
@@ -67,14 +76,8 @@ class AddWordImp(
     override val maxWordLength = WORD_RANGE.last
 
     private fun normalizeInput(input: String) =
-        input.trim().replace(Regex("\\s+"), "")
+        input.trim().replace(Regex("\\s+"), " ")
 
-    override val saveEnabled: LiveData<Boolean> =
-        combine(wordInput, isLoading){ input, loading ->
-            normalizeInput(input).length in WORD_RANGE && !loading
-        }.asLiveData()
-
-    override val onWordAdded = MutableLiveEvent<String>()
 
     override val languages: LiveData<List<Language>> =
         repo.getTargetLang().map {
@@ -86,12 +89,15 @@ class AddWordImp(
         wordInput.value = text
     }
 
-    override fun onSave() {
-        isLoading.value = true
-        val wordText = requireNotNull(wordInput.value)
+    override fun onSave(item: AddWord.TransItem) {
         scope.launch {
-            repo.addWord(wordText)
-            onWordAdded.send(wordText)
+            repo.addWord(item.trans.text)
+        }
+    }
+
+    override fun onRemove(item: AddWord.TransItem) {
+        scope.launch {
+            repo.removeWord(item.trans.text)
         }
     }
 

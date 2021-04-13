@@ -11,7 +11,7 @@ import com.example.yaroslavgorbach.voclevelup.screen.words.WordsFragment
 import com.example.yaroslavgorbach.voclevelup.screen.addword.AddWordFragment
 import com.example.yaroslavgorbach.voclevelup.screen.word.WordFragment
 
-class MainActivity : AppCompatActivity(R.layout.activity_main), Navigation, AddWordFragment.Host {
+class MainActivity : AppCompatActivity(R.layout.activity_main), Navigation {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,8 +40,4 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), Navigation, AddW
 
     override fun up() = onBackPressed()
 
-    override fun onWordAdded(text: String) {
-        Toast.makeText(this, getString(R.string.word_saved, text), Toast.LENGTH_SHORT).show()
-        supportFragmentManager.popBackStack()
-    }
 }

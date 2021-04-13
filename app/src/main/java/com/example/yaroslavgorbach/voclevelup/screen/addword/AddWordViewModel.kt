@@ -7,9 +7,11 @@ import com.example.yaroslavgorbach.voclevelup.component.AddWord
 import com.example.yaroslavgorbach.voclevelup.repo
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.InternalCoroutinesApi
 
 @FlowPreview
 @ExperimentalCoroutinesApi
 class AddWordViewModel : ViewModel() {
+    @InternalCoroutinesApi
     val addWord: AddWord = AddWordImp(repo, viewModelScope)
 }
