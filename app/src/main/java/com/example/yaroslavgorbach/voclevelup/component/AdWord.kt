@@ -5,6 +5,7 @@ import androidx.lifecycle.asLiveData
 import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.data.Repo
 import com.example.yaroslavgorbach.voclevelup.component.AddWord.TransState.*
+import com.example.yaroslavgorbach.voclevelup.component.AddWord.*
 import com.example.yaroslavgorbach.voclevelup.data.Trans
 import com.example.yaroslavgorbach.voclevelup.util.asStateFlow
 import kotlinx.coroutines.*
@@ -45,7 +46,7 @@ class AddWordImp(
     private val wordInput = MutableStateFlow("")
     private val allWords = repo.getAllWords().asStateFlow(scope)
 
-    override val translation: LiveData<AddWord.TransState> =
+    override val translation: LiveData<TransState> =
         wordInput
             .map { normalizeInput(it) }
             .combine(repo.getTargetLang()) { input, lang -> input to lang }
@@ -54,14 +55,14 @@ class AddWordImp(
                     emit(Progress)
                     delay(400)
                     val result = try {
-                        repo.getTranslation(input, lang)
+                        repo.getTranslations(input, lang)
                     } catch (e: IOException) {
                         null
                     }
                     if (result != null) {
                         emitAll(allWords.filterNotNull().map { savedWords ->
                             Success(result.map { trans ->
-                                AddWord.TransItem(trans, savedWords.any { it.text == trans.text })
+                                TransItem(trans, savedWords.any { it.trans.text == trans.text })
                             })
                         })
                     } else {
@@ -89,15 +90,15 @@ class AddWordImp(
         wordInput.value = text
     }
 
-    override fun onSave(item: AddWord.TransItem) {
+    override fun onSave(item: TransItem) {
         scope.launch {
-            repo.addWord(item.trans.text)
+            repo.addWord(item.trans)
         }
     }
 
-    override fun onRemove(item: AddWord.TransItem) {
+    override fun onRemove(item: TransItem) {
         scope.launch {
-            repo.removeWord(item.trans.text)
+            repo.removeWord(item.trans)
         }
     }
 
