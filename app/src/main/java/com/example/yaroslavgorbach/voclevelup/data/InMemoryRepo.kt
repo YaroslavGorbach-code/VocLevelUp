@@ -47,6 +47,11 @@ object InMemoryRepo : Repo {
 
     override suspend fun getTranslation(word: String, lang: Language): List<Definition> {
         delay(1000)
+        if (Random.nextInt() % 3 == 0) {
+            throw IOException("Can't load translation")
+        } else if (Random.nextInt() % 3 == 0) {
+            return emptyList()
+        }
         return listOf(
             Definition(
                 "hello",

@@ -5,10 +5,9 @@ import android.view.Gravity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
-import com.example.yaroslavgorbach.voclevelup.R
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.component.AddWord
 import com.example.yaroslavgorbach.voclevelup.component.AddWord.Translation.*
-import com.example.yaroslavgorbach.voclevelup.data.Definition
 import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
 
@@ -23,22 +22,26 @@ class AddWordView(
         fun onLangClick(lang: Language)
     }
 
+    private val adapter = TransListAdapter()
+
+
     init {
         with(binding) {
             addWordSave.setOnClickListener { callback.onSave() }
             addWordInput.editText?.doAfterTextChanged { callback.onInput(it.toString()) }
+            addWortTransList.adapter = adapter
+            addWortTransList.layoutManager = LinearLayoutManager(root.context)
         }
     }
 
-    fun setTranslation(trans: AddWord.Translation) = with(binding) {
-        addWordProgress.isVisible = trans is Progress
-        addWordTranslation.isVisible = trans !is Progress
-        when (trans) {
-            Idle -> addWordTranslation.text = ""
-            Fail -> addWordTranslation.setText(R.string.cant_load_translation)
-            is Success -> addWordTranslation.text = trans.result.map(Definition::text).toString()
-        }
+    fun setTranslation(state: AddWord.Translation) = with(binding) {
+        println(state)
+        addWordProgress.isVisible = state is Progress
+        addWordLoadError.isVisible = state is Fail
+        addWordEmptyList.isVisible = state is Success && state.result.isEmpty()
+        adapter.submitList(if (state is Success) state.result else emptyList())
     }
+
 
     fun setSaveEnabled(enabled: Boolean) = with(binding) {
         addWordSave.isEnabled = enabled
