@@ -18,9 +18,9 @@ interface AddWord {
     val saveEnabled: LiveData<Boolean>
     val onWordAdded: LiveEvent<String>
     val languages: LiveData<List<Language>>
-    fun onWordInput(text: String)
+    fun onInput(text: String)
     fun onSave()
-    fun chooseLang(lang: Language)
+    fun onChooseLang(lang: Language)
 
     sealed class Translation {
         object Idle : Translation()
@@ -82,7 +82,7 @@ class AddWordImp(
         }.asLiveData()
 
 
-    override fun onWordInput(text: String) {
+    override fun onInput(text: String) {
         wordInput.value = text
     }
 
@@ -95,7 +95,7 @@ class AddWordImp(
         }
     }
 
-    override fun chooseLang(lang: Language) {
+    override fun onChooseLang(lang: Language) {
         scope.launch {
             repo.setTargetLang(lang)
         }
