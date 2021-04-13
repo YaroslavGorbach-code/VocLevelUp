@@ -8,8 +8,8 @@ import androidx.fragment.app.commit
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentNavBinding
 import com.example.yaroslavgorbach.voclevelup.screen.ExploreFragment
+import com.example.yaroslavgorbach.voclevelup.screen.dict.DictFragment
 import com.example.yaroslavgorbach.voclevelup.screen.learn.LearnFragment
-import com.example.yaroslavgorbach.voclevelup.screen.words.WordsFragment
 
 class NavFragment : Fragment(R.layout.fragment_nav) {
 
@@ -20,7 +20,7 @@ class NavFragment : Fragment(R.layout.fragment_nav) {
                 if (selectedItemId != it.itemId || childFragmentManager.fragments.isEmpty()) {
                     childFragmentManager.commit {
                         replace(R.id.navContainer, when (it.itemId) {
-                            R.id.menu_nav_dict -> WordsFragment()
+                            R.id.menu_nav_dict -> DictFragment()
                             R.id.menu_nav_learn -> LearnFragment()
                             R.id.menu_nav_explore -> ExploreFragment()
                             else -> error("Unknown menu: ${it.title}")

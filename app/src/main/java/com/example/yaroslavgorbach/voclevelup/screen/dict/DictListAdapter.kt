@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.screen.words
+package com.example.yaroslavgorbach.voclevelup.screen.dict
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.ItemWordBinding
 
-class WordListAdapter(
+class DictListAdapter(
     private val onWordClick: (Word) -> Unit
-) : ListAdapter<Word, WordListAdapter.WordVh>(object : DiffUtil.ItemCallback<Word>() {
+) : ListAdapter<Word, DictListAdapter.WordVh>(object : DiffUtil.ItemCallback<Word>() {
     override fun areItemsTheSame(oldItem: Word, newItem: Word) = oldItem.text == newItem.text
     override fun areContentsTheSame(oldItem: Word, newItem: Word) = oldItem == newItem
 }) {

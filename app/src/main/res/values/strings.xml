@@ -4,7 +4,6 @@
     <string name="no_words">No words yet</string>
     <string name="add_word">Add word</string>
     <string name="no_translations">No translations found</string>
-    <string name="word_saved">\"%s\" saved to dictionary</string>
     <string name="add_word_hint">Search words</string>
     <string name="save_to_dict">Save to dictionary</string>
     <string name="loading_details">Loading details</string>
