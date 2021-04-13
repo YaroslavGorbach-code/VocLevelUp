@@ -15,6 +15,7 @@ import com.example.yaroslavgorbach.voclevelup.component.AddWord.Translation
 import com.example.yaroslavgorbach.voclevelup.data.Definition
 import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
+import com.example.yaroslavgorbach.voclevelup.nav
 import com.example.yaroslavgorbach.voclevelup.util.consume
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -32,6 +33,7 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
             override fun onSave() = vm.addWord.onSave()
             override fun onInput(input: String) = vm.addWord.onInput(input)
             override fun onLangClick(lang: Language) = vm.addWord.onChooseLang(lang)
+            override fun onUp() = nav.up()
         })
 
         with(vm.addWord) {
