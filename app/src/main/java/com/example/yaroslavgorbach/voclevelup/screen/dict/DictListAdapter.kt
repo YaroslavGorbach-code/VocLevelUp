@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.ItemWordBinding
 
@@ -30,8 +31,12 @@ class DictListAdapter(
             binding.root.setOnClickListener { onItemClick(adapterPosition) }
         }
 
-        fun bind(word: Word) {
-            binding.wordText.text = word.trans.text
+        fun bind(word: Word) = with(binding) {
+            wordText.text = word.trans.text
+            wordTransCount.text = root.resources.getString(
+                R.string.meanings_count_pattern,
+                word.trans.meanings.size
+            )
         }
     }
 }
