@@ -2,13 +2,13 @@ package com.example.yaroslavgorbach.voclevelup
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.example.yaroslavgorbach.voclevelup.data.Word
-import com.example.yaroslavgorbach.voclevelup.screen.Navigation
+import com.example.yaroslavgorbach.voclevelup.screen.nav.Navigation
 import com.example.yaroslavgorbach.voclevelup.screen.words.WordsFragment
 import com.example.yaroslavgorbach.voclevelup.screen.addword.AddWordFragment
+import com.example.yaroslavgorbach.voclevelup.screen.nav.NavFragment
 import com.example.yaroslavgorbach.voclevelup.screen.word.WordFragment
 
 class MainActivity : AppCompatActivity(R.layout.activity_main), Navigation {
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), Navigation {
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                add(R.id.mainContainer, WordsFragment())
+                add(R.id.mainContainer, NavFragment())
             }
         }
     }

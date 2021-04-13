@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.screen
+package com.example.yaroslavgorbach.voclevelup.screen.nav
 import com.example.yaroslavgorbach.voclevelup.data.Word
 
 interface Navigation {
