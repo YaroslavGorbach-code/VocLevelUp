@@ -1,6 +1,5 @@
 package com.example.yaroslavgorbach.voclevelup.screen.addword
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -8,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.component.AddWord
 import com.example.yaroslavgorbach.voclevelup.databinding.ItemTransBinding
+import com.example.yaroslavgorbach.voclevelup.util.inflateBinding
 
 class TransListAdapter(
     private val onSave: (AddWord.TransItem) -> Unit,
@@ -17,13 +17,17 @@ class TransListAdapter(
         object : DiffUtil.ItemCallback<AddWord.TransItem>() {
             override fun areItemsTheSame(oldItem: AddWord.TransItem, newItem: AddWord.TransItem) =
                 oldItem.trans == newItem.trans
-            override fun areContentsTheSame(oldItem: AddWord.TransItem, newItem: AddWord.TransItem) =
+
+            override fun areContentsTheSame(
+                oldItem: AddWord.TransItem,
+                newItem: AddWord.TransItem
+            ) =
                 oldItem == newItem
         }
     ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        TransVh(ItemTransBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        TransVh(parent.inflateBinding(ItemTransBinding::inflate))
 
     override fun onBindViewHolder(holder: TransVh, position: Int) = holder.bind(getItem(position))
 
@@ -39,6 +43,7 @@ class TransListAdapter(
                 }
             }
         }
+
         fun bind(item: AddWord.TransItem) = with(binding) {
             transText.text = item.trans.text
             transMeanings.text = item.trans.meanings.joinToString(separator = "\n") {
