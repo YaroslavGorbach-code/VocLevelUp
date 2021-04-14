@@ -13,23 +13,22 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.InternalCoroutinesApi
 
+@ExperimentalCoroutinesApi
+@FlowPreview
+@InternalCoroutinesApi
 class AddWordFragment : Fragment(R.layout.fragment_add_word) {
 
-    @InternalCoroutinesApi
-    @ExperimentalCoroutinesApi
-    @FlowPreview
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val vm by viewModels<AddWordViewModel>()
         val v = AddWordView(FragmentAddWordBinding.bind(view), object : AddWordView.Callback {
-            override fun onSave(item: AddWord.TransItem) = vm.addWord.onSave(item)
-            override fun onRemove(item: AddWord.TransItem) = vm.addWord.onRemove(item)
+            override fun onSave(item: AddWord.DefItem) = vm.addWord.onSave(item)
+            override fun onRemove(item: AddWord.DefItem) = vm.addWord.onRemove(item)
             override fun onInput(input: String) = vm.addWord.onInput(input)
             override fun onLangClick(lang: Language) = vm.addWord.onChooseLang(lang)
             override fun onUp() = nav.up()
         })
-
         with(vm.addWord) {
-            translation.observe(viewLifecycleOwner, v::setTranslation)
+            definitions.observe(viewLifecycleOwner, v::setDefState)
             v.setMaxWordLength(maxWordLength)
             languages.observe(viewLifecycleOwner, v::setLanguages)
         }

@@ -8,8 +8,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.R
-import com.example.yaroslavgorbach.voclevelup.component.AddWord
-import com.example.yaroslavgorbach.voclevelup.component.AddWord.TransState.*
+import com.example.yaroslavgorbach.voclevelup.component.AddWord.*
 import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
 
@@ -19,15 +18,14 @@ class AddWordView(
 ) {
 
     interface Callback {
-        fun onSave(item: AddWord.TransItem)
-        fun onRemove(item: AddWord.TransItem)
+        fun onSave(item: DefItem)
+        fun onRemove(item: DefItem)
         fun onInput(input: String)
         fun onLangClick(lang: Language)
         fun onUp()
     }
 
-    private val adapter = TransListAdapter(callback::onSave, callback::onRemove)
-
+    private val adapter = DefListAdapter(callback::onSave, callback::onRemove)
 
     init {
         with(binding) {
@@ -40,13 +38,12 @@ class AddWordView(
         }
     }
 
-    fun setTranslation(state: AddWord.TransState) = with(binding) {
-        addWordProgress.isVisible = state is Progress
-        addWordLoadError.isVisible = state is Fail
-        addWordEmptyList.isVisible = state is Success && state.result.isEmpty()
-        adapter.submitList(if (state is Success) state.result else emptyList())
+    fun setDefState(state: DefState) = with(binding) {
+        addWordProgress.isVisible = state is DefState.Loading
+        addWordLoadError.isVisible = state is Error
+        addWordEmptyList.isVisible = state is DefState.Data && state.items.isEmpty()
+        adapter.submitList(if (state is DefState.Data) state.items else emptyList())
     }
-
 
     fun setMaxWordLength(length: Int) = with(binding) {
         addWordInput.filters = arrayOf(InputFilter.LengthFilter(length))
@@ -61,7 +58,7 @@ class AddWordView(
                 true
             }
             if (i == 0) {
-                item.icon = ContextCompat.getDrawable(root.context, R.drawable.ic_done)?.apply {
+                item.icon = root.context.getDrawable(R.drawable.ic_done)?.apply {
                     setTintList(ContextCompat.getColorStateList(root.context,
                         R.color.target_lang_tint))
                 }

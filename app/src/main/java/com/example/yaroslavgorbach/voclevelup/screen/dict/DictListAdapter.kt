@@ -6,13 +6,14 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.data.Word
+import com.example.yaroslavgorbach.voclevelup.databinding.ItemTransBinding
 import com.example.yaroslavgorbach.voclevelup.databinding.ItemWordBinding
 import com.example.yaroslavgorbach.voclevelup.util.inflateBinding
 
 class DictListAdapter(
     private val onWordClick: (Word) -> Unit
 ) : ListAdapter<Word, DictListAdapter.WordVh>(object : DiffUtil.ItemCallback<Word>() {
-    override fun areItemsTheSame(oldItem: Word, newItem: Word) = oldItem.trans == newItem.trans
+    override fun areItemsTheSame(oldItem: Word, newItem: Word) = oldItem.text == newItem.text
     override fun areContentsTheSame(oldItem: Word, newItem: Word) = oldItem == newItem
 }) {
 
@@ -21,19 +22,17 @@ class DictListAdapter(
 
     override fun onBindViewHolder(holder: WordVh, position: Int) = holder.bind(getItem(position))
 
-    inner class WordVh(private val binding: ItemWordBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class WordVh(private val binding: ItemWordBinding) : RecyclerView.ViewHolder(binding.root) {
 
         init {
             binding.root.setOnClickListener { onWordClick(getItem(adapterPosition)) }
         }
 
         fun bind(word: Word) = with(binding) {
-            wordText.text = word.trans.text
+            wordText.text = word.text
             wordTransCount.text = root.resources.getString(
-                R.string.meanings_count_pattern,
-                word.trans.meanings.size
-            )
+                R.string.trans_count_pattern,
+                word.translations.size)
         }
     }
 }
