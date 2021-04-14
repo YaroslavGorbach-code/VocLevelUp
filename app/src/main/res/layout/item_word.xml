@@ -11,7 +11,7 @@
     android:paddingVertical="8dp">
 
     <TextView
-        android:id="@+id/wordText"
+        android:id="@+id/word_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -20,7 +20,7 @@
         tools:text="@tools:sample/cities" />
 
     <TextView
-        android:id="@+id/wordTransCount"
+        android:id="@+id/word_trans_count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
