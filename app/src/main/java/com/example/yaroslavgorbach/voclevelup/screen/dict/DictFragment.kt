@@ -8,28 +8,25 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.R
+import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentDictBinding
 import com.example.yaroslavgorbach.voclevelup.nav
+import com.example.yaroslavgorbach.voclevelup.util.consume
 
 class DictFragment : Fragment(R.layout.fragment_dict) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val vm by viewModels<DictViewModel>()
-        val binding = FragmentDictBinding.bind(view)
+        val v = DictView(FragmentDictBinding.bind(view), object : DictView.Callback {
+            override fun onAdd() = nav.openAddWord()
+            override fun onSwipe(word: Word) = vm.wordList.onRemove(word)
+            override fun onClick(word: Word) = nav.openWord(word)
+        })
+
         with(vm.wordList) {
-            val adapter = DictListAdapter(nav::openWord)
-            binding.dictList.adapter = adapter
-            binding.dictList.layoutManager = LinearLayoutManager(context)
-            binding.dictList.addItemDecoration(DividerItemDecoration(context,
-                DividerItemDecoration.VERTICAL))
-            binding.dictAdd.setOnClickListener { nav.openAddWord() }
-            words.observe(viewLifecycleOwner) {
-                adapter.submitList(it)
-                binding.dictEmpty.isVisible = it.isEmpty()
-            }
-            loading.observe(viewLifecycleOwner) {
-                binding.dictProgress.isVisible = it
-            }
+            words.observe(viewLifecycleOwner, v::setWords)
+            loading.observe(viewLifecycleOwner, v::setLoading)
+            onUndoRemoved.consume(viewLifecycleOwner, consumer = v::showRemoveWordUndo)
         }
     }
 }

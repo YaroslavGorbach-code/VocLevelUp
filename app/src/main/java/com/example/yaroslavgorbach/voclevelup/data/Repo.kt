@@ -8,6 +8,8 @@ interface Repo {
     suspend fun getWord(text: String): Word?
     suspend fun addWord(def: Def)
     suspend fun removeWord(def: Def)
+    suspend fun addWord(word: Word)
+    suspend fun removeWord(word: Word)
     fun getTargetLang(): Flow<Language>
     suspend fun setTargetLang(lang: Language)
     suspend fun getTranslations(word: String, lang: Language): List<Def>

@@ -30,8 +30,8 @@ class AddWordView(
     init {
         with(binding) {
             addWordInput.doAfterTextChanged { callback.onInput(it.toString()) }
-            addWortTransList.adapter = adapter
-            addWortTransList.layoutManager = LinearLayoutManager(root.context)
+            addWordTransList.adapter = adapter
+            addWordTransList.layoutManager = LinearLayoutManager(root.context)
             addWordToolbar.setNavigationOnClickListener { callback.onUp() }
             val imm = root.context.getSystemService<InputMethodManager>()
             imm?.showSoftInput(addWordInput, InputMethodManager.SHOW_IMPLICIT)
@@ -58,7 +58,7 @@ class AddWordView(
                 true
             }
             if (i == 0) {
-                item.icon = root.context.getDrawable(R.drawable.ic_done)?.apply {
+                item.icon = ContextCompat.getDrawable(root.context, R.drawable.ic_done)?.apply {
                     setTintList(ContextCompat.getColorStateList(root.context,
                         R.color.target_lang_tint))
                 }
