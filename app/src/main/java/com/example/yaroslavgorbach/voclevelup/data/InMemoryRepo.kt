@@ -2,6 +2,7 @@ package com.example.yaroslavgorbach.voclevelup.data
 
 import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.MutableLiveData
+import com.example.yaroslavgorbach.voclevelup.util.move
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
@@ -73,6 +74,19 @@ object InMemoryRepo : Repo {
                     "Translation $transIndex"
                 }
             )
+        }
+    }
+
+    override suspend fun moveTrans(wordText: String, from: Int, to: Int) {
+        val currentWords = words.value!!
+        val wordIndex = currentWords.indexOfFirst { it.text == wordText }
+        if (wordIndex != -1) {
+            val word = currentWords[wordIndex]
+            val newTrans = word.translations.move(from, to)
+            val newWords = currentWords.toMutableList().apply {
+                set(wordIndex, Word(word.text, newTrans, word.created))
+            }
+            words.value = newWords
         }
     }
 
