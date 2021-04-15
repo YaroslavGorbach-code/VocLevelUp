@@ -4,10 +4,7 @@ import androidx.core.os.LocaleListCompat
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.io.IOException
 import kotlin.random.Random
@@ -21,8 +18,8 @@ object InMemoryRepo : Repo {
         GlobalScope.launch {
             delay(1000)
             words.value = listOf(
-                Word("Hello", listOf("Привет", "Здравствуй", "Алло")),
-                Word("World", listOf("Мир", "Вселенная", "Общество", "Свет"))
+                Word("World", listOf("Мир", "Вселенная", "Общество", "Свет"), System.nanoTime()),
+                Word("Hello", listOf("Привет", "Здравствуй", "Алло"), System.nanoTime() + 1)
             )
         }
         GlobalScope.launch {
@@ -32,7 +29,7 @@ object InMemoryRepo : Repo {
         }
     }
 
-    override fun getAllWords() = words.filterNotNull()
+    override fun getAllWords() = words.filterNotNull().map { it.sortedBy(Word::created).reversed() }
 
     override suspend fun getWord(text: String): Word? {
         delay(1000)
@@ -79,12 +76,11 @@ object InMemoryRepo : Repo {
         }
     }
 
-    override suspend fun addWord(def: Def) = addWordInner(def.text, def.translations)
+    override suspend fun addWord(def: Def) = addWordInner(def.text, def.translations, System.nanoTime())
+    override suspend fun addWord(word: Word) = addWordInner(word.text, word.translations, word.created)
 
-    override suspend fun addWord(word: Word) = addWordInner(word.text, word.translations)
-
-    private fun addWordInner(text: String, translations: List<String>) {
-        words.value = words.value?.let { listOf(Word(text, translations)) + it }
+    private fun addWordInner(text: String, translations: List<String>, created: Long) {
+        words.value = words.value?.let { listOf(Word(text, translations, created)) + it }
     }
 
     override suspend fun removeWord(def: Def) = removeWordInner(def.text)
