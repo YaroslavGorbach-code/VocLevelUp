@@ -13,7 +13,7 @@ interface Repo {
     fun getTargetLang(): Flow<Language>
     suspend fun setTargetLang(lang: Language)
     suspend fun getTranslations(word: String, lang: Language): List<Def>
-    suspend fun moveTrans(wordText: String, from: Int, to: Int)
+    suspend fun setTranslations(word: String, trans: List<String>)
 
 }
 
