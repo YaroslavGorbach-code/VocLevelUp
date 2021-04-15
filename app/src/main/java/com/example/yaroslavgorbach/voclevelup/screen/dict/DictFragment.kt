@@ -2,11 +2,8 @@ package com.example.yaroslavgorbach.voclevelup.screen.dict
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentDictBinding
@@ -28,5 +25,6 @@ class DictFragment : Fragment(R.layout.fragment_dict) {
             loading.observe(viewLifecycleOwner, v::setLoading)
             onUndoRemoved.consume(viewLifecycleOwner, consumer = v::showRemoveWordUndo)
         }
+        nav.onDeleteWord.consume(viewLifecycleOwner, vm.wordList::onRemove)
     }
 }

@@ -6,13 +6,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.data.Word
-import com.example.yaroslavgorbach.voclevelup.databinding.ItemTransBinding
 import com.example.yaroslavgorbach.voclevelup.databinding.ItemWordBinding
 import com.example.yaroslavgorbach.voclevelup.util.inflateBinding
 
-class DictListAdapter(
+class WordListAdapter(
     private val onWordClick: (Word) -> Unit
-) : ListAdapter<Word, DictListAdapter.WordVh>(object : DiffUtil.ItemCallback<Word>() {
+) : ListAdapter<Word, WordListAdapter.WordVh>(object : DiffUtil.ItemCallback<Word>() {
     override fun areItemsTheSame(oldItem: Word, newItem: Word) = oldItem.text == newItem.text
     override fun areContentsTheSame(oldItem: Word, newItem: Word) = oldItem == newItem
 }) {

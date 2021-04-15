@@ -18,35 +18,25 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 class WordFragment : Fragment(R.layout.fragment_word) {
 
     interface Host {
-        fun onWordNotFound(text: String)
+        fun onDeleteWord(word: Word)
     }
 
-    companion object Args {
+    companion object {
         fun argsOf(word: Word) = bundleOf("word" to word.text)
         private val WordFragment.wordText get() = requireArguments()["word"] as String
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val vm by viewModels<WordViewModel>()
-        val binding = FragmentWordBinding.bind(view)
+        val v = WordView(FragmentWordBinding.bind(view), object : WordView.Callback {
+            override fun onWordNotFound() = nav.up()
+            override fun onUp() = nav.up()
+            override fun onDelete(word: Word) = (activity as Host).onDeleteWord(word)
+        })
+
         with(vm.wordDetails(wordText)) {
-            val listAdapter = TransListAdapter()
-            binding.wordTransList.apply {
-                adapter = listAdapter
-                layoutManager = LinearLayoutManager(context)
-            }
-            details.observe(viewLifecycleOwner) {
-                binding.wordProgress.isVisible = it is WordDetails.State.Loading
-                binding.wordDetails.isVisible = it is WordDetails.State.Data
-                when (it) {
-                    WordDetails.State.Error -> (activity as Host).onWordNotFound(wordText)
-                    is WordDetails.State.Data -> listAdapter.submitList(it.word.translations)
-                }
-            }
-            word.observe(viewLifecycleOwner) {
-                binding.wordText.text = it
-            }
+            details.observe(viewLifecycleOwner, v::setDetails)
+            word.observe(viewLifecycleOwner, v::setWordText)
         }
-        binding.wordUp.setOnClickListener { nav.up() }
     }
 }
