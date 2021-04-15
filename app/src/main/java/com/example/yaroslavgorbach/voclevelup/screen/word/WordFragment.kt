@@ -12,13 +12,16 @@ import com.example.yaroslavgorbach.voclevelup.component.WordDetails
 import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentWordBinding
 import com.example.yaroslavgorbach.voclevelup.nav
+import com.example.yaroslavgorbach.voclevelup.util.consume
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.InternalCoroutinesApi
 
+@InternalCoroutinesApi
 @ExperimentalCoroutinesApi
 class WordFragment : Fragment(R.layout.fragment_word) {
 
     interface Host {
-        fun onDeleteWord(word: Word)
+        fun onDeleteWord(text: String)
     }
 
     companion object {
@@ -29,14 +32,14 @@ class WordFragment : Fragment(R.layout.fragment_word) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val vm by viewModels<WordViewModel>()
         val v = WordView(FragmentWordBinding.bind(view), object : WordView.Callback {
-            override fun onWordNotFound() = nav.up()
             override fun onUp() = nav.up()
-            override fun onDelete(word: Word) = (activity as Host).onDeleteWord(word)
+            override fun onDelete() = (activity as Host).onDeleteWord(wordText)
         })
 
         with(vm.wordDetails(wordText)) {
-            details.observe(viewLifecycleOwner, v::setDetails)
-            word.observe(viewLifecycleOwner, v::setWordText)
+            translations.observe(viewLifecycleOwner, v::setTranslations)
+            text.observe(viewLifecycleOwner, v::setWordText)
+            onWordNotFound.consume(viewLifecycleOwner, nav::up)
         }
     }
 }

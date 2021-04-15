@@ -48,10 +48,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), Navigation, Word
 
     override fun up() = onBackPressed()
 
-    override val onDeleteWord = MutableLiveEvent<Word>()
+    override val onDeleteWord = MutableLiveEvent<String>()
 
-    override fun onDeleteWord(word: Word) {
+    override fun onDeleteWord(text: String) {
         supportFragmentManager.popBackStack()
-        onDeleteWord.send(word)
+        onDeleteWord.send(text)
     }
 }

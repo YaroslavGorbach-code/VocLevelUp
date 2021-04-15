@@ -17,6 +17,7 @@ interface WordList{
     val loading: LiveData<Boolean>
     val onUndoRemoved: LiveEvent<() -> Unit>
     fun onRemove(word: Word)
+    fun onRemove(wordText: String)
 }
 
 class WordListImp(
@@ -42,5 +43,9 @@ class WordListImp(
                 }
             }
         }
+    }
+
+    override fun onRemove(wordText: String) {
+        words.value?.find { it.text == wordText }?.let { onRemove(it) }
     }
 }
