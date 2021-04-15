@@ -46,8 +46,10 @@ class DictView(
                     callback.onSwipe(listAdapter.currentList[viewHolder.adapterPosition])
                 }
 
-                override fun onChildDraw(canvas: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                                         dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+                override fun onChildDraw(
+                    canvas: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+                    dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean
+                ) {
                     val item = viewHolder.itemView
                     val clipLeft = if (dX >= 0) 0 else item.width + dX.toInt()
                     val clipRight = if (dX >= 0) dX.toInt() else item.width
@@ -55,7 +57,9 @@ class DictView(
                     swipeBg.setBounds(item.left, item.top, item.right, item.bottom)
                     swipeBg.alpha = round((1 - abs(dX / item.width)) * 255).toInt()
                     swipeBg.draw(canvas)
-                    super.onChildDraw(canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                    super.onChildDraw(
+                        canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive
+                    )
                 }
             }).also { it.attachToRecyclerView(this) })
         }

@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-interface WordList{
+interface WordList {
     val words: LiveData<List<Word>>
     val loading: LiveData<Boolean>
     val onUndoRemoved: LiveEvent<() -> Unit>

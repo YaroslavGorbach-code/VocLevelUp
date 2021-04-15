@@ -35,7 +35,8 @@ class WordFragment : Fragment(R.layout.fragment_word) {
         val v = WordView(FragmentWordBinding.bind(view), object : WordView.Callback {
             override fun onUp() = nav.up()
             override fun onDelete() = (activity as Host).onDeleteWord(wordText)
-            override fun onReorderTrans(newTrans: List<String>) = wordDetails.onReorderTrans(newTrans)
+            override fun onReorderTrans(newTrans: List<String>) =
+                wordDetails.onReorderTrans(newTrans)
         })
 
         with(wordDetails) {

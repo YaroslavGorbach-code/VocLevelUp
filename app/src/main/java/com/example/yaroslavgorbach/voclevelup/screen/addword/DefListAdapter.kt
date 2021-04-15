@@ -15,8 +15,10 @@ class DefListAdapter(
 ) :
     ListAdapter<DefItem, DefListAdapter.DefVh>(
         object : DiffUtil.ItemCallback<DefItem>() {
-            override fun areItemsTheSame(oldItem: DefItem, newItem: DefItem) = oldItem.def == newItem.def
-            override fun areContentsTheSame(oldItem: DefItem, newItem: DefItem) = oldItem == newItem
+            override fun areItemsTheSame(oldItem: DefItem, newItem: DefItem) =
+                oldItem.def == newItem.def
+            override fun areContentsTheSame(oldItem: DefItem, newItem: DefItem) =
+                oldItem == newItem
         }
     ) {
 
