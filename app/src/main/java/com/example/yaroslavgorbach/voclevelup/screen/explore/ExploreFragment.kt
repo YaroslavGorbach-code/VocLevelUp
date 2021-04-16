@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.screen
+package com.example.yaroslavgorbach.voclevelup.screen.explore
 
 import androidx.fragment.app.Fragment
 import com.example.yaroslavgorbach.voclevelup.R

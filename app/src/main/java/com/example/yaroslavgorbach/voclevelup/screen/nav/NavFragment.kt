@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentNavBinding
-import com.example.yaroslavgorbach.voclevelup.screen.ExploreFragment
+import com.example.yaroslavgorbach.voclevelup.screen.explore.ExploreFragment
 import com.example.yaroslavgorbach.voclevelup.screen.dict.DictFragment
 import com.example.yaroslavgorbach.voclevelup.screen.learn.LearnFragment
 
