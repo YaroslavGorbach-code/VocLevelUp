@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 interface WordDetails {
     val text: LiveData<String>
     val translations: LiveData<List<String>?>
-    val onWordNotFound: LiveEvent<Unit>
+    fun onEditTrans(trans: String, newText: String)
     fun onReorderTrans(newTrans: List<String>)
     fun onAddTrans(text: String)
 }
@@ -27,7 +27,7 @@ class WordDetailsImp(
     private val scope: CoroutineScope
 ) : WordDetails {
 
-    override val onWordNotFound = MutableLiveEvent<Unit>()
+    private val word = repo.getWord(wordText).filterNotNull().asStateFlow(scope)
 
     override fun onReorderTrans(newTrans: List<String>) {
         scope.launch {
@@ -35,21 +35,31 @@ class WordDetailsImp(
         }
     }
 
-    private val word = repo.getWord(wordText)
-        .onEach {
-            if (it == null) {
-                onWordNotFound.send()
+    override fun onAddTrans(text: String) {
+        scope.launch {
+            translations.value?.let {
+                repo.setTranslations(wordText, listOf(text) + it)
             }
-        }.filterNotNull()
-        .asStateFlow(scope)
+        }
+    }
 
-            override val text = word.mapNotNull { it?.text }.onStart { emit(wordText) }.asLiveData()
+    override val text = word.mapNotNull { it?.text }.onStart { emit(wordText) }.asLiveData()
             override val translations =
                 word.map { it?.translations }.onStart { emit(null) }.asLiveData()
 
-    override fun onAddTrans(text: String) {
+    override fun onEditTrans(trans: String, newText: String) {
         scope.launch {
-            repo.addTranslation(wordText, text)
+            translations.value?.let { currentTrans ->
+                val newTrans = currentTrans.toMutableList().apply {
+                    val index = indexOfFirst { it == trans }
+                    if (newText.isNotBlank()) {
+                        set(index, newText)
+                    } else {
+                        removeAt(index)
+                    }
+                }
+                repo.setTranslations(wordText, newTrans)
+            }
         }
     }
 

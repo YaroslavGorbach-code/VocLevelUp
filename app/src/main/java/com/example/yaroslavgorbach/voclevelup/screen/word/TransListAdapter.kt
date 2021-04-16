@@ -17,7 +17,8 @@ import com.example.yaroslavgorbach.voclevelup.util.inflateBinding
 import java.util.*
 
 class TransListAdapter(
-    private val onReorder: (List<String>) -> Unit
+    private val onReorder: (List<String>) -> Unit,
+    private val onClick: (String) -> Unit
 ) : ListAdapter<String, TransListAdapter.TransVh>(
     object : DiffUtil.ItemCallback<String>() {
         override fun areItemsTheSame(oldItem: String, newItem: String) = oldItem == newItem
@@ -117,7 +118,12 @@ class TransListAdapter(
                 false
             }
             binding.root.setOnClickListener {
-                // TODO: 8/17/2020 open edit
+                onClick(getItem(adapterPosition))
+            }
+            // same functionality on long press
+            binding.root.setOnLongClickListener {
+                onClick(getItem(adapterPosition))
+                true
             }
         }
 

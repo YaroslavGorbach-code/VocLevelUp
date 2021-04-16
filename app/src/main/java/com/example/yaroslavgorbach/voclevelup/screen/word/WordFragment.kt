@@ -18,7 +18,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 
 @InternalCoroutinesApi
 @ExperimentalCoroutinesApi
-class WordFragment : Fragment(R.layout.fragment_word), AddTransDialog.Host {
+class WordFragment : Fragment(R.layout.fragment_word), AddTransDialog.Host, EditTransDialog.Host{
 
     interface Host {
         fun onDeleteWord(text: String)
@@ -40,16 +40,20 @@ class WordFragment : Fragment(R.layout.fragment_word), AddTransDialog.Host {
                 wordDetails.onReorderTrans(newTrans)
             override fun onAddTrans() =
                 AddTransDialog().show(childFragmentManager, null)
-
+            override fun onEditTrans(trans: String) {
+                EditTransDialog().apply { arguments = EditTransDialog.argsOf(trans) }
+                    .show(childFragmentManager, null)
+            }
         })
 
         with(wordDetails) {
             translations.observe(viewLifecycleOwner, v::setTranslations)
             text.observe(viewLifecycleOwner, v::setWordText)
-            onWordNotFound.consume(viewLifecycleOwner, nav::up)
         }
     }
 
     override fun onAddTrans(text: String) = wordDetails.onAddTrans(text)
 
+    override fun onEditTrans(trans: String, newText: String) =
+        wordDetails.onEditTrans(trans, newText)
 }
