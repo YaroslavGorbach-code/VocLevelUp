@@ -9,10 +9,7 @@ import com.example.yaroslavgorbach.voclevelup.util.asStateFlow
 import com.example.yaroslavgorbach.voclevelup.util.send
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 interface WordDetails {
@@ -20,6 +17,7 @@ interface WordDetails {
     val translations: LiveData<List<String>?>
     val onWordNotFound: LiveEvent<Unit>
     fun onReorderTrans(newTrans: List<String>)
+    fun onAddTrans(text: String)
 }
 
 @InternalCoroutinesApi
@@ -37,15 +35,22 @@ class WordDetailsImp(
         }
     }
 
-    private val word = flow {
-        val word = repo.getWord(wordText)
-        if (word == null) {
-            onWordNotFound.send()
-        }
-        emit(word)
-    }.asStateFlow(scope)
+    private val word = repo.getWord(wordText)
+        .onEach {
+            if (it == null) {
+                onWordNotFound.send()
+            }
+        }.filterNotNull()
+        .asStateFlow(scope)
 
-    override val text = word.mapNotNull { it?.text }.onStart { emit(wordText) }.asLiveData()
-    override val translations = word.map { it?.translations }.onStart { emit(null) }.asLiveData()
+            override val text = word.mapNotNull { it?.text }.onStart { emit(wordText) }.asLiveData()
+            override val translations =
+                word.map { it?.translations }.onStart { emit(null) }.asLiveData()
+
+    override fun onAddTrans(text: String) {
+        scope.launch {
+            repo.addTranslation(wordText, text)
+        }
+    }
 
 }
