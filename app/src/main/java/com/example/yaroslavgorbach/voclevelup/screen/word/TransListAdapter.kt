@@ -73,12 +73,18 @@ class TransListAdapter(
 
         override fun onChildDraw(
             c: Canvas, recyclerView: RecyclerView, viewHolder: ViewHolder,
-                                 dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean
+                                 dx: Float, dy: Float, actionState: Int, isCurrentlyActive: Boolean
         ) {
-            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            super.onChildDraw(c, recyclerView, viewHolder, dx, dy, actionState, isCurrentlyActive)
             // don't go outside rv
             viewHolder.itemView.apply {
-                y = MathUtils.clamp(y, 0f, (recyclerView.height - height).toFloat())
+                val topLimit = 0f
+                val bottomLimit = (recyclerView.height - height).toFloat()
+                if (!recyclerView.canScrollVertically(-1) && y < topLimit) {
+                    y = topLimit
+                } else if (!recyclerView.canScrollVertically(1) && y > bottomLimit) {
+                    y = bottomLimit
+                }
             }
         }
 

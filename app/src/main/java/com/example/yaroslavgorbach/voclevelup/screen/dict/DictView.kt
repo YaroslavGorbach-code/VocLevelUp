@@ -13,6 +13,7 @@ import com.example.yaroslavgorbach.voclevelup.databinding.FragmentDictBinding
 import com.google.android.material.snackbar.Snackbar
 import java.lang.Math.abs
 import java.lang.Math.round
+import kotlin.math.roundToInt
 
 
 class DictView(
@@ -42,20 +43,24 @@ class DictView(
                 override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
                                     target: RecyclerView.ViewHolder) = false
 
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) =
                     callback.onSwipe(listAdapter.currentList[viewHolder.adapterPosition])
-                }
 
                 override fun onChildDraw(
-                    canvas: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                    dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean
+                    canvas: Canvas,
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    dX: Float,
+                    dY: Float,
+                    actionState: Int,
+                    isCurrentlyActive: Boolean
                 ) {
                     val item = viewHolder.itemView
                     val clipLeft = if (dX >= 0) 0 else item.width + dX.toInt()
                     val clipRight = if (dX >= 0) dX.toInt() else item.width
                     canvas.clipRect(clipLeft, item.top, clipRight, item.bottom)
                     swipeBg.setBounds(item.left, item.top, item.right, item.bottom)
-                    swipeBg.alpha = round((1 - abs(dX / item.width)) * 255).toInt()
+                    swipeBg.alpha = ((1 - kotlin.math.abs(dX / item.width)) * 255).roundToInt()
                     swipeBg.draw(canvas)
                     super.onChildDraw(
                         canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive
