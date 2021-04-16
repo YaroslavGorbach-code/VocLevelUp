@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-interface WordList {
+interface Dictionary {
     val words: LiveData<List<Word>>
     val loading: LiveData<Boolean>
     val onUndoRemoved: LiveEvent<() -> Unit>
@@ -20,10 +20,10 @@ interface WordList {
     fun onRemove(wordText: String)
 }
 
-class WordListImp(
+class DictionaryImp(
     private val repo: Repo,
     private val scope: CoroutineScope
-) : WordList {
+) : Dictionary {
 
     override val onUndoRemoved = MutableLiveEvent<() -> Unit>()
     override val words: LiveData<List<Word>> = repo.getAllWords().asLiveData()

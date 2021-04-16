@@ -1,10 +1,10 @@
 package com.example.yaroslavgorbach.voclevelup.screen.dict
-import com.example.yaroslavgorbach.voclevelup.component.WordList
+import com.example.yaroslavgorbach.voclevelup.component.Dictionary
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yaroslavgorbach.voclevelup.component.WordListImp
+import com.example.yaroslavgorbach.voclevelup.component.DictionaryImp
 import com.example.yaroslavgorbach.voclevelup.repo
 
 class DictViewModel : ViewModel() {
-    val wordList: WordList = WordListImp(repo, viewModelScope)
+    val dictionary: Dictionary = DictionaryImp(repo, viewModelScope)
 }
