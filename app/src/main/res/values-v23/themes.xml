@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="AppTheme" parent="BaseAppTheme.v23.DayNight" />
 
     <style name="BaseAppTheme.v23.DayNight">
@@ -9,5 +8,10 @@
 
     <style name="BaseAppTheme.v23" parent="BaseAppTheme.DayNight">
         <item name="android:statusBarColor">?colorPrimarySurface</item>
+    </style>
+
+    <style name="Vocup.InteractiveItem">
+        <item name="android:foreground">?selectableItemBackground</item>
+        <item name="android:stateListAnimator">@animator/interactive_item</item>
     </style>
 </resources>

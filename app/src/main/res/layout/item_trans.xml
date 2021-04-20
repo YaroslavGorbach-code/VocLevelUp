@@ -5,15 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/trans_item_bg"
-    >
+    style="@style/Vocup.InteractiveItem"
+    tools:ignore="UseCompoundDrawables">
 
     <TextView
         android:id="@+id/trans_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:drawableStart="@drawable/ic_label"
         android:drawablePadding="16dp"
         android:gravity="start|center_vertical"
         android:minHeight="?listPreferredItemHeight"
@@ -21,7 +20,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         app:drawableTint="?colorSecondary"
         tools:text="@tools:sample/lorem"
-        />
+        app:drawableStartCompat="@drawable/ic_label" />
 
     <ImageView
         android:id="@+id/trans_drag"

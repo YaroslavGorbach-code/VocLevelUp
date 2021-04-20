@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentDictBinding
+import com.example.yaroslavgorbach.voclevelup.screen.SwipeDismissDecor
 import com.google.android.material.snackbar.Snackbar
 import java.lang.Math.abs
 import java.lang.Math.round
@@ -35,38 +36,11 @@ class DictView(
             adapter = listAdapter
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            addItemDecoration(ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-                0, ItemTouchHelper.START or ItemTouchHelper.END
-            ) {
-                private val swipeBg = ContextCompat.getDrawable(context, R.drawable.word_swipe_bg)!!
-
-                override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
-                                    target: RecyclerView.ViewHolder) = false
-
-                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) =
-                    callback.onSwipe(listAdapter.currentList[viewHolder.adapterPosition])
-
-                override fun onChildDraw(
-                    canvas: Canvas,
-                    recyclerView: RecyclerView,
-                    viewHolder: RecyclerView.ViewHolder,
-                    dX: Float,
-                    dY: Float,
-                    actionState: Int,
-                    isCurrentlyActive: Boolean
-                ) {
-                    val item = viewHolder.itemView
-                    val clipLeft = if (dX >= 0) 0 else item.width + dX.toInt()
-                    val clipRight = if (dX >= 0) dX.toInt() else item.width
-                    canvas.clipRect(clipLeft, item.top, clipRight, item.bottom)
-                    swipeBg.setBounds(item.left, item.top, item.right, item.bottom)
-                    swipeBg.alpha = ((1 - kotlin.math.abs(dX / item.width)) * 255).roundToInt()
-                    swipeBg.draw(canvas)
-                    super.onChildDraw(
-                        canvas, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive
-                    )
+            val swipeDecor =
+                SwipeDismissDecor(ContextCompat.getDrawable(context, R.drawable.delete_item_hint_bg)!!) {
+                    callback.onSwipe(listAdapter.currentList[it.adapterPosition])
                 }
-            }).also { it.attachToRecyclerView(this) })
+            addItemDecoration(swipeDecor.also { it.attachToRecyclerView(this) })
         }
     }
 

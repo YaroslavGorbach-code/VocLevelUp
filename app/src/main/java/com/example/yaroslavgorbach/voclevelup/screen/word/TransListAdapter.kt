@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.math.MathUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
@@ -26,19 +25,15 @@ class TransListAdapter(
     }
 ) {
 
-    private var dragTransZ: Float = 0f
-
-    private val touchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+    private val dragDecor = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
         ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
     ) {
 
         private var prevList: List<String>? = null
-        private var dragged: View? = null
 
-        override fun onMove(recyclerView: RecyclerView, viewHolder: ViewHolder,
-                            target: ViewHolder): Boolean {
+        override fun onMove(rv: RecyclerView, vh: ViewHolder, target: ViewHolder): Boolean {
             currentList.toMutableList().apply {
-                Collections.swap(this, viewHolder.adapterPosition, target.adapterPosition)
+                Collections.swap(this, vh.adapterPosition, target.adapterPosition)
                 submitList(this)
             }
             return true
@@ -51,8 +46,6 @@ class TransListAdapter(
                 }
                 prevList = null
             }
-            viewHolder.itemView.animate().cancel()
-            viewHolder.itemView.translationZ = 0f
             viewHolder.itemView.isActivated = false
             super.clearView(recyclerView, viewHolder)
         }
@@ -60,12 +53,7 @@ class TransListAdapter(
         override fun onSelectedChanged(viewHolder: ViewHolder?, actionState: Int) {
             if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
                 prevList = currentList
-                dragged = viewHolder?.itemView
-                dragged?.isActivated = true
-                dragged?.animate()?.translationZ(dragTransZ)
-            } else if (actionState == ItemTouchHelper.ACTION_STATE_IDLE) {
-                dragged?.animate()?.translationZ(0f)
-                dragged = null
+                viewHolder?.itemView?.isActivated = true
             }
             super.onSelectedChanged(viewHolder, actionState)
         }
@@ -74,7 +62,7 @@ class TransListAdapter(
 
         override fun onChildDraw(
             c: Canvas, recyclerView: RecyclerView, viewHolder: ViewHolder,
-                                 dx: Float, dy: Float, actionState: Int, isCurrentlyActive: Boolean
+            dx: Float, dy: Float, actionState: Int, isCurrentlyActive: Boolean
         ) {
             super.onChildDraw(c, recyclerView, viewHolder, dx, dy, actionState, isCurrentlyActive)
             // don't go outside rv
@@ -97,9 +85,8 @@ class TransListAdapter(
     })
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
-        dragTransZ = recyclerView.resources.getDimension(R.dimen.trans_drag_z)
-        recyclerView.addItemDecoration(touchHelper)
-        touchHelper.attachToRecyclerView(recyclerView)
+        recyclerView.addItemDecoration(dragDecor)
+        dragDecor.attachToRecyclerView(recyclerView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
@@ -113,7 +100,7 @@ class TransListAdapter(
         init {
             binding.transDrag.setOnTouchListener { _, event ->
                 if (event.actionMasked == MotionEvent.ACTION_DOWN) {
-                    touchHelper.startDrag(this)
+                    dragDecor.startDrag(this)
                 }
                 false
             }

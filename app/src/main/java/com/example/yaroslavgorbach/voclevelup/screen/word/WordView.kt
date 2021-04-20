@@ -1,9 +1,11 @@
 package com.example.yaroslavgorbach.voclevelup.screen.word
 
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentWordBinding
+import com.example.yaroslavgorbach.voclevelup.screen.SwipeDismissDecor
 
 class WordView(
     private val binding: FragmentWordBinding,
@@ -16,6 +18,8 @@ class WordView(
         fun onReorderTrans(newTrans: List<String>)
         fun onAddTrans()
         fun onEditTrans(trans: String)
+        fun onDeleteTrans(trans: String)
+
     }
 
     private val transAdapter = TransListAdapter(callback::onReorderTrans, callback::onEditTrans)
@@ -32,6 +36,10 @@ class WordView(
             wordTransList.apply {
                 adapter = transAdapter
                 layoutManager = LinearLayoutManager(context)
+                val swipeDecor = SwipeDismissDecor(
+                   ContextCompat.getDrawable(root.context, R.drawable.delete_item_hint_bg)!!
+                ) { callback.onDeleteTrans(transAdapter.currentList[it.adapterPosition]) }
+                addItemDecoration(swipeDecor.also { it.attachToRecyclerView(this) })
             }
             wordAddTrans.setOnClickListener { callback.onAddTrans() }
         }
