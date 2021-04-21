@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 interface WordDetails {
     val text: LiveData<String>
     val translations: LiveData<List<String>?>
-    val onTransDeleted: LiveEvent<Runnable>
+    val onTransDeleted: LiveEvent<() -> Unit>
     fun onReorderTrans(newTrans: List<String>)
     fun onAddTrans(text: String)
     fun onEditTrans(trans: String, newText: String)
@@ -33,7 +33,7 @@ class WordDetailsImp(
 
     override val text = word.mapNotNull { it?.text }.onStart { emit(wordText) }.asLiveData()
     override val translations = word.map { it?.translations }.onStart { emit(null) }.asLiveData()
-    override val onTransDeleted = MutableLiveEvent<Runnable>()
+    override val onTransDeleted = MutableLiveEvent<() -> Unit>()
 
     override fun onReorderTrans(newTrans: List<String>) {
         scope.launch {
@@ -54,11 +54,11 @@ class WordDetailsImp(
         val newTrans = currentTrans.toMutableList().apply { remove(trans) }
         scope.launch {
             repo.setTranslations(wordText, newTrans)
-            onTransDeleted.send(Runnable {
+            onTransDeleted.send{
                 scope.launch {
                     repo.setTranslations(wordText, currentTrans)
                 }
-            })
+            }
         }
     }
 
