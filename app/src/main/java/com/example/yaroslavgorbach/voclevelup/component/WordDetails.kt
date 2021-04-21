@@ -15,9 +15,11 @@ import kotlinx.coroutines.launch
 interface WordDetails {
     val text: LiveData<String>
     val translations: LiveData<List<String>?>
-    fun onEditTrans(trans: String, newText: String)
+    val onTransDeleted: LiveEvent<Runnable>
     fun onReorderTrans(newTrans: List<String>)
     fun onAddTrans(text: String)
+    fun onEditTrans(trans: String, newText: String)
+    fun onDeleteTrans(trans: String)
 }
 
 @InternalCoroutinesApi
@@ -28,6 +30,10 @@ class WordDetailsImp(
 ) : WordDetails {
 
     private val word = repo.getWord(wordText).filterNotNull().asStateFlow(scope)
+
+    override val text = word.mapNotNull { it?.text }.onStart { emit(wordText) }.asLiveData()
+    override val translations = word.map { it?.translations }.onStart { emit(null) }.asLiveData()
+    override val onTransDeleted = MutableLiveEvent<Runnable>()
 
     override fun onReorderTrans(newTrans: List<String>) {
         scope.launch {
@@ -43,24 +49,26 @@ class WordDetailsImp(
         }
     }
 
-    override val text = word.mapNotNull { it?.text }.onStart { emit(wordText) }.asLiveData()
-            override val translations =
-                word.map { it?.translations }.onStart { emit(null) }.asLiveData()
-
-    override fun onEditTrans(trans: String, newText: String) {
+    override fun onDeleteTrans(trans: String) {
+        val currentTrans = translations.value!!
+        val newTrans = currentTrans.toMutableList().apply { remove(trans) }
         scope.launch {
-            translations.value?.let { currentTrans ->
-                val newTrans = currentTrans.toMutableList().apply {
-                    val index = indexOfFirst { it == trans }
-                    if (newText.isNotBlank()) {
-                        set(index, newText)
-                    } else {
-                        removeAt(index)
-                    }
+            repo.setTranslations(wordText, newTrans)
+            onTransDeleted.send(Runnable {
+                scope.launch {
+                    repo.setTranslations(wordText, currentTrans)
                 }
-                repo.setTranslations(wordText, newTrans)
-            }
+            })
         }
     }
 
+    override fun onEditTrans(trans: String, newText: String) {
+        val currentTrans = translations.value!!
+        val newTrans = currentTrans.toMutableList().apply {
+            set(indexOfFirst { it == trans }, newText)
+        }
+        scope.launch {
+            repo.setTranslations(wordText, newTrans)
+        }
+    }
 }

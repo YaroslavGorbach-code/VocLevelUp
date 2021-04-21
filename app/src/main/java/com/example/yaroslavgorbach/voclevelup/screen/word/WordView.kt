@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentWordBinding
 import com.example.yaroslavgorbach.voclevelup.screen.SwipeDismissDecor
+import com.google.android.material.snackbar.Snackbar
 
 class WordView(
     private val binding: FragmentWordBinding,
@@ -54,6 +55,12 @@ class WordView(
 
     fun setWordText(text: String) = with(binding) {
         wordText.text = text
+    }
+
+    fun showDeleteTransUndo(undo: Runnable) = with(binding) {
+        Snackbar.make(root, R.string.translation_deleted, Snackbar.LENGTH_LONG)
+            .setAction(R.string.undo) { undo.run() }
+            .show()
     }
 
 }
