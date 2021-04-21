@@ -20,7 +20,8 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
         app:drawableTint="?colorSecondary"
         tools:text="@tools:sample/lorem"
-        app:drawableStartCompat="@drawable/ic_label" />
+        app:drawableStartCompat="@drawable/ic_label_important"
+        />
 
     <ImageView
         android:id="@+id/trans_drag"

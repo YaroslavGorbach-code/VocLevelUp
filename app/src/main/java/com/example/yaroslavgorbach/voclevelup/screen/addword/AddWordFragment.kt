@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.observe
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.component.AddWord
 import com.example.yaroslavgorbach.voclevelup.data.Language
@@ -13,8 +14,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.InternalCoroutinesApi
 
-@ExperimentalCoroutinesApi
-@FlowPreview
 @InternalCoroutinesApi
 class AddWordFragment : Fragment(R.layout.fragment_add_word) {
 

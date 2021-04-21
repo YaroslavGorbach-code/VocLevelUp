@@ -8,6 +8,7 @@ import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.ItemWordBinding
 import com.example.yaroslavgorbach.voclevelup.util.inflateBinding
+import kotlin.random.Random
 
 class WordListAdapter(
     private val onWordClick: (Word) -> Unit
@@ -29,8 +30,8 @@ class WordListAdapter(
 
         fun bind(word: Word) = with(binding) {
             wordText.text = word.text
-            wordTransCount.text =
-                root.resources.getString(R.string.trans_count_pattern, word.translations.size)
+            wordTrans.text = word.translations.joinToString(separator = ", ")
+            wordProgress.text = Random.nextInt(1, 100).toString()
         }
     }
 }
