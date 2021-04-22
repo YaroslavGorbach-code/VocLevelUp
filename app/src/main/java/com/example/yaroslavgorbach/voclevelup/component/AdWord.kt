@@ -6,8 +6,11 @@ import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.data.Repo
 import com.example.yaroslavgorbach.voclevelup.component.AddWord.*
 import com.example.yaroslavgorbach.voclevelup.data.Def
-import com.example.yaroslavgorbach.voclevelup.util.asStateFlow
+import com.example.yaroslavgorbach.voclevelup.util.combine
+import com.example.yaroslavgorbach.voclevelup.util.repeatWhen
+import com.example.yaroslavgorbach.voclevelup.util.toStateFlow
 import kotlinx.coroutines.*
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import java.io.IOException
 
@@ -19,6 +22,7 @@ interface AddWord {
     fun onSave(item: DefItem)
     fun onRemove(item: DefItem)
     fun onChooseLang(lang: Language)
+    fun onRetry()
 
     sealed class DefState {
         object Idle : DefState()
@@ -42,13 +46,15 @@ class AddWordImp(
     }
 
     private val wordInput = MutableStateFlow("")
-    private val allWords = repo.getAllWords().asStateFlow(scope)
+    private val allWords = repo.getAllWords().toStateFlow(scope)
+    private val retry = Channel<Unit>()
 
     override val definitions: LiveData<DefState> =
         wordInput
             .map { normalizeInput(it) }
             .distinctUntilChanged()
-            .combine(repo.getTargetLang()) { input, lang -> input to lang }
+            .combine(repo.getTargetLang())
+            .repeatWhen(retry.consumeAsFlow())
             .transformLatest { (input, lang) ->
                 if (input.length in WORD_RANGE) {
                     emit(DefState.Loading)
@@ -104,4 +110,9 @@ class AddWordImp(
             repo.setTargetLang(lang)
         }
     }
+
+    override fun onRetry() {
+        retry.offer(Unit)
+    }
+
 }

@@ -5,7 +5,7 @@ import androidx.lifecycle.asLiveData
 import com.example.yaroslavgorbach.voclevelup.data.Repo
 import com.example.yaroslavgorbach.voclevelup.util.LiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.MutableLiveEvent
-import com.example.yaroslavgorbach.voclevelup.util.asStateFlow
+import com.example.yaroslavgorbach.voclevelup.util.toStateFlow
 import com.example.yaroslavgorbach.voclevelup.util.send
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -31,7 +31,7 @@ class WordDetailsImp(
     private val scope: CoroutineScope
 ) : WordDetails {
 
-    private val word = repo.getWord(wordText).filterNotNull().asStateFlow(scope)
+    private val word = repo.getWord(wordText).filterNotNull().toStateFlow(scope)
 
     override val text = word.mapNotNull { it?.text }.onStart { emit(wordText) }.asLiveData()
     override val translations = word.map { it?.translations }.onStart { emit(null) }.asLiveData()
