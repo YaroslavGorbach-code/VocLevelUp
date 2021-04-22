@@ -28,10 +28,10 @@ interface AddWord {
         object Idle : DefState()
         object Loading : DefState()
         data class Data(val items: List<DefItem>) : DefState()
-        object Error : DefState()
+        data class Error(val items: List<DefItem>) : DefState()
     }
 
-    data class DefItem(val def: Def, val saved: Boolean)
+    data class DefItem(val def: Def, val saved: Boolean, val error: Boolean)
 }
 
 @ExperimentalCoroutinesApi
@@ -64,15 +64,17 @@ class AddWordImp(
                     } catch (e: IOException) {
                         null
                     }
-                    if (result != null) {
-                        emitAll(allWords.filterNotNull().map { words ->
-                            DefState.Data(result.map { def ->
-                                DefItem(def, words.any { it.text == def.text })
-                            })
-                        })
-                    } else {
-                        emit(DefState.Error)
-                    }
+                    emitAll(allWords.filterNotNull().map { words ->
+                        val defs = if (result?.isNotEmpty() == true) result else listOf(Def(input, emptyList()))
+                        val items = defs.map { def ->
+                            DefItem(def, words.any { it.text == def.text }, result == null)
+                        }
+                        if (result != null) {
+                            DefState.Data(items)
+                        } else {
+                            DefState.Error(items)
+                        }
+                    })
                 } else {
                     emit(DefState.Idle)
                 }

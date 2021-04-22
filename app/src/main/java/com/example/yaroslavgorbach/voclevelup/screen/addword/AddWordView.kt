@@ -1,6 +1,7 @@
 package com.example.yaroslavgorbach.voclevelup.screen.addword
 
 import android.text.InputFilter
+import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
@@ -9,8 +10,11 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.component.AddWord.*
+import com.example.yaroslavgorbach.voclevelup.component.AddWord.DefState.*
 import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
+import com.google.android.material.snackbar.Snackbar
+
 
 class AddWordView(
     private val bind: FragmentAddWordBinding,
@@ -27,6 +31,16 @@ class AddWordView(
     }
 
     private val listAdapter = DefListAdapter(callback::onSave, callback::onRemove)
+    private val errorSnack = Snackbar.make(bind.root, R.string.cant_load_translations, Snackbar.LENGTH_INDEFINITE)
+        .setAction(R.string.retry) { callback.onRetry() }
+        .also {
+            bind.root.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                override fun onViewAttachedToWindow(v: View?) {}
+                override fun onViewDetachedFromWindow(v: View?) {
+                    it.dismiss()
+                }
+            })
+        }
 
     init {
         bind.addWordInput.apply {
@@ -39,14 +53,22 @@ class AddWordView(
             layoutManager = LinearLayoutManager(context)
         }
         bind.addWordToolbar.setNavigationOnClickListener { callback.onUp() }
-        bind.addWordRetry.setOnClickListener { callback.onRetry() }
     }
 
     fun setDefState(state: DefState) = with(bind) {
         addWordProgress.isVisible = state is DefState.Loading
-        addWordLoadError.isVisible = state is Error
-        addWordEmptyList.isVisible = state is DefState.Data && state.items.isEmpty()
-        listAdapter.submitList(if (state is DefState.Data) state.items else emptyList())
+        listAdapter.apply {
+            if (state is Error) {
+                errorSnack.show()
+            } else {
+                errorSnack.dismiss()
+            }
+            when (state) {
+                is DefState.Data -> submitList(state.items)
+                is Error -> submitList(state.items)
+                else -> submitList(emptyList())
+            }
+        }
     }
 
     fun setMaxWordLength(length: Int) = with(bind) {

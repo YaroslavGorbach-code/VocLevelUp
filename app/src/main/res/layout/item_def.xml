@@ -30,7 +30,7 @@
             />
 
         <TextView
-            android:id="@+id/def_translations"
+            android:id="@+id/def_trans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -47,8 +47,6 @@
         android:layout_gravity="end"
         android:contentDescription="@string/save_to_dict"
         android:padding="16dp"
-        app:tint="?colorPrimary"
         app:srcCompat="@drawable/word_saved"
-        />
-
+        app:tint="?colorPrimary" />
 </com.google.android.material.card.MaterialCardView>
