@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), Navigation, Word
 
 
 
-    override fun openWord(word: Word) {
+    override fun openWord(word: String) {
         supportFragmentManager.commit {
             supportFragmentManager.findFragmentById(R.id.main_container)?.let(::hide)
             add(R.id.main_container, WordFragment::class.java, WordFragment.argsOf(word))

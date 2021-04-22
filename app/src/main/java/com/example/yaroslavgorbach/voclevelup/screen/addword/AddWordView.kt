@@ -23,14 +23,21 @@ class AddWordView(
 
     interface Callback {
         fun onSave(item: DefItem)
-        fun onRemove(item: DefItem)
+        fun onOpen(item: DefItem)
         fun onInput(input: String)
         fun onLangClick(lang: Language)
         fun onUp()
         fun onRetry()
     }
 
-    private val listAdapter = DefListAdapter(callback::onSave, callback::onRemove)
+    private val listAdapter = DefListAdapter { item ->
+        if (!item.saved || item.trans?.any { !it.second } == true) {
+            callback.onSave(item)
+        } else {
+            callback.onOpen(item)
+        }
+    }
+
     private val errorSnack = Snackbar.make(bind.root, R.string.cant_load_translations, Snackbar.LENGTH_INDEFINITE)
         .setAction(R.string.retry) { callback.onRetry() }
         .also {
@@ -63,11 +70,7 @@ class AddWordView(
             } else {
                 errorSnack.dismiss()
             }
-            when (state) {
-                is DefState.Data -> submitList(state.items)
-                is Error -> submitList(state.items)
-                else -> submitList(emptyList())
-            }
+            submitList(if (state is Data) state.items else emptyList())
         }
     }
 

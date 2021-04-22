@@ -27,7 +27,7 @@ class WordFragment : Fragment(R.layout.fragment_word), AddTransDialog.Host, Edit
     }
 
     companion object {
-        fun argsOf(word: Word) = bundleOf("word" to word.text)
+        fun argsOf(word: String) = bundleOf("word" to word)
         private val WordFragment.wordText get() = requireArguments()["word"] as String
     }
 

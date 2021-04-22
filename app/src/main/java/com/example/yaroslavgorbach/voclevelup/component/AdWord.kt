@@ -15,26 +15,24 @@ import kotlinx.coroutines.flow.*
 import java.io.IOException
 
 interface AddWord {
+
     val definitions: LiveData<DefState>
     val maxWordLength: Int
     val languages: LiveData<List<Language>>
     fun onInput(text: String)
     fun onSave(item: DefItem)
-    fun onRemove(item: DefItem)
     fun onChooseLang(lang: Language)
     fun onRetry()
 
     sealed class DefState {
         object Idle : DefState()
         object Loading : DefState()
-        data class Data(val items: List<DefItem>) : DefState()
-        data class Error(val items: List<DefItem>) : DefState()
+        data class Data(val items: List<DefItem>, val error: Boolean) : DefState()
     }
 
-    data class DefItem(val def: Def, val saved: Boolean, val error: Boolean)
+    data class DefItem(val text: String, val saved: Boolean, val trans: List<Pair<String, Boolean>>?)
 }
 
-@ExperimentalCoroutinesApi
 @InternalCoroutinesApi
 class AddWordImp(
     private val repo: Repo,
@@ -67,13 +65,16 @@ class AddWordImp(
                     emitAll(allWords.filterNotNull().map { words ->
                         val defs = if (result?.isNotEmpty() == true) result else listOf(Def(input, emptyList()))
                         val items = defs.map { def ->
-                            DefItem(def, words.any { it.text == def.text }, result == null)
+                            val savedWord = words.find { it.text == def.text }
+                            if (savedWord != null) {
+                                DefItem(def.text, true, def.translations.map {
+                                    it to savedWord.translations.contains(it)
+                                })
+                            } else {
+                                DefItem(def.text, false, def.translations.map { it to false })
+                            }
                         }
-                        if (result != null) {
-                            DefState.Data(items)
-                        } else {
-                            DefState.Error(items)
-                        }
+                        DefState.Data(items, result == null)
                     })
                 } else {
                     emit(DefState.Idle)
@@ -97,13 +98,7 @@ class AddWordImp(
 
     override fun onSave(item: DefItem) {
         scope.launch {
-            repo.addWord(item.def)
-        }
-    }
-
-    override fun onRemove(item: DefItem) {
-        scope.launch {
-            repo.removeWord(item.def)
+            repo.addWord(item.text, item.trans?.map { it.first } ?: emptyList())
         }
     }
 
@@ -116,5 +111,4 @@ class AddWordImp(
     override fun onRetry() {
         retry.offer(Unit)
     }
-
 }

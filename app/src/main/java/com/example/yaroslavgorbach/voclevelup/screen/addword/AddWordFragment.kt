@@ -21,7 +21,7 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
         val vm by viewModels<AddWordViewModel>()
         val v = AddWordView(FragmentAddWordBinding.bind(view), object : AddWordView.Callback {
             override fun onSave(item: AddWord.DefItem) = vm.addWord.onSave(item)
-            override fun onRemove(item: AddWord.DefItem) = vm.addWord.onRemove(item)
+            override fun onOpen(item: AddWord.DefItem) = nav.openWord(item.text)
             override fun onInput(input: String) = vm.addWord.onInput(input)
             override fun onLangClick(lang: Language) = vm.addWord.onChooseLang(lang)
             override fun onUp() = nav.up()

@@ -4,7 +4,7 @@ import com.example.yaroslavgorbach.voclevelup.util.LiveEvent
 
 interface Navigation {
     val onDeleteWord: LiveEvent<String>
-    fun openWord(word: Word)
+    fun openWord(word: String)
     fun openAddWord()
     fun up()
 }
