@@ -1,6 +1,8 @@
 package com.example.yaroslavgorbach.voclevelup.screen.dict
 
+import android.annotation.SuppressLint
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -28,10 +30,13 @@ class WordListAdapter(
             binding.root.setOnClickListener { onWordClick(getItem(adapterPosition)) }
         }
 
+        @SuppressLint("SetTextI18n")
         fun bind(word: Word) = with(binding) {
             wordText.text = word.text
             wordTrans.text = word.translations.joinToString(separator = ", ")
             wordProgress.text = Random.nextInt(1, 100).toString()
+            wordPron.isVisible = word.pron != null
+            wordPron.text = "/${word.pron}/"
         }
     }
 }

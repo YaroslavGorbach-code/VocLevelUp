@@ -20,6 +20,8 @@ interface WordDetails {
     fun onAddTrans(text: String)
     fun onEditTrans(trans: String, newText: String)
     fun onDeleteTrans(trans: String)
+    val pron: LiveData<String>
+
 }
 
 @InternalCoroutinesApi
@@ -61,6 +63,8 @@ class WordDetailsImp(
             }
         }
     }
+
+    override val pron = word.map { it?.pron ?: "" }.asLiveData()
 
     override fun onEditTrans(trans: String, newText: String) {
         val currentTrans = translations.value!!

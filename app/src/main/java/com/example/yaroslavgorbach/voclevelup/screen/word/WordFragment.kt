@@ -2,6 +2,7 @@ package com.example.yaroslavgorbach.voclevelup.screen.word
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -38,6 +39,12 @@ class WordFragment : Fragment(R.layout.fragment_word), AddTransDialog.Host, Edit
             override fun onUp() = nav.up()
             override fun onDelete() = (activity as Host).onDeleteWord(wordText)
             override fun onDeleteTrans(trans: String) = details.onDeleteTrans(trans)
+            override fun onListen() {
+                Toast.makeText(
+                    context, "You're listening ${details.text.value}", Toast.LENGTH_SHORT
+                ).show()
+            }
+
             override fun onReorderTrans(newTrans: List<String>) = details.onReorderTrans(newTrans)
             override fun onAddTrans() = AddTransDialog().show(childFragmentManager, null)
             override fun onEditTrans(trans: String) {
