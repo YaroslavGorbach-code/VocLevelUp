@@ -10,7 +10,6 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.databinding.DialogTransBinding
-import com.example.yaroslavgorbach.voclevelup.nav
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 
@@ -27,12 +26,12 @@ class EditTransDialog : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val binding = DialogTransBinding.inflate(LayoutInflater.from(context))
+        val bind = DialogTransBinding.inflate(LayoutInflater.from(context))
         val dialog = MaterialAlertDialogBuilder(requireContext())
-            .setView(binding.root)
+            .setView(bind.root)
             .setTitle(R.string.edit_translation)
             .setPositiveButton(R.string.save) { _, _ ->
-                val input = binding.transInput.text.toString()
+                val input = bind.transInput.text.toString()
                 if (input != trans) {
                     (parentFragment as Host).onEditTrans(trans, input)
                 }
@@ -44,7 +43,7 @@ class EditTransDialog : DialogFragment() {
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         dialog.setOnShowListener {
             val saveBtn = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
-            binding.transInput.apply {
+            bind.transInput.apply {
                 doAfterTextChanged { saveBtn.isEnabled = !it.isNullOrBlank() }
                 setText(trans)
                 selectAll()

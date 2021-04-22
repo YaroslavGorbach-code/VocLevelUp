@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.component.AddWord.*
 import com.example.yaroslavgorbach.voclevelup.databinding.ItemDefBinding
-import com.example.yaroslavgorbach.voclevelup.util.inflateBinding
+import com.example.yaroslavgorbach.voclevelup.util.inflateBind
 
 class DefListAdapter(
     private val onSave: (DefItem) -> Unit,
@@ -23,15 +23,15 @@ class DefListAdapter(
     ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        DefVh(parent.inflateBinding(ItemDefBinding::inflate))
+        DefVh(parent.inflateBind(ItemDefBinding::inflate))
 
     override fun onBindViewHolder(holder: DefVh, position: Int) = holder.bind(getItem(position))
 
-    inner class DefVh(private val binding: ItemDefBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class DefVh(private val bind: ItemDefBinding) : RecyclerView.ViewHolder(bind.root) {
 
         init {
-            binding.defBg.setOnClickListener {
-                if (!binding.defSaved.isActivated) {
+            bind.defBg.setOnClickListener {
+                if (!bind.defSaved.isActivated) {
                     onSave(getItem(adapterPosition))
                 } else {
                     onRemove(getItem(adapterPosition))
@@ -39,7 +39,7 @@ class DefListAdapter(
             }
         }
 
-        fun bind(item: DefItem) = with(binding) {
+        fun bind(item: DefItem) = with(bind) {
             defText.text = item.def.text
             defTranslations.text = item.def.translations.joinToString(separator = "\n") {
                 root.resources.getString(R.string.trans_pattern, it)
