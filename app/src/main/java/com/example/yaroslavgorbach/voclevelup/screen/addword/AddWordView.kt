@@ -13,6 +13,7 @@ import com.example.yaroslavgorbach.voclevelup.component.AddWord.*
 import com.example.yaroslavgorbach.voclevelup.component.AddWord.DefState.*
 import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
+import com.example.yaroslavgorbach.voclevelup.util.setNavAsBack
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -26,7 +27,6 @@ class AddWordView(
         fun onOpen(item: DefItem)
         fun onInput(input: String)
         fun onLangClick(lang: Language)
-        fun onUp()
         fun onRetry()
     }
 
@@ -59,7 +59,7 @@ class AddWordView(
             adapter = listAdapter
             layoutManager = LinearLayoutManager(context)
         }
-        bind.addWordToolbar.setNavigationOnClickListener { callback.onUp() }
+        bind.addWordToolbar.setNavAsBack()
     }
 
     fun setDefState(state: DefState) = with(bind) {
@@ -94,5 +94,11 @@ class AddWordView(
                 }
             }
         }
+    }
+
+    fun showUndoDeleteWord(undo: () -> Unit) {
+        Snackbar.make(bind.root, R.string.word_removed, Snackbar.LENGTH_LONG)
+            .setAction(R.string.undo) { undo() }
+            .show()
     }
 }

@@ -6,6 +6,7 @@ import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.data.Repo
 import com.example.yaroslavgorbach.voclevelup.component.AddWord.*
 import com.example.yaroslavgorbach.voclevelup.data.Def
+import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.util.combine
 import com.example.yaroslavgorbach.voclevelup.util.repeatWhen
 import com.example.yaroslavgorbach.voclevelup.util.toStateFlow
@@ -13,6 +14,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 interface AddWord {
 
@@ -23,6 +25,8 @@ interface AddWord {
     fun onSave(item: DefItem)
     fun onChooseLang(lang: Language)
     fun onRetry()
+    fun onRestoreWord(word: Word)
+
 
     sealed class DefState {
         object Idle : DefState()
@@ -84,7 +88,7 @@ class AddWordImp(
                     emit(DefState.Idle)
                 }
             }
-            .asLiveData()
+            .asLiveData(timeoutInMs = TimeUnit.MINUTES.toMillis(5))
 
     private fun normalizeInput(input: String) =
         input.trim().replace(Regex("\\s+"), " ")
@@ -114,5 +118,11 @@ class AddWordImp(
 
     override fun onRetry() {
         retry.offer(Unit)
+    }
+
+    override fun onRestoreWord(word: Word) {
+        scope.launch {
+            repo.addWord(word)
+        }
     }
 }

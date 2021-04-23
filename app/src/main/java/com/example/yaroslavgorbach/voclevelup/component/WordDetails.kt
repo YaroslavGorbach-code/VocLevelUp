@@ -3,6 +3,7 @@ package com.example.yaroslavgorbach.voclevelup.component
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.example.yaroslavgorbach.voclevelup.data.Repo
+import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.util.LiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.MutableLiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.toStateFlow
@@ -21,6 +22,9 @@ interface WordDetails {
     fun onEditTrans(trans: String, newText: String)
     fun onDeleteTrans(trans: String)
     val pron: LiveData<String>
+    val onWordDeleted: LiveEvent<Word>
+    fun onDeleteWord()
+
 
 }
 
@@ -36,6 +40,7 @@ class WordDetailsImp(
     override val text = word.mapNotNull { it?.text }.onStart { emit(wordText) }.asLiveData()
     override val translations = word.map { it?.translations }.onStart { emit(null) }.asLiveData()
     override val onTransDeleted = MutableLiveEvent<() -> Unit>()
+    override val onWordDeleted = MutableLiveEvent<Word>()
 
     override fun onReorderTrans(newTrans: List<String>) {
         scope.launch {
@@ -65,6 +70,16 @@ class WordDetailsImp(
     }
 
     override val pron = word.map { it?.pron ?: "" }.asLiveData()
+
+
+    override fun onDeleteWord() {
+        word.value?.let { word ->
+            scope.launch {
+                repo.removeWord(word)
+                onWordDeleted.send(word)
+            }
+        }
+    }
 
     override fun onEditTrans(trans: String, newText: String) {
         val currentTrans = translations.value!!

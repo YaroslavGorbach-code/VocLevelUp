@@ -18,6 +18,7 @@ interface Dictionary {
     val onUndoRemoved: LiveEvent<() -> Unit>
     fun onRemove(word: Word)
     fun onRemove(wordText: String)
+    fun restoreWord(word: Word)
 }
 
 class DictionaryImp(
@@ -47,5 +48,11 @@ class DictionaryImp(
 
     override fun onRemove(wordText: String) {
         words.value?.find { it.text == wordText }?.let { onRemove(it) }
+    }
+
+    override fun restoreWord(word: Word) {
+        scope.launch {
+            repo.addWord(word)
+        }
     }
 }

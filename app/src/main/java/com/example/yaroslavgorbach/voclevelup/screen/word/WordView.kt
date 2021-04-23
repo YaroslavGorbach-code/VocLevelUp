@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentWordBinding
 import com.example.yaroslavgorbach.voclevelup.screen.SwipeDismissDecor
+import com.example.yaroslavgorbach.voclevelup.util.setNavAsBack
 import com.google.android.material.snackbar.Snackbar
 
 class WordView(
@@ -15,7 +16,6 @@ class WordView(
 ) {
 
     interface Callback {
-        fun onUp()
         fun onDelete()
         fun onReorderTrans(newTrans: List<String>)
         fun onAddTrans()
@@ -28,7 +28,7 @@ class WordView(
 
     init {
         bind.wordToolbar.apply {
-            setNavigationOnClickListener { callback.onUp() }
+            setNavAsBack()
             menu.findItem(R.id.menu_word_del).setOnMenuItemClickListener {
                 callback.onDelete()
                 true
