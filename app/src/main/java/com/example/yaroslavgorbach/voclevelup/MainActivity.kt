@@ -2,8 +2,9 @@ package com.example.yaroslavgorbach.voclevelup
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.FragmentTransaction
-import androidx.fragment.app.commit
+import android.view.WindowManager
+import androidx.fragment.app.*
+import com.example.yaroslavgorbach.voclevelup.screen.word.WordFragment
 import com.example.yaroslavgorbach.voclevelup.workflow.AddWordWorkflow
 import com.example.yaroslavgorbach.voclevelup.workflow.NavWorkflow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -22,6 +23,22 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), NavWorkflow.Rout
                 add(R.id.main_container, NavWorkflow().also { setPrimaryNavigationFragment(it) })
             }
         }
+
+        // configure input mode
+        supportFragmentManager.registerFragmentLifecycleCallbacks(
+            object : FragmentManager.FragmentLifecycleCallbacks() {
+                override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
+                    window.setSoftInputMode(
+                        when (f) {
+                            is WordFragment -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
+                            is DialogFragment -> window.attributes.softInputMode
+                            else -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+                        }
+                    )
+                }
+            },
+            true
+        )
 
     }
 
