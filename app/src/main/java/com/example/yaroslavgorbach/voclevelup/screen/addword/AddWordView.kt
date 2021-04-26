@@ -62,8 +62,8 @@ class AddWordView(
         bind.addWordToolbar.setNavAsBack()
     }
 
-    fun setDefState(state: DefState) = with(bind) {
-        addWordProgress.isVisible = state is DefState.Loading
+    fun setDefState(state: DefState) {
+        bind.addWordProgress.isVisible = state is Loading
         listAdapter.apply {
             if ((state as? Data)?.error == true) {
                 errorSnack.show()

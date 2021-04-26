@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 interface Dictionary {
     val words: LiveData<List<Word>>
     val loading: LiveData<Boolean>
-    val onUndoRemoved: LiveEvent<() -> Unit>
+    val onWordRemoved: LiveEvent<Word>
     fun onRemove(word: Word)
     fun onRemove(wordText: String)
     fun restoreWord(word: Word)
@@ -26,7 +26,7 @@ class DictionaryImp(
     private val scope: CoroutineScope
 ) : Dictionary {
 
-    override val onUndoRemoved = MutableLiveEvent<() -> Unit>()
+    override val onWordRemoved = MutableLiveEvent<Word>()
     override val words: LiveData<List<Word>> = repo.getAllWords().asLiveData()
     override val loading: LiveData<Boolean> =
         repo.getAllWords()
@@ -38,13 +38,9 @@ class DictionaryImp(
     override fun onRemove(word: Word) {
         scope.launch {
             repo.removeWord(word)
-            onUndoRemoved.send{
-                scope.launch {
-                    repo.addWord(word)
-                }
+            onWordRemoved.send(word)
             }
         }
-    }
 
     override fun onRemove(wordText: String) {
         words.value?.find { it.text == wordText }?.let { onRemove(it) }
