@@ -2,15 +2,16 @@ package com.example.yaroslavgorbach.voclevelup.screen.addword
 
 import android.text.InputFilter
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.component.AddWord.*
-import com.example.yaroslavgorbach.voclevelup.component.AddWord.DefState.*
 import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
 import com.example.yaroslavgorbach.voclevelup.util.setNavAsBack
@@ -23,21 +24,22 @@ class AddWordView(
 ) {
 
     interface Callback {
-        fun onSave(item: DefItem)
         fun onOpen(item: DefItem)
+        fun onSave(item: DefItem)
         fun onInput(input: String)
         fun onLangClick(lang: Language)
         fun onRetry()
+        fun onInputDone(text: String)
+        fun onCompClick(text: String)
     }
 
-    private val listAdapter = DefListAdapter { item ->
+    private val defAdapter = DefListAdapter { item ->
         if (!item.saved || item.trans?.any { !it.second } == true) {
             callback.onSave(item)
         } else {
             callback.onOpen(item)
         }
     }
-
     private val errorSnack = Snackbar.make(bind.root, R.string.cant_load_translations, Snackbar.LENGTH_INDEFINITE)
         .setAction(R.string.retry) { callback.onRetry() }
         .also {
@@ -49,25 +51,39 @@ class AddWordView(
             })
         }
 
+    private var handlingCompletion = false
     private val compAdapter = CompletionAdapter {
+        handlingCompletion = true
         bind.addWordInput.text.apply {
             replace(0, length, it)
+            callback.onCompClick(this.toString()) // get new input with applied filters
         }
+        handlingCompletion = false
     }
-
 
     init {
         bind.addWordInput.apply {
-            doAfterTextChanged { callback.onInput(it.toString()) }
+            doAfterTextChanged {
+                if (!handlingCompletion) {
+                    callback.onInput(it.toString())
+                }
+            }
             val imm = context.getSystemService<InputMethodManager>()
             imm?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+            setOnEditorActionListener { v, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    callback.onInputDone(v.text.toString())
+                    true
+                } else {
+                    false
+                }
+            }
         }
-        bind.addWordTransList.apply {
-            adapter = listAdapter
+        bind.addWordDefList.apply {
+            adapter = defAdapter
             layoutManager = LinearLayoutManager(context)
         }
         bind.addWordToolbar.setNavAsBack()
-
         bind.addWordCompList.apply {
             adapter = compAdapter
             layoutManager = LinearLayoutManager(context)
@@ -75,17 +91,20 @@ class AddWordView(
         }
     }
 
-    fun setInputCompletions(comp: List<String>) = compAdapter.submitList(comp)
-
-    fun setDefState(state: DefState) {
-        bind.addWordProgress.isVisible = state is Loading
-        listAdapter.apply {
-            if ((state as? Data)?.error == true) {
+    fun setState(state: State) {
+        bind.addWordProgress.isVisible = state is State.Loading
+        bind.addWordDefList.apply {
+            if ((state as? State.Definitions)?.error == true) {
                 errorSnack.show()
             } else {
                 errorSnack.dismiss()
             }
-            submitList(if (state is Data) state.items else emptyList())
+            defAdapter.submitList((state as? State.Definitions)?.items ?: emptyList())
+            isInvisible = state !is State.Definitions // gone delays animations -> see blink on new list shown
+        }
+        bind.addWordCompList.apply {
+            compAdapter.submitList((state as? State.Completions)?.items ?: emptyList())
+            isVisible = state is State.Completions
         }
     }
 
