@@ -49,6 +49,13 @@ class AddWordView(
             })
         }
 
+    private val compAdapter = CompletionAdapter {
+        bind.addWordInput.text.apply {
+            replace(0, length, it)
+        }
+    }
+
+
     init {
         bind.addWordInput.apply {
             doAfterTextChanged { callback.onInput(it.toString()) }
@@ -60,7 +67,15 @@ class AddWordView(
             layoutManager = LinearLayoutManager(context)
         }
         bind.addWordToolbar.setNavAsBack()
+
+        bind.addWordCompList.apply {
+            adapter = compAdapter
+            layoutManager = LinearLayoutManager(context)
+            itemAnimator = null
+        }
     }
+
+    fun setInputCompletions(comp: List<String>) = compAdapter.submitList(comp)
 
     fun setDefState(state: DefState) {
         bind.addWordProgress.isVisible = state is Loading

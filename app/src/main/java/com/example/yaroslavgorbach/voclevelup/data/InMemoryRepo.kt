@@ -122,6 +122,10 @@ object InMemoryRepo : Repo {
         }
     }
 
+    override suspend fun getWordCompletions(input: String): List<String> {
+        return List(Random.nextInt(2)) { "$input completion $it" }
+    }
+
     private fun withWord(word: String, action: (List<Word>, Int) -> Unit) {
         val currentWords = words.value
         if (currentWords != null) {

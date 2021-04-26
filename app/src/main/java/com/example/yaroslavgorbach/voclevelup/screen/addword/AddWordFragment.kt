@@ -38,6 +38,7 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word), WordFragment.Targe
             addWordView.setMaxWordLength(maxWordLength)
             languages.observe(viewLifecycleOwner, addWordView::setLanguages)
             definitions.observe(viewLifecycleOwner, addWordView::setDefState)
+            completions.observe(viewLifecycleOwner, addWordView::setInputCompletions)
         }
     }
 

@@ -21,6 +21,7 @@ interface AddWord {
     val definitions: LiveData<DefState>
     val maxWordLength: Int
     val languages: LiveData<List<Language>>
+    val completions: LiveData<List<String>>
     fun onInput(text: String)
     fun onSave(item: DefItem)
     fun onChooseLang(lang: Language)
@@ -99,6 +100,15 @@ class AddWordImp(
         repo.getTargetLang().map {
             listOf(it) + (Language.values().toList() - it)
         }.asLiveData()
+
+    override val completions = wordInput
+        .transformLatest {
+            emit(emptyList())
+            if (it.length >= WORD_RANGE.first) {
+                emit(repo.getWordCompletions(it))
+            }
+        }
+        .asLiveData()
 
     override fun onInput(text: String) {
         wordInput.value = text
