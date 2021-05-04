@@ -25,8 +25,9 @@ class DictFragment : Fragment(R.layout.fragment_dict),  WordFragment.Target {
     private val dictModel by lazy { vm.dictionary }
     private lateinit var dictView: DictView
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        dictView = DictView(FragmentDictBinding.bind(view), object : DictView.Callback {
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        dictView = DictView(FragmentDictBinding.bind(requireView()), object : DictView.Callback {
             override fun onAdd() = router<Router>().openAddWord()
             override fun onSwipe(word: Word) = dictModel.onRemove(word)
             override fun onClick(word: Word) =
@@ -40,6 +41,7 @@ class DictFragment : Fragment(R.layout.fragment_dict),  WordFragment.Target {
             }
         }
     }
+
 
     override fun onWordDeleted(word: Word) {
         lifecycleScope.launchWhenStarted {

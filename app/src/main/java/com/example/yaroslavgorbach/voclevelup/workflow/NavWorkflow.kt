@@ -29,8 +29,9 @@ class NavWorkflow : Fragment(R.layout.workflow_nav), DictWorkflow.Router {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val bind = WorkflowNavBinding.bind(view)
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        val bind = WorkflowNavBinding.bind(requireView())
         bind.navPager.apply {
             setOnNavigationItemSelectedListener {
                 if (selectedItemId != it.itemId) {
