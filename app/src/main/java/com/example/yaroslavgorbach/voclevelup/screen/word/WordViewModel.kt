@@ -1,5 +1,7 @@
 package com.example.yaroslavgorbach.voclevelup.screen.word
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yaroslavgorbach.voclevelup.component.WordDetails
@@ -10,7 +12,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 
 @InternalCoroutinesApi
 @ExperimentalCoroutinesApi
-class WordViewModel : ViewModel() {
+class WordViewModel(app: Application) : AndroidViewModel(app) {
 
     private var wordDetails: WordDetails? = null
 

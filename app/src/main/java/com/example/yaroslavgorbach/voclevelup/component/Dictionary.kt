@@ -37,7 +37,7 @@ class DictionaryImp(
 
     override fun onRemove(word: Word) {
         scope.launch {
-            repo.removeWord(word)
+            repo.deleteWord(word.text)
             onWordRemoved.send(word)
             }
         }
@@ -48,7 +48,7 @@ class DictionaryImp(
 
     override fun restoreWord(word: Word) {
         scope.launch {
-            repo.addWord(word)
+            repo.restoreWord(word)
         }
     }
 }

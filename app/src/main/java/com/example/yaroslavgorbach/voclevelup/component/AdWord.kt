@@ -72,7 +72,7 @@ class AddWordImp(
 
     private fun completionFlow(input: String): Flow<State> = flow {
         if (input.length >= WORD_RANGE.first) {
-            val comp = repo.getWordCompletions(input)
+            val comp = repo.getCompletions(input)
             if (comp.isNotEmpty()) {
                 emit(State.Completions(comp))
             } else {
@@ -105,7 +105,7 @@ class AddWordImp(
             }
 
     private fun definitionFlow(input: String): Flow<State> =
-        repo.getTargetLang()
+        repo.getTargetLanguage()
             .repeatWhen(retry.receiveAsFlow())
             .transformLatest { lang ->
                 if (input.length in WORD_RANGE) {
@@ -129,7 +129,7 @@ class AddWordImp(
     override val maxWordLength = WORD_RANGE.last
 
     override val languages: LiveData<List<Language>> =
-        repo.getTargetLang().map {
+        repo.getTargetLanguage().map {
             listOf(it) + (Language.values().toList() - it)
         }.asLiveData()
 
@@ -151,7 +151,7 @@ class AddWordImp(
 
     override fun onChooseLang(lang: Language) {
         scope.launch {
-            repo.setTargetLang(lang)
+            repo.setTargetLanguage(lang)
         }
     }
 
@@ -161,7 +161,7 @@ class AddWordImp(
 
     override fun onRestoreWord(word: Word) {
         scope.launch {
-            repo.addWord(word)
+            repo.restoreWord(word)
         }
     }
 

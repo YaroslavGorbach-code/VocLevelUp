@@ -1,5 +1,7 @@
 package com.example.yaroslavgorbach.voclevelup.screen.addword
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yaroslavgorbach.voclevelup.component.AddWordImp
@@ -11,7 +13,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 
 @FlowPreview
 @ExperimentalCoroutinesApi
-class AddWordViewModel : ViewModel() {
+class AddWordViewModel(app: Application) : AndroidViewModel(app) {
     @InternalCoroutinesApi
     val addWord: AddWord = AddWordImp(repo, viewModelScope)
 }
