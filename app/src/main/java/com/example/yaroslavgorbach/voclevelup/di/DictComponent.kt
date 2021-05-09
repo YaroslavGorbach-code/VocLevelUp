@@ -32,15 +32,11 @@ interface DictComponent {
 @InternalCoroutinesApi
 @Module
 class DictModule {
-
     @Provides
     fun provideDict(f: DictFragment, repo: Repo): Dictionary {
         val vm = ViewModelProvider(f)[DictViewModel::class.java]
         return vm.dictionary ?: DictionaryImp(repo, vm.viewModelScope).also { vm.dictionary = it }
     }
-    @Provides
-    fun provideRouter(f: DictFragment): DictFragment.Router = f.router()
-
 }
 
 class DictViewModel : ViewModel() {

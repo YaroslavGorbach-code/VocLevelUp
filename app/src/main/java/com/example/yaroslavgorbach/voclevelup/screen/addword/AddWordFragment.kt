@@ -6,14 +6,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
+import com.example.yaroslavgorbach.voclevelup.App
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.component.AddWord
 import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
+import com.example.yaroslavgorbach.voclevelup.di.DaggerAddWordComponent
 import com.example.yaroslavgorbach.voclevelup.screen.word.WordFragment
 import com.example.yaroslavgorbach.voclevelup.util.router
 import kotlinx.coroutines.InternalCoroutinesApi
+import javax.inject.Inject
 
 @InternalCoroutinesApi
 class AddWordFragment : Fragment(R.layout.fragment_add_word), WordFragment.Target {
@@ -22,12 +25,15 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word), WordFragment.Targe
         fun openWord(text: String, target: Fragment)
     }
 
-    private val vm by viewModels<AddWordViewModel>()
-    private val addWordModel by lazy { vm.addWord }
+    @Inject lateinit var addWordModel: AddWord
     private lateinit var addWordView: AddWordView
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
+        DaggerAddWordComponent.factory()
+            .create(this, (requireActivity().application as App).appComponent)
+            .inject(this)
+
         addWordView = AddWordView(FragmentAddWordBinding.bind(requireView()), object : AddWordView.Callback {
             override fun onOpen(item: AddWord.DefItem) = router<Router>().openWord(item.text, this@AddWordFragment)
             override fun onSave(item: AddWord.DefItem) = addWordModel.onSave(item)
@@ -37,6 +43,7 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word), WordFragment.Targe
             override fun onInputDone(text: String) = addWordModel.onSearch(text)
             override fun onCompClick(text: String) = addWordModel.onSearch(text)
         })
+
         with(addWordModel) {
             addWordView.setMaxWordLength(maxWordLength)
             languages.observe(viewLifecycleOwner, addWordView::setLanguages)
