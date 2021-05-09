@@ -1,18 +1,15 @@
 package com.example.yaroslavgorbach.voclevelup.screen.word
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import com.example.yaroslavgorbach.voclevelup.App
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.component.WordDetails
 import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentWordBinding
-import com.example.yaroslavgorbach.voclevelup.di.DaggerWordComponent
 import com.example.yaroslavgorbach.voclevelup.util.back
 import com.example.yaroslavgorbach.voclevelup.util.consume
 import com.example.yaroslavgorbach.voclevelup.util.target
@@ -32,13 +29,12 @@ class WordFragment : Fragment(R.layout.fragment_word), AddTransDialog.Host, Edit
         private val WordFragment.word get() = requireArguments()["word"] as String
     }
 
+    private val vm by viewModels<WordViewModel>()
     @Inject lateinit var detailsModel: WordDetails
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        DaggerWordComponent.factory()
-            .create(this, word, (requireActivity().application as App).appComponent)
-            .inject(this)
+        vm.getWordComponent(word)
 
         val v = WordView(FragmentWordBinding.bind(requireView()), object : WordView.Callback {
             override fun onDelete() = detailsModel.onDeleteWord()

@@ -12,7 +12,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [RepoModule::class])
+@Component(modules = [DataModule::class])
 interface AppComponent {
 
     fun provideRepo(): Repo
@@ -24,7 +24,7 @@ interface AppComponent {
 }
 
 @Module
-class RepoModule {
+class DataModule {
 
     @Singleton
     @Provides

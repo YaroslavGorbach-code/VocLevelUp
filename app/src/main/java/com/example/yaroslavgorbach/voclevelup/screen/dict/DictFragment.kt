@@ -25,14 +25,13 @@ class DictFragment : Fragment(R.layout.fragment_dict),  WordFragment.Target {
         fun openAddWord()
     }
 
+    private val vm by viewModels<DictViewModel>()
     @Inject lateinit var dictModel: Dictionary
     private lateinit var dictView: DictView
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        DaggerDictComponent.factory()
-            .create(this, (requireActivity().application as App).appComponent)
-            .inject(this)
+        vm.dictComponent.inject(this)
 
         dictView = DictView(FragmentDictBinding.bind(requireView()), object : DictView.Callback {
             override fun onAdd() = router<Router>().openAddWord()

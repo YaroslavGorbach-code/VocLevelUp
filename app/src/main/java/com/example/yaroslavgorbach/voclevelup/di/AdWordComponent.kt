@@ -14,7 +14,7 @@ import dagger.Provides
 import kotlinx.coroutines.InternalCoroutinesApi
 
 @InternalCoroutinesApi
-@FragmentScope
+@ViewModelScope
 @Component(dependencies = [AppComponent::class], modules = [AddWordModule::class])
 interface AddWordComponent {
 
@@ -22,24 +22,14 @@ interface AddWordComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(
-            @BindsInstance f: AddWordFragment,
-            appComponent: AppComponent
-        ): AddWordComponent
+        fun create(@BindsInstance vm: ViewModel, appComponent: AppComponent): AddWordComponent
     }
 }
 
 @InternalCoroutinesApi
 @Module
 class AddWordModule {
-
+    @ViewModelScope
     @Provides
-    fun provideAddWord(f: AddWordFragment, repo: Repo): AddWord {
-        val vm = ViewModelProvider(f)[AddWordViewModel::class.java]
-        return vm.addWord ?: AddWordImp(repo, vm.viewModelScope).also { vm.addWord = it }
-    }
-}
-
-class AddWordViewModel : ViewModel() {
-    var addWord: AddWord? = null
+    fun provideAddWord(vm: ViewModel, repo: Repo): AddWord = AddWordImp(repo, vm.viewModelScope)
 }

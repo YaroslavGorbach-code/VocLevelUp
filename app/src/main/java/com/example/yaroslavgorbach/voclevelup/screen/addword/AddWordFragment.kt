@@ -27,13 +27,11 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word), WordFragment.Targe
 
     @Inject lateinit var addWordModel: AddWord
     private lateinit var addWordView: AddWordView
+    private val vm by viewModels<AddWordViewModel>()
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        DaggerAddWordComponent.factory()
-            .create(this, (requireActivity().application as App).appComponent)
-            .inject(this)
-
+        vm.addWordComponent.inject(this)
         addWordView = AddWordView(FragmentAddWordBinding.bind(requireView()), object : AddWordView.Callback {
             override fun onOpen(item: AddWord.DefItem) = router<Router>().openWord(item.text, this@AddWordFragment)
             override fun onSave(item: AddWord.DefItem) = addWordModel.onSave(item)
