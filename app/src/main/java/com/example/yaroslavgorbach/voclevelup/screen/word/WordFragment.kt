@@ -34,7 +34,7 @@ class WordFragment : Fragment(R.layout.fragment_word), AddTransDialog.Host, Edit
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
-        vm.getWordComponent(word)
+        vm.getWordComponent(word).inject(this)
 
         val v = WordView(FragmentWordBinding.bind(requireView()), object : WordView.Callback {
             override fun onDelete() = detailsModel.onDeleteWord()
