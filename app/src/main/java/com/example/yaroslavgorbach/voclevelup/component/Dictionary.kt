@@ -25,7 +25,6 @@ class DictionaryImp(
     private val repo: Repo,
     private val scope: CoroutineScope
 ) : Dictionary {
-
     override val onWordRemoved = MutableLiveEvent<Word>()
     override val words: LiveData<List<Word>> = repo.getAllWords().asLiveData()
     override val loading: LiveData<Boolean> =

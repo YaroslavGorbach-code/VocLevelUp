@@ -43,9 +43,9 @@ class WordListAdapter(
             }
             wordPron.apply {
                 isVisible = word.pron != null
-                text = "/${word.pron}/"
+                text = context.getString(R.string.pron_pattern, word.pron)
             }
-            wordProgress.text = Random.nextInt(1, 100).toString()
+            wordProgress.text = word.progress.toString()
         }
     }
 }

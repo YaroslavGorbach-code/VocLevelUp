@@ -24,8 +24,6 @@ interface WordDetails {
     val pron: LiveData<String>
     val onWordDeleted: LiveEvent<Word>
     fun onDeleteWord()
-
-
 }
 
 @InternalCoroutinesApi
@@ -36,7 +34,6 @@ class WordDetailsImp(
 ) : WordDetails {
 
     private val word = repo.getWord(wordText).filterNotNull().toStateFlow(scope)
-
     override val text = word.mapNotNull { it?.text }.onStart { emit(wordText) }.asLiveData()
     override val translations = word.map { it?.translations }.onStart { emit(null) }.asLiveData()
     override val onTransDeleted = MutableLiveEvent<() -> Unit>()

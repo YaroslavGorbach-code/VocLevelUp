@@ -1,6 +1,7 @@
 package com.example.yaroslavgorbach.voclevelup.data
 
 import kotlinx.coroutines.flow.Flow
+import kotlin.random.Random
 
 
 interface Repo {
@@ -17,7 +18,13 @@ interface Repo {
     suspend fun addTranslations(word: String, trans: List<String>)
 }
 
-data class Word(val text: String, val translations: List<String>, val created: Long, val pron: String?)
+data class Word(
+    val text: String,
+    val translations: List<String>,
+    val pron: String?,
+    val progress: Int = Random.nextInt(100),
+    val created: Long = System.nanoTime()
+)
 data class Def(val text: String, val translations: List<String>)
 
 enum class Language(val code: String, val nativeName: String) {
