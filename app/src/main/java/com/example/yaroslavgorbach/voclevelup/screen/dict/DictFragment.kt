@@ -6,13 +6,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
+import com.example.yaroslavgorbach.voclevelup.App
 import com.example.yaroslavgorbach.voclevelup.R
+import com.example.yaroslavgorbach.voclevelup.component.Dictionary
 import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentDictBinding
+import com.example.yaroslavgorbach.voclevelup.di.DaggerDictComponent
 import com.example.yaroslavgorbach.voclevelup.screen.word.WordFragment
 import com.example.yaroslavgorbach.voclevelup.util.consume
 import com.example.yaroslavgorbach.voclevelup.util.router
 import kotlinx.coroutines.InternalCoroutinesApi
+import javax.inject.Inject
 
 @InternalCoroutinesApi
 class DictFragment : Fragment(R.layout.fragment_dict),  WordFragment.Target {
@@ -21,17 +25,21 @@ class DictFragment : Fragment(R.layout.fragment_dict),  WordFragment.Target {
         fun openAddWord()
     }
 
-    private val vm by viewModels<DictViewModel>()
-    private val dictModel by lazy { vm.dictionary }
+    @Inject lateinit var dictModel: Dictionary
+    @Inject lateinit var router: Router
     private lateinit var dictView: DictView
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
+        DaggerDictComponent.factory()
+            .create(this, (requireActivity().application as App).appComponent)
+            .inject(this)
+
         dictView = DictView(FragmentDictBinding.bind(requireView()), object : DictView.Callback {
             override fun onAdd() = router<Router>().openAddWord()
             override fun onSwipe(word: Word) = dictModel.onRemove(word)
             override fun onClick(word: Word) =
-                router<Router>().openWord(word.text, this@DictFragment)
+                router.openWord(word.text, this@DictFragment)
         })
         with(dictModel) {
             words.observe(viewLifecycleOwner, dictView::setWords)
