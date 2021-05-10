@@ -2,8 +2,9 @@ package com.example.yaroslavgorbach.voclevelup.component
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.example.yaroslavgorbach.voclevelup.data.Repo
-import com.example.yaroslavgorbach.voclevelup.data.Word
+import com.example.yaroslavgorbach.voclevelup.core.data.Repo
+import com.example.yaroslavgorbach.voclevelup.core.data.Word
+
 import com.example.yaroslavgorbach.voclevelup.util.LiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.MutableLiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.send

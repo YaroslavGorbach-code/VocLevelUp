@@ -1,11 +1,10 @@
 package com.example.yaroslavgorbach.voclevelup.di
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.yaroslavgorbach.voclevelup.component.WordDetails
 import com.example.yaroslavgorbach.voclevelup.component.WordDetailsImp
-import com.example.yaroslavgorbach.voclevelup.data.Repo
+import com.example.yaroslavgorbach.voclevelup.core.data.Repo
 import com.example.yaroslavgorbach.voclevelup.screen.word.WordFragment
 import dagger.BindsInstance
 import dagger.Component

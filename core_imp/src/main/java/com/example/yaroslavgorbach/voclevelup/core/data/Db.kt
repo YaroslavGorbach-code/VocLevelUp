@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.data
+package com.example.yaroslavgorbach.voclevelup.core.data
 
 import kotlinx.coroutines.flow.Flow
 

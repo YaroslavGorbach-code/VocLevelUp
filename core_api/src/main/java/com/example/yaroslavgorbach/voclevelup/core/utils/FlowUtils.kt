@@ -1,12 +1,8 @@
-package com.example.yaroslavgorbach.voclevelup.util
-
-import com.example.yaroslavgorbach.voclevelup.util.combine
+package com.example.yaroslavgorbach.voclevelup.core.utils
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-@InternalCoroutinesApi
 fun <T> Flow<T>.toStateFlow(scope: CoroutineScope): StateFlow<T?> {
     val stateFlow = MutableStateFlow<T?>(null)
     scope.launch {

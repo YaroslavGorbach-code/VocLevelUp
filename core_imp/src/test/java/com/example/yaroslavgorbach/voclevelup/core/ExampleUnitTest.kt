@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.core_imp
+package com.example.yaroslavgorbach.voclevelup.core
 
 import org.junit.Test
 

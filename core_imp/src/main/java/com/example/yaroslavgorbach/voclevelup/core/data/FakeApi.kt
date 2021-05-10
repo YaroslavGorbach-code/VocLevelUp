@@ -1,10 +1,11 @@
-package com.example.yaroslavgorbach.voclevelup.data
+package com.example.yaroslavgorbach.voclevelup.core.data
 
 import kotlinx.coroutines.delay
 import java.io.IOException
 import kotlin.random.Random
 
 object FakeApi : Api {
+
     override suspend fun getDefinitions(words: List<String>, lang: Language): List<Def> {
         delay(1000)
         if (Random.nextInt() % 4 == 0) {

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yaroslavgorbach.voclevelup.R
-import com.example.yaroslavgorbach.voclevelup.data.Word
+import com.example.yaroslavgorbach.voclevelup.core.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.ItemWordBinding
 import com.example.yaroslavgorbach.voclevelup.util.inflateBind
 import kotlin.random.Random

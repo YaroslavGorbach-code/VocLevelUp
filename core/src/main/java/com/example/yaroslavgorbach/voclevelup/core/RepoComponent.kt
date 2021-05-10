@@ -1,10 +1,7 @@
 package com.example.yaroslavgorbach.voclevelup.core
 
 import android.content.Context
-import com.example.yaroslavgorbach.voclevelup.core_api.data.Repo
-import com.example.yaroslavgorbach.voclevelup.core_imp.data.FakeApi
-import com.example.yaroslavgorbach.voclevelup.core_imp.data.FakeDb
-import com.example.yaroslavgorbach.voclevelup.core_imp.data.RepoImp
+import com.example.yaroslavgorbach.voclevelup.core.data.*
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module

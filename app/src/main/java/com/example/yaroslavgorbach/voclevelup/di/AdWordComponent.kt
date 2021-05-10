@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.yaroslavgorbach.voclevelup.component.AddWord
 import com.example.yaroslavgorbach.voclevelup.component.AddWordImp
-import com.example.yaroslavgorbach.voclevelup.data.Repo
+import com.example.yaroslavgorbach.voclevelup.core.data.Repo
 import com.example.yaroslavgorbach.voclevelup.screen.addword.AddWordFragment
 import dagger.BindsInstance
 import dagger.Component

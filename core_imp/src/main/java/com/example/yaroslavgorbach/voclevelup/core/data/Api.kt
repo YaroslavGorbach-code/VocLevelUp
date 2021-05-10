@@ -1,4 +1,5 @@
-package com.example.yaroslavgorbach.voclevelup.data
+package com.example.yaroslavgorbach.voclevelup.core.data
+
 interface Api {
     suspend fun getDefinitions(words: List<String>, lang: Language): List<Def>
     suspend fun getPredictions(input: String): List<String>

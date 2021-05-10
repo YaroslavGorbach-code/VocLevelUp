@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.data
+package com.example.yaroslavgorbach.voclevelup.core.data
 
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 
 object FakeDb : Db {
     private val words: MutableStateFlow<List<Word>?> = MutableStateFlow(null)
+
     init {
         GlobalScope.launch {
             delay(1000)

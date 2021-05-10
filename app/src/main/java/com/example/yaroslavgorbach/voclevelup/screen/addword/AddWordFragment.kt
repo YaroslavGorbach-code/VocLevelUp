@@ -1,18 +1,15 @@
 package com.example.yaroslavgorbach.voclevelup.screen.addword
 
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import com.example.yaroslavgorbach.voclevelup.App
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.component.AddWord
-import com.example.yaroslavgorbach.voclevelup.data.Language
-import com.example.yaroslavgorbach.voclevelup.data.Word
+import com.example.yaroslavgorbach.voclevelup.core.data.Language
+import com.example.yaroslavgorbach.voclevelup.core.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
-import com.example.yaroslavgorbach.voclevelup.di.DaggerAddWordComponent
 import com.example.yaroslavgorbach.voclevelup.screen.word.WordFragment
 import com.example.yaroslavgorbach.voclevelup.util.router
 import kotlinx.coroutines.InternalCoroutinesApi

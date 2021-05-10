@@ -8,7 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.component.WordDetails
-import com.example.yaroslavgorbach.voclevelup.data.Word
+import com.example.yaroslavgorbach.voclevelup.core.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentWordBinding
 import com.example.yaroslavgorbach.voclevelup.util.back
 import com.example.yaroslavgorbach.voclevelup.util.consume

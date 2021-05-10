@@ -1,17 +1,14 @@
 package com.example.yaroslavgorbach.voclevelup.screen.dict
 
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import com.example.yaroslavgorbach.voclevelup.App
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.component.Dictionary
-import com.example.yaroslavgorbach.voclevelup.data.Word
+import com.example.yaroslavgorbach.voclevelup.core.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentDictBinding
-import com.example.yaroslavgorbach.voclevelup.di.DaggerDictComponent
 import com.example.yaroslavgorbach.voclevelup.screen.word.WordFragment
 import com.example.yaroslavgorbach.voclevelup.util.consume
 import com.example.yaroslavgorbach.voclevelup.util.router

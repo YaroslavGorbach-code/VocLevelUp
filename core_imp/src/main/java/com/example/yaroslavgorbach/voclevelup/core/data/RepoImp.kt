@@ -1,12 +1,8 @@
-package com.example.yaroslavgorbach.voclevelup.core_imp.data
+package com.example.yaroslavgorbach.voclevelup.core.data
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.os.LocaleListCompat
-import com.example.yaroslavgorbach.voclevelup.core_api.data.Def
-import com.example.yaroslavgorbach.voclevelup.core_api.data.Language
-import com.example.yaroslavgorbach.voclevelup.core_api.data.Repo
-import com.example.yaroslavgorbach.voclevelup.core_api.data.Word
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.*
