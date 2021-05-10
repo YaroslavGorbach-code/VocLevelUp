@@ -7,7 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.component.Dictionary
-import com.example.yaroslavgorbach.voclevelup.core.data.Word
+import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentDictBinding
 import com.example.yaroslavgorbach.voclevelup.screen.word.WordFragment
 import com.example.yaroslavgorbach.voclevelup.util.consume

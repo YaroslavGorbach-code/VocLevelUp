@@ -1,5 +1,6 @@
-include ':core_imp'
-include ':core_api'
-include ':core'
+include ':util'
+include ':data_imp'
+include ':data_api'
+include ':data'
 include ':app'
 rootProject.name = "VocLevelUp"

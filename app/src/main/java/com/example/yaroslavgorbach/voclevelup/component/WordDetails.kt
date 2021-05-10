@@ -1,17 +1,19 @@
 package com.example.yaroslavgorbach.voclevelup.component
 
+import android.system.Os.remove
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.example.yaroslavgorbach.voclevelup.core.data.Repo
-import com.example.yaroslavgorbach.voclevelup.core.data.Word
-import com.example.yaroslavgorbach.voclevelup.core.utils.toStateFlow
+import com.example.yaroslavgorbach.voclevelup.data.Repo
+import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.util.LiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.MutableLiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.send
+import com.example.yaroslavgorbach.voclevelup.util.toStateFlow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import java.lang.reflect.Array.set
 
 interface WordDetails {
     val text: LiveData<String>

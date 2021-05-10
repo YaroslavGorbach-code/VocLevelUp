@@ -5,11 +5,10 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.R
-import com.example.yaroslavgorbach.voclevelup.core.data.Word
+import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentDictBinding
 import com.example.yaroslavgorbach.voclevelup.screen.SwipeDismissDecor
 import com.google.android.material.snackbar.Snackbar
-
 
 class DictView(
     private val bind: FragmentDictBinding,

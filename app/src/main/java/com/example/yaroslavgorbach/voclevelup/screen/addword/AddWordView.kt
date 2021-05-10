@@ -12,7 +12,7 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.component.AddWord.*
-import com.example.yaroslavgorbach.voclevelup.core.data.Language
+import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.databinding.FragmentAddWordBinding
 import com.example.yaroslavgorbach.voclevelup.util.setNavAsBack
 import com.google.android.material.snackbar.Snackbar

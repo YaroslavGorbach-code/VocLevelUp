@@ -2,14 +2,14 @@ package com.example.yaroslavgorbach.voclevelup.component
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.example.yaroslavgorbach.voclevelup.core.data.Language
-import com.example.yaroslavgorbach.voclevelup.core.data.Repo
-import com.example.yaroslavgorbach.voclevelup.core.data.Word
-import com.example.yaroslavgorbach.voclevelup.core.utils.toStateFlow
 import kotlinx.coroutines.*
 import com.example.yaroslavgorbach.voclevelup.component.AddWord.*
-import com.example.yaroslavgorbach.voclevelup.core.data.Def
-import com.example.yaroslavgorbach.voclevelup.core.utils.repeatWhen
+import com.example.yaroslavgorbach.voclevelup.data.Def
+import com.example.yaroslavgorbach.voclevelup.data.Language
+import com.example.yaroslavgorbach.voclevelup.data.Repo
+import com.example.yaroslavgorbach.voclevelup.data.Word
+import com.example.yaroslavgorbach.voclevelup.util.repeatWhen
+import com.example.yaroslavgorbach.voclevelup.util.toStateFlow
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import java.io.IOException

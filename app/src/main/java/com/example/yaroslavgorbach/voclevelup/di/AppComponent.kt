@@ -1,6 +1,6 @@
 package com.example.yaroslavgorbach.voclevelup.di
 
-import com.example.yaroslavgorbach.voclevelup.core.data.RepoProvider
+import com.example.yaroslavgorbach.voclevelup.data.RepoProvider
 import dagger.Component
 import javax.inject.Singleton
 
