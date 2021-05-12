@@ -1,11 +1,10 @@
-package com.example.yaroslavgorbach.voclevelup.workflow
+package com.example.yaroslavgorbach.voclevelup
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.databinding.WorkflowNavBinding
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.DictWorkflow
 import com.example.yaroslavgorbach.voclevelup.feature.router
@@ -14,7 +13,7 @@ import com.example.yaroslavgorbach.voclevelup.screen.learn.LearnFragment
 import kotlinx.coroutines.InternalCoroutinesApi
 
 @InternalCoroutinesApi
-class NavWorkflow : Fragment(R.layout.workflow_nav), DictWorkflow.Router {
+class NavFragment : Fragment(R.layout.workflow_nav), DictWorkflow.Router {
 
     interface Router {
         fun openAddWord()

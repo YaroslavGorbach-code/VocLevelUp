@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.fragment.app.*
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word.WordFragment
-import com.example.yaroslavgorbach.voclevelup.workflow.NavWorkflow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -13,13 +12,13 @@ import kotlinx.coroutines.InternalCoroutinesApi
 @FlowPreview
 @ExperimentalCoroutinesApi
 @InternalCoroutinesApi
-class MainActivity : AppCompatActivity(R.layout.activity_main), NavWorkflow.Router {
+class MainActivity : AppCompatActivity(R.layout.activity_main), NavFragment.Router {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
-                add(R.id.main_container, NavWorkflow().also { setPrimaryNavigationFragment(it) })
+                add(R.id.main_container, NavFragment().also { setPrimaryNavigationFragment(it) })
             }
         }
 

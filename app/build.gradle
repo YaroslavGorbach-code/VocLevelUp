@@ -44,9 +44,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation project(path: ':feature_dictionary')
-    implementation project(path: ':util')
-    implementation project(path: ':ui')
-
-    implementation 'com.google.dagger:dagger:2.33'
     kapt 'com.google.dagger:dagger-compiler:2.33'
 }
