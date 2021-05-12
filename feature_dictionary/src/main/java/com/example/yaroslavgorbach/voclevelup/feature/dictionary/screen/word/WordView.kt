@@ -5,7 +5,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.common.SwipeDismissDecor
+import com.example.yaroslavgorbach.voclevelup.feature.SwipeDismissDecor
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.FragmentWordBinding
 import com.example.yaroslavgorbach.voclevelup.feature.setNavAsBack
 import com.google.android.material.snackbar.Snackbar

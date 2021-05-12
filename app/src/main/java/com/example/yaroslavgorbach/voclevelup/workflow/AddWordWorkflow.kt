@@ -1,42 +1,36 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary
+package com.example.yaroslavgorbach.voclevelup.workflow
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.dict.DictFragment
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.addword.AddWordFragment
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word.WordFragment
-import com.example.yaroslavgorbach.voclevelup.feature.router
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @InternalCoroutinesApi
-class DictWorkflow : Fragment(R.layout.workflow_dict), DictFragment.Router, WordFragment.Router {
-
-    interface Router {
-        fun openAddWord()
-    }
+class AddWordWorkflow : Fragment(R.layout.workflow_add_word), AddWordFragment.Router, WordFragment.Router {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             childFragmentManager.commit {
-                add(R.id.dict_container, DictFragment())
+                add(R.id.add_word_container, AddWordFragment())
             }
         }
     }
 
-    override fun openWord(text: String, target: Fragment) {
+    override fun openWord(text: String) {
         childFragmentManager.commit {
-            replace(R.id.dict_container, WordFragment::class.java, WordFragment.argsOf(text))
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            replace(R.id.add_word_container, WordFragment::class.java, WordFragment.argsOf(text))
             addToBackStack(null)
+            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         }
     }
-
-    override fun openAddWord() = router<Router>().openAddWord()
 
     override fun onWordDeleted(undo: suspend () -> Unit) {
         childFragmentManager.popBackStack()
@@ -44,4 +38,5 @@ class DictWorkflow : Fragment(R.layout.workflow_dict), DictFragment.Router, Word
             .setAction(R.string.undo) { lifecycleScope.launch { undo() } }
             .show()
     }
+
 }

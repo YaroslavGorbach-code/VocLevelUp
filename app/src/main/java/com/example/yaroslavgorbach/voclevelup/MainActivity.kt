@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.fragment.app.*
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word.WordFragment
+import com.example.yaroslavgorbach.voclevelup.workflow.AddWordWorkflow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -43,7 +44,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), NavFragment.Rout
     override fun openAddWord() {
         supportFragmentManager.commit {
             supportFragmentManager.findFragmentById(R.id.main_container)?.let(::hide)
-            replace(R.id.main_container, com.example.yaroslavgorbach.voclevelup.feature.dictionary.AddWordWorkflow()
+            replace(R.id.main_container, AddWordWorkflow()
                 .also { setPrimaryNavigationFragment(it) })
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             addToBackStack(null)

@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.common
+package com.example.yaroslavgorbach.voclevelup.feature
 
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
