@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.addword
+package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.addword
 
 import android.text.InputFilter
 import android.view.View
@@ -10,7 +10,7 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.model.AddWord.*
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.component.AddWord.*
 import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.FragmentAddWordBinding

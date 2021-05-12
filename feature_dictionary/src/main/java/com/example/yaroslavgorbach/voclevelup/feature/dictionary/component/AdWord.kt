@@ -1,9 +1,9 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.model
+package com.example.yaroslavgorbach.voclevelup.feature.dictionary.component
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import kotlinx.coroutines.*
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.model.AddWord.*
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.component.AddWord.*
 import com.example.yaroslavgorbach.voclevelup.data.Def
 import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.data.Repo

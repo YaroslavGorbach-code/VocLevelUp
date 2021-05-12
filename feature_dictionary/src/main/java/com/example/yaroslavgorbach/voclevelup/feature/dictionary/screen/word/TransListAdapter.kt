@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.worddetails
+package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word
 import android.annotation.SuppressLint
 import android.graphics.Canvas
 import android.view.MotionEvent

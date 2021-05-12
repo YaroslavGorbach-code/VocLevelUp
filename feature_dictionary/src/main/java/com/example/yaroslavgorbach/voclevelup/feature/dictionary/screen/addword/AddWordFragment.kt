@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.addword
+package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.addword
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,8 +9,8 @@ import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.FragmentAddWordBinding
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.model.AddWord
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.worddetails.WordFragment
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.component.AddWord
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word.WordFragment
 import com.example.yaroslavgorbach.voclevelup.feature.router
 import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject

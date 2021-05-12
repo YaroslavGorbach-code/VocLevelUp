@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.addword.AddWordFragment
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.worddetails.WordFragment
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.addword.AddWordFragment
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word.WordFragment
 import kotlinx.coroutines.InternalCoroutinesApi
 
 @InternalCoroutinesApi

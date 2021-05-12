@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.fragment.app.*
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.worddetails.WordFragment
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word.WordFragment
 import com.example.yaroslavgorbach.voclevelup.workflow.NavWorkflow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview

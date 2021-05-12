@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.addword
+package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.addword
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

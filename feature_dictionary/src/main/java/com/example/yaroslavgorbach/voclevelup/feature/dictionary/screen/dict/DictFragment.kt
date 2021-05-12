@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.dict
+package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.dict
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,8 +8,8 @@ import androidx.lifecycle.observe
 import com.example.yaroslavgorbach.voclevelup.data.Word
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.FragmentDictBinding
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.model.Dictionary
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.worddetails.WordFragment
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.component.Dictionary
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word.WordFragment
 import com.example.yaroslavgorbach.voclevelup.feature.router
 import com.example.yaroslavgorbach.voclevelup.util.consume
 import kotlinx.coroutines.InternalCoroutinesApi

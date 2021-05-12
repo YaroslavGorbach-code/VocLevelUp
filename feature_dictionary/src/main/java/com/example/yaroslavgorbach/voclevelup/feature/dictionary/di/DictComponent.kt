@@ -5,9 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.yaroslavgorbach.voclevelup.data.Repo
 import com.example.yaroslavgorbach.voclevelup.data.RepoProvider
 import com.example.yaroslavgorbach.voclevelup.feature.ViewModelScope
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.dict.DictFragment
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.model.Dictionary
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.model.DictionaryImp
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.dict.DictFragment
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.component.Dictionary
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.component.DictionaryImp
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
