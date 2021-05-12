@@ -16,39 +16,34 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
 
 @InternalCoroutinesApi
-class AddWordFragment : Fragment(R.layout.fragment_add_word), WordFragment.Target {
+class AddWordFragment : Fragment(R.layout.fragment_add_word){
 
     interface Router {
-        fun openWord(text: String, target: Fragment)
+        fun openWord(text: String)
     }
 
     @Inject lateinit var addWordModel: AddWord
-    private lateinit var addWordView: AddWordView
+
     private val vm by viewModels<AddWordViewModel>()
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         vm.addWordComponent.inject(this)
-        addWordView = AddWordView(FragmentAddWordBinding.bind(requireView()), object : AddWordView.Callback {
-            override fun onOpen(item: AddWord.DefItem) = router<Router>().openWord(item.text, this@AddWordFragment)
-            override fun onSave(item: AddWord.DefItem) = addWordModel.onSave(item)
-            override fun onInput(input: String) = addWordModel.onInput(input)
-            override fun onLangClick(lang: Language) = addWordModel.onChooseLang(lang)
-            override fun onRetry() = addWordModel.onRetry()
-            override fun onInputDone(text: String) = addWordModel.onSearch(text)
-            override fun onCompClick(text: String) = addWordModel.onSearch(text)
-        })
+        val v =
+            AddWordView(FragmentAddWordBinding.bind(requireView()), object : AddWordView.Callback {
+                override fun onOpen(item: AddWord.DefItem) = router<Router>().openWord(item.text)
+                override fun onSave(item: AddWord.DefItem) = addWordModel.onSave(item)
+                override fun onInput(input: String) = addWordModel.onInput(input)
+                override fun onLangClick(lang: Language) = addWordModel.onChooseLang(lang)
+                override fun onRetry() = addWordModel.onRetry()
+                override fun onInputDone(text: String) = addWordModel.onSearch(text)
+                override fun onCompClick(text: String) = addWordModel.onSearch(text)
+            })
 
         with(addWordModel) {
-            addWordView.setMaxWordLength(maxWordLength)
-            languages.observe(viewLifecycleOwner, addWordView::setLanguages)
-            state.observe(viewLifecycleOwner, addWordView::setState)
-        }
-    }
-
-    override fun onWordDeleted(word: Word) {
-        lifecycleScope.launchWhenStarted {
-            addWordView.showUndoDeleteWord { addWordModel.onRestoreWord(word) }
+            v.setMaxWordLength(maxWordLength)
+            languages.observe(viewLifecycleOwner, v::setLanguages)
+            state.observe(viewLifecycleOwner, v::setState)
         }
     }
 }

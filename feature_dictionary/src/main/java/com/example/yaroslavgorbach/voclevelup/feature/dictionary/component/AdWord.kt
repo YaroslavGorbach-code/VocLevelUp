@@ -23,7 +23,6 @@ interface AddWord {
     fun onSave(item: DefItem)
     fun onChooseLang(lang: Language)
     fun onRetry()
-    fun onRestoreWord(word: Word)
     fun onSearch(text: String)
 
     sealed class State {
@@ -156,12 +155,6 @@ class AddWordImp(
 
     override fun onRetry() {
         retry.offer(Unit)
-    }
-
-    override fun onRestoreWord(word: Word) {
-        scope.launch {
-            repo.restoreWord(word)
-        }
     }
 
     override fun onSearch(text: String) {
