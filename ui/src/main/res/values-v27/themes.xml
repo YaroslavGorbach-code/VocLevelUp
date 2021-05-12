@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="BaseAppTheme.v27.DayNight" />
+    <style name="Vocup" parent="BaseAppTheme.v27.DayNight" />
 
     <style name="BaseAppTheme.v27.DayNight">
         <item name="android:windowLightNavigationBar">true</item>
