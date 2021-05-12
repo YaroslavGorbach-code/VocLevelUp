@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://schemas.android.com/tools ">
     <!-- Base application theme. -->
     <style name="BaseAppTheme.DayNight">
         <item name="colorPrimary">#7A50C1</item>
