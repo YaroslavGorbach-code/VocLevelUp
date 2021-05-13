@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
 import androidx.fragment.app.*
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word.WordFragment
 import com.example.yaroslavgorbach.voclevelup.workflow.AddWordWorkflow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), NavFragment.Rout
                 override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
                     window.setSoftInputMode(
                         when (f) {
-                            is WordFragment -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
+                            is com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
                             is DialogFragment -> window.attributes.softInputMode
                             else -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
                         }

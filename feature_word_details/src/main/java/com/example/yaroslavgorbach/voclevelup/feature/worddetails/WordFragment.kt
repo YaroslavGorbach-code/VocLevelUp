@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word
+package com.example.yaroslavgorbach.voclevelup.feature.worddetails
 
 import android.os.Bundle
 import android.widget.Toast
@@ -7,11 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import com.example.yaroslavgorbach.voclevelup.data.Word
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.FragmentWordBinding
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.component.WordDetails
 import com.example.yaroslavgorbach.voclevelup.feature.router
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.databinding.FragmentWordBinding
 import com.example.yaroslavgorbach.voclevelup.util.consume
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi

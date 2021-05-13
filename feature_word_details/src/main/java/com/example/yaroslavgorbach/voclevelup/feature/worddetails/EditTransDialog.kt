@@ -1,4 +1,5 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word
+package com.example.yaroslavgorbach.voclevelup.feature.worddetails
+
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
@@ -7,8 +8,7 @@ import android.view.WindowManager
 import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.DialogTransBinding
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.databinding.DialogTransBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 

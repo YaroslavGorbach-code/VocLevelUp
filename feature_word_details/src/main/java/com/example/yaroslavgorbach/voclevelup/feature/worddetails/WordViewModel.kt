@@ -1,10 +1,8 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word
+package com.example.yaroslavgorbach.voclevelup.feature.worddetails
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import com.example.yaroslavgorbach.voclevelup.data.RepoProvider
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.di.DaggerWordComponent
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.di.WordComponent
 import kotlinx.coroutines.InternalCoroutinesApi
 
 @InternalCoroutinesApi

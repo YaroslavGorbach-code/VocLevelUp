@@ -19,6 +19,7 @@
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature_add_word" />
             <option value="$PROJECT_DIR$/feature_dictionary" />
+            <option value="$PROJECT_DIR$/feature_word_details" />
             <option value="$PROJECT_DIR$/ui" />
             <option value="$PROJECT_DIR$/util" />
           </set>

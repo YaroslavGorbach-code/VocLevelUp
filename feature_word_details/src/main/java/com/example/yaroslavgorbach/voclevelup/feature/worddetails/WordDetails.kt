@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.component
+package com.example.yaroslavgorbach.voclevelup.feature.worddetails
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import com.example.yaroslavgorbach.voclevelup.data.Repo

@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word
+package com.example.yaroslavgorbach.voclevelup.feature.worddetails
 
 import android.app.Dialog
 import android.content.DialogInterface
@@ -7,8 +7,7 @@ import android.view.LayoutInflater
 import android.view.WindowManager
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.DialogTransBinding
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.databinding.DialogTransBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class AddTransDialog : DialogFragment() {
