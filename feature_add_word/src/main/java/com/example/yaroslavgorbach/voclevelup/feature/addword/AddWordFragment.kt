@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
-import com.example.yaroslavgorbach.voclevelup.data.Language
+import com.example.yaroslavgorbach.voclevelup.data.api.Language
 import com.example.yaroslavgorbach.voclevelup.feature.addword.databinding.FragmentAddWordBinding
 import com.example.yaroslavgorbach.voclevelup.util.host
 import kotlinx.coroutines.InternalCoroutinesApi

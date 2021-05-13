@@ -2,7 +2,7 @@ package com.example.yaroslavgorbach.voclevelup.feature.addword
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yaroslavgorbach.voclevelup.data.Repo
+import com.example.yaroslavgorbach.voclevelup.data.api.Repo
 import com.example.yaroslavgorbach.voclevelup.data.RepoProvider
 import com.example.yaroslavgorbach.voclevelup.feature.ViewModelScope
 import dagger.BindsInstance

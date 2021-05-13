@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.example.yaroslavgorbach.voclevelup.databinding.WorkflowNavBinding
-import com.example.yaroslavgorbach.voclevelup.screen.explore.ExploreFragment
-import com.example.yaroslavgorbach.voclevelup.screen.learn.LearnFragment
+import com.example.yaroslavgorbach.voclevelup.feature.explore.ExploreFragment
+import com.example.yaroslavgorbach.voclevelup.feature.learn.LearnFragment
 import com.example.yaroslavgorbach.voclevelup.util.host
 import com.example.yaroslavgorbach.voclevelup.workflow.DictWorkflow
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -37,7 +37,7 @@ class NavFragment : Fragment(R.layout.workflow_nav), DictWorkflow.Router {
                 if (selectedItemId != it.itemId) {
                     val fragment = when (it.itemId) {
                         R.id.menu_nav_dict -> DictWorkflow()
-                        R.id.menu_nav_learn -> LearnFragment()
+                        R.id.menu_nav_learn -> com.example.yaroslavgorbach.voclevelup.feature.learn.LearnFragment()
                         R.id.menu_nav_explore -> ExploreFragment()
                         else -> error("Unknown menu: ${it.title}")
                     }

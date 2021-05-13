@@ -6,7 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.yaroslavgorbach.voclevelup.data.Word
+import com.example.yaroslavgorbach.voclevelup.data.api.Word
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.ItemWordBinding
 import com.example.yaroslavgorbach.voclevelup.feature.inflateBind
 

@@ -46,6 +46,8 @@ dependencies {
     implementation project(path: ':feature_dictionary')
     implementation project(path: ':feature_add_word')
     implementation project(path: ':feature_word_details')
+    implementation project(path: ':feature_explore')
+    implementation project(path: ':feature_learn')
 
     kapt 'com.google.dagger:dagger-compiler:2.33'
 }

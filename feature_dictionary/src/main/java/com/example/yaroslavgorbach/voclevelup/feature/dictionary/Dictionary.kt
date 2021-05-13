@@ -1,9 +1,9 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.component
+package com.example.yaroslavgorbach.voclevelup.feature.dictionary
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
-import com.example.yaroslavgorbach.voclevelup.data.Repo
-import com.example.yaroslavgorbach.voclevelup.data.Word
+import com.example.yaroslavgorbach.voclevelup.data.api.Repo
+import com.example.yaroslavgorbach.voclevelup.data.api.Word
 import com.example.yaroslavgorbach.voclevelup.util.LiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.MutableLiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.send

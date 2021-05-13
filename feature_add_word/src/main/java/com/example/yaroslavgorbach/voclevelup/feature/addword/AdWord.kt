@@ -2,12 +2,11 @@ package com.example.yaroslavgorbach.voclevelup.feature.addword
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
+import com.example.yaroslavgorbach.voclevelup.data.api.Def
+import com.example.yaroslavgorbach.voclevelup.data.api.Language
 import kotlinx.coroutines.*
 import com.example.yaroslavgorbach.voclevelup.feature.addword.AddWord.*
-import com.example.yaroslavgorbach.voclevelup.data.Def
-import com.example.yaroslavgorbach.voclevelup.data.Language
-import com.example.yaroslavgorbach.voclevelup.data.Repo
-import com.example.yaroslavgorbach.voclevelup.data.Word
+import com.example.yaroslavgorbach.voclevelup.data.api.Repo
 import com.example.yaroslavgorbach.voclevelup.util.repeatWhen
 import com.example.yaroslavgorbach.voclevelup.util.toStateFlow
 import kotlinx.coroutines.channels.Channel

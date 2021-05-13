@@ -3,7 +3,10 @@ package com.example.yaroslavgorbach.voclevelup
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
+import android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
+import android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
 import androidx.fragment.app.*
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment
 import com.example.yaroslavgorbach.voclevelup.workflow.AddWordWorkflow
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
@@ -13,38 +16,31 @@ import kotlinx.coroutines.InternalCoroutinesApi
 @ExperimentalCoroutinesApi
 @InternalCoroutinesApi
 class MainActivity : AppCompatActivity(R.layout.activity_main), NavFragment.Router {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         if (savedInstanceState == null) {
             supportFragmentManager.commit {
                 add(R.id.main_container, NavFragment().also { setPrimaryNavigationFragment(it) })
             }
         }
-
-        // configure input mode
+        // configure input mode (need custom settings in some fragments for better ui)
         supportFragmentManager.registerFragmentLifecycleCallbacks(
             object : FragmentManager.FragmentLifecycleCallbacks() {
                 override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
-                    window.setSoftInputMode(
-                        when (f) {
-                            is com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN
-                            is DialogFragment -> window.attributes.softInputMode
-                            else -> WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-                        }
-                    )
+                    when (f) {
+                        is WordFragment -> window.setSoftInputMode(SOFT_INPUT_ADJUST_PAN)
+                        else -> window.setSoftInputMode(SOFT_INPUT_ADJUST_RESIZE)
+                    }
                 }
             },
             true
         )
-
     }
 
     override fun openAddWord() {
         supportFragmentManager.commit {
-            supportFragmentManager.findFragmentById(R.id.main_container)?.let(::hide)
-            replace(R.id.main_container, AddWordWorkflow()
-                .also { setPrimaryNavigationFragment(it) })
+            replace(R.id.main_container, AddWordWorkflow().also { setPrimaryNavigationFragment(it) })
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             addToBackStack(null)
         }

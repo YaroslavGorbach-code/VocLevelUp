@@ -5,9 +5,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import com.example.yaroslavgorbach.voclevelup.data.Word
+import com.example.yaroslavgorbach.voclevelup.data.api.Word
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.FragmentDictBinding
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.component.Dictionary
 import com.example.yaroslavgorbach.voclevelup.util.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
