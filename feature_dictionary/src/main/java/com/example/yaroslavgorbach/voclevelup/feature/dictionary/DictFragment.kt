@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.dict
+package com.example.yaroslavgorbach.voclevelup.feature.dictionary
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,11 +6,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.example.yaroslavgorbach.voclevelup.data.Word
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.FragmentDictBinding
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.component.Dictionary
-import com.example.yaroslavgorbach.voclevelup.feature.router
-import com.example.yaroslavgorbach.voclevelup.util.consume
+import com.example.yaroslavgorbach.voclevelup.util.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -30,9 +28,9 @@ class DictFragment : Fragment(R.layout.fragment_dict){
         vm.dictComponent.inject(this)
 
         val v = DictView(FragmentDictBinding.bind(requireView()), object : DictView.Callback {
-            override fun onAdd() = router<Router>().openAddWord()
+            override fun onAdd() = host<Router>().openAddWord()
             override fun onSwipe(word: Word) = dictModel.onRemove(word)
-            override fun onClick(word: Word) = router<Router>().openWord(word.text, this@DictFragment)
+            override fun onClick(word: Word) = host<Router>().openWord(word.text, this@DictFragment)
         })
         with(dictModel) {
             words.observe(viewLifecycleOwner, v::setWords)

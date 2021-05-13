@@ -7,9 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
-import com.example.yaroslavgorbach.voclevelup.feature.router
 import com.example.yaroslavgorbach.voclevelup.feature.worddetails.databinding.FragmentWordBinding
 import com.example.yaroslavgorbach.voclevelup.util.consume
+import com.example.yaroslavgorbach.voclevelup.util.host
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
@@ -57,7 +57,7 @@ class WordFragment : Fragment(R.layout.fragment_word), AddTransDialog.Host, Edit
                 v.showDeleteTransUndo { lifecycleScope.launchWhenStarted { it() } }
             }
             onWordDeleted.consume(viewLifecycleOwner) {
-                router<Router>().onWordDeleted(it)
+                host<Router>().onWordDeleted(it)
             }
         }
     }

@@ -6,9 +6,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import com.example.yaroslavgorbach.voclevelup.databinding.WorkflowNavBinding
-import com.example.yaroslavgorbach.voclevelup.feature.router
 import com.example.yaroslavgorbach.voclevelup.screen.explore.ExploreFragment
 import com.example.yaroslavgorbach.voclevelup.screen.learn.LearnFragment
+import com.example.yaroslavgorbach.voclevelup.util.host
 import com.example.yaroslavgorbach.voclevelup.workflow.DictWorkflow
 import kotlinx.coroutines.InternalCoroutinesApi
 
@@ -54,5 +54,5 @@ class NavFragment : Fragment(R.layout.workflow_nav), DictWorkflow.Router {
         }
     }
 
-    override fun openAddWord() = router<Router>().openAddWord()
+    override fun openAddWord() = host<Router>().openAddWord()
 }

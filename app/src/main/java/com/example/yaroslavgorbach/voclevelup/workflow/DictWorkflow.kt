@@ -6,8 +6,8 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import com.example.yaroslavgorbach.voclevelup.R
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.dict.DictFragment
-import com.example.yaroslavgorbach.voclevelup.feature.router
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.DictFragment
+import com.example.yaroslavgorbach.voclevelup.util.host
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -36,7 +36,7 @@ class DictWorkflow : Fragment(R.layout.workflow_dict), DictFragment.Router, com.
         }
     }
 
-    override fun openAddWord() = router<Router>().openAddWord()
+    override fun openAddWord() = host<Router>().openAddWord()
 
     override fun onWordDeleted(undo: suspend () -> Unit) {
         childFragmentManager.popBackStack()

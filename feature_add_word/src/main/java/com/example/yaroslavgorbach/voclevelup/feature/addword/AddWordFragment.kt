@@ -7,7 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.yaroslavgorbach.voclevelup.data.Language
 import com.example.yaroslavgorbach.voclevelup.feature.addword.databinding.FragmentAddWordBinding
-import com.example.yaroslavgorbach.voclevelup.feature.router
+import com.example.yaroslavgorbach.voclevelup.util.host
 import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
 
@@ -32,7 +32,7 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
                 object :
                     AddWordView.Callback {
                     override fun onOpen(item: AddWord.DefItem) =
-                        router<Router>().openWord(item.text)
+                        host<Router>().openWord(item.text)
 
                     override fun onSave(item: AddWord.DefItem) = addWordModel.onSave(item)
                     override fun onInput(input: String) = addWordModel.onInput(input)

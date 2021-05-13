@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.dict
+package com.example.yaroslavgorbach.voclevelup.feature.dictionary
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yaroslavgorbach.voclevelup.data.Word
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.ItemWordBinding
 import com.example.yaroslavgorbach.voclevelup.feature.inflateBind
 
