@@ -13,15 +13,15 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/base_feature" />
+            <option value="$PROJECT_DIR$/base_ui" />
+            <option value="$PROJECT_DIR$/base_util" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data_api" />
             <option value="$PROJECT_DIR$/data_imp" />
-            <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature_add_word" />
             <option value="$PROJECT_DIR$/feature_dictionary" />
             <option value="$PROJECT_DIR$/feature_word_details" />
-            <option value="$PROJECT_DIR$/ui" />
-            <option value="$PROJECT_DIR$/util" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
