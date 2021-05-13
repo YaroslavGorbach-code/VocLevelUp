@@ -6,6 +6,8 @@
         <item name="colorSecondary">#4A148C</item>
         <item name="colorOnPrimary">#fafafa</item>
         <item name="colorOnSecondary">#fafafa</item>
+        <item name="colorPrimaryVariant">#AA00FF</item>
+        <item name="colorSecondaryVariant">#291245</item>
     </style>
 
 </resources>
