@@ -1,5 +1,3 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.addword
-
 import android.text.InputFilter
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -10,13 +8,14 @@ import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.component.AddWord.*
 import com.example.yaroslavgorbach.voclevelup.data.Language
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.FragmentAddWordBinding
+import com.example.yaroslavgorbach.voclevelup.feature.addword.AddWord.*
+import com.example.yaroslavgorbach.voclevelup.feature.addword.CompletionAdapter
+import com.example.yaroslavgorbach.voclevelup.feature.addword.DefListAdapter
+import com.example.yaroslavgorbach.voclevelup.feature.addword.R
+import com.example.yaroslavgorbach.voclevelup.feature.addword.databinding.FragmentAddWordBinding
 import com.example.yaroslavgorbach.voclevelup.feature.setNavAsBack
 import com.google.android.material.snackbar.Snackbar
-
 
 class AddWordView(
     private val bind: FragmentAddWordBinding,
@@ -33,33 +32,36 @@ class AddWordView(
         fun onCompClick(text: String)
     }
 
-    private val defAdapter = DefListAdapter { item ->
-        if (!item.saved || item.trans?.any { !it.second } == true) {
-            callback.onSave(item)
-        } else {
-            callback.onOpen(item)
+    private val defAdapter =
+        DefListAdapter { item ->
+            if (!item.saved || item.trans?.any { !it.second } == true) {
+                callback.onSave(item)
+            } else {
+                callback.onOpen(item)
+            }
         }
-    }
-    private val errorSnack = Snackbar.make(bind.root, R.string.cant_load_translations, Snackbar.LENGTH_INDEFINITE)
-        .setAction(R.string.retry) { callback.onRetry() }
-        .also {
-            bind.root.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
-                override fun onViewAttachedToWindow(v: View?) {}
-                override fun onViewDetachedFromWindow(v: View?) {
-                    it.dismiss()
-                }
-            })
-        }
+    private val errorSnack =
+        Snackbar.make(bind.root, R.string.cant_load_translations, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.retry) { callback.onRetry() }
+            .also {
+                bind.root.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                    override fun onViewAttachedToWindow(v: View?) {}
+                    override fun onViewDetachedFromWindow(v: View?) {
+                        it.dismiss()
+                    }
+                })
+            }
 
     private var handlingCompletion = false
-    private val compAdapter = CompletionAdapter {
-        handlingCompletion = true
-        bind.addWordInput.text.apply {
-            replace(0, length, it)
-            callback.onCompClick(this.toString()) // get new input with applied filters
+    private val compAdapter =
+        CompletionAdapter {
+            handlingCompletion = true
+            bind.addWordInput.text.apply {
+                replace(0, length, it)
+                callback.onCompClick(this.toString()) // get new input with applied filters
+            }
+            handlingCompletion = false
         }
-        handlingCompletion = false
-    }
 
     init {
         bind.addWordInput.apply {
@@ -100,7 +102,8 @@ class AddWordView(
                 errorSnack.dismiss()
             }
             defAdapter.submitList((state as? State.Definitions)?.items ?: emptyList())
-            isInvisible = state !is State.Definitions // gone delays animations -> see blink on new list shown
+            isInvisible =
+                state !is State.Definitions // gone delays animations -> see blink on new list shown
         }
         bind.addWordCompList.apply {
             compAdapter.submitList((state as? State.Completions)?.items ?: emptyList())

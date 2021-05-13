@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
+import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.dict.DictFragment
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.word.WordFragment
 import com.example.yaroslavgorbach.voclevelup.feature.router

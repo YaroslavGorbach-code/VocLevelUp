@@ -6,4 +6,4 @@
         <item name="android:stateListAnimator">@animator/interactive_item</item>
     </style>
 
-</resources> 
+</resources>

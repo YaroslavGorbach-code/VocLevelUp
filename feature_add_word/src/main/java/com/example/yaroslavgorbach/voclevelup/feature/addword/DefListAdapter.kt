@@ -1,13 +1,12 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.addword
+package com.example.yaroslavgorbach.voclevelup.feature.addword
 
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.component.AddWord.*
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.ItemDefBinding
+import com.example.yaroslavgorbach.voclevelup.feature.addword.AddWord.*
+import com.example.yaroslavgorbach.voclevelup.feature.addword.databinding.ItemDefBinding
 import com.example.yaroslavgorbach.voclevelup.feature.inflateBind
 
 class DefListAdapter(

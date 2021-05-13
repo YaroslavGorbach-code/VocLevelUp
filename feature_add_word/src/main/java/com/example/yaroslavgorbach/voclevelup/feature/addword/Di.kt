@@ -1,13 +1,10 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.di
+package com.example.yaroslavgorbach.voclevelup.feature.addword
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.yaroslavgorbach.voclevelup.data.Repo
 import com.example.yaroslavgorbach.voclevelup.data.RepoProvider
 import com.example.yaroslavgorbach.voclevelup.feature.ViewModelScope
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.addword.AddWordFragment
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.component.AddWord
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.component.AddWordImp
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module

@@ -1,10 +1,10 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary.screen.addword
+package com.example.yaroslavgorbach.voclevelup.feature.addword
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.ItemCompletionBinding
+import com.example.yaroslavgorbach.voclevelup.feature.addword.databinding.ItemCompletionBinding
 import com.example.yaroslavgorbach.voclevelup.feature.inflateBind
 
 class CompletionAdapter(
@@ -21,7 +21,8 @@ class CompletionAdapter(
 
     override fun onBindViewHolder(holder: CompVh, position: Int) = holder.bind(getItem(position))
 
-    inner class CompVh(private val bind: ItemCompletionBinding) : RecyclerView.ViewHolder(bind.root) {
+    inner class CompVh(private val bind: ItemCompletionBinding) :
+        RecyclerView.ViewHolder(bind.root) {
 
         init {
             bind.root.setOnClickListener { onClick(getItem(adapterPosition)) }
