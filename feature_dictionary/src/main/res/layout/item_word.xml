@@ -8,14 +8,13 @@
     android:layout_height="wrap_content"
     >
 
-    <ImageView
+    <com.example.yaroslavgorbach.voclevelup.feature.dictionary.WordProgressView
+        android:id="@+id/word_progress_fx"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
-        app:srcCompat="@drawable/word_progress_bg"
-        app:tint="?colorPrimary"
-        tools:ignore="ContentDescription"
+        app:mainColor="?colorSecondary"
         />
 
     <TextView
@@ -24,6 +23,8 @@
         android:layout_height="56dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
+        android:background="@drawable/word_progress_bg"
+        app:backgroundTint="?colorSecondary"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:textSize="24dp"
