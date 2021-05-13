@@ -24,15 +24,20 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), NavFragment.Rout
                 add(R.id.main_container, NavFragment().also { setPrimaryNavigationFragment(it) })
             }
         }
+
         // configure input mode (need custom settings in some fragments for better ui)
         supportFragmentManager.registerFragmentLifecycleCallbacks(
             object : FragmentManager.FragmentLifecycleCallbacks() {
                 override fun onFragmentStarted(fm: FragmentManager, f: Fragment) {
                     when (f) {
                         is WordFragment -> window.setSoftInputMode(SOFT_INPUT_ADJUST_PAN)
-                        else -> window.setSoftInputMode(SOFT_INPUT_ADJUST_RESIZE)
+                        !is DialogFragment -> {
+                            @Suppress("DEPRECATION")
+                            window.setSoftInputMode(SOFT_INPUT_ADJUST_RESIZE)
+                        }
                     }
                 }
+
             },
             true
         )
