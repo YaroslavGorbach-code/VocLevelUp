@@ -1,12 +1,13 @@
 package com.example.yaroslavgorbach.voclevelup.feature.addword
 
-import AddWordView
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import com.example.yaroslavgorbach.voclevelup.data.api.Language
 import com.example.yaroslavgorbach.voclevelup.feature.addword.databinding.FragmentAddWordBinding
+import com.example.yaroslavgorbach.voclevelup.feature.addword.di.AddWordViewModel
+import com.example.yaroslavgorbach.voclevelup.feature.addword.model.AddWord
 import com.example.yaroslavgorbach.voclevelup.util.host
 import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
@@ -19,7 +20,7 @@ class AddWordFragment : Fragment(R.layout.fragment_add_word) {
     }
 
     @Inject
-    lateinit var addWordModel: AddWord
+    internal lateinit var addWordModel: AddWord
 
     private val vm by viewModels<AddWordViewModel>()
 

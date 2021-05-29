@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.addword
+package com.example.yaroslavgorbach.voclevelup.feature.addword.view
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.yaroslavgorbach.voclevelup.feature.addword.databinding.ItemCompletionBinding
 import com.example.yaroslavgorbach.voclevelup.feature.inflateBind
 
-class CompletionAdapter(
+internal class CompletionAdapter(
     private val onClick: (String) -> Unit
 ) : ListAdapter<String, CompletionAdapter.CompVh>(
     object : DiffUtil.ItemCallback<String>() {

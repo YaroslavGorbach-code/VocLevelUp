@@ -1,3 +1,5 @@
+package com.example.yaroslavgorbach.voclevelup.feature.addword
+
 import android.text.InputFilter
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -9,22 +11,22 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.data.api.Language
-import com.example.yaroslavgorbach.voclevelup.feature.addword.AddWord.*
-import com.example.yaroslavgorbach.voclevelup.feature.addword.CompletionAdapter
-import com.example.yaroslavgorbach.voclevelup.feature.addword.DefListAdapter
-import com.example.yaroslavgorbach.voclevelup.feature.addword.R
+import com.example.yaroslavgorbach.voclevelup.feature.addword.model.AddWord.*
+import com.example.yaroslavgorbach.voclevelup.feature.addword.view.CompletionAdapter
+import com.example.yaroslavgorbach.voclevelup.feature.addword.view.DefListAdapter
 import com.example.yaroslavgorbach.voclevelup.feature.addword.databinding.FragmentAddWordBinding
+import com.example.yaroslavgorbach.voclevelup.feature.addword.model.AddWord
 import com.example.yaroslavgorbach.voclevelup.feature.setNavAsBack
 import com.google.android.material.snackbar.Snackbar
 
-class AddWordView(
+internal class AddWordView(
     private val bind: FragmentAddWordBinding,
     private val callback: Callback
 ) {
 
     interface Callback {
-        fun onOpen(item: DefItem)
-        fun onSave(item: DefItem)
+        fun onOpen(item: AddWord.DefItem)
+        fun onSave(item: AddWord.DefItem)
         fun onInput(input: String)
         fun onLangClick(lang: Language)
         fun onRetry()
