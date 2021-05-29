@@ -16,14 +16,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @InternalCoroutinesApi
-internal class DictFragment : Fragment(R.layout.fragment_dict){
+class DictFragment : Fragment(R.layout.fragment_dict){
     interface Router {
         fun openWord(text: String, target: Fragment)
         fun openAddWord()
     }
 
     private val vm by viewModels<DictViewModel>()
-    @Inject lateinit var dictModel: Dictionary
+    @Inject internal lateinit var dictModel: Dictionary
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)

@@ -1,38 +1,27 @@
-package com.example.yaroslavgorbach.voclevelup.feature.worddetails
-import androidx.lifecycle.LiveData
+package com.example.yaroslavgorbach.voclevelup.feature.worddetails.model
+
 import androidx.lifecycle.asLiveData
 import com.example.yaroslavgorbach.voclevelup.data.api.Repo
-import com.example.yaroslavgorbach.voclevelup.util.LiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.MutableLiveEvent
 import com.example.yaroslavgorbach.voclevelup.util.send
 import com.example.yaroslavgorbach.voclevelup.util.toStateFlow
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-interface WordDetails {
-    val text: LiveData<String>
-    val translations: LiveData<List<String>?>
-    fun onReorderTrans(newTrans: List<String>)
-    fun onAddTrans(text: String)
-    fun onEditTrans(trans: String, newText: String)
-    fun onDeleteTrans(trans: String)
-    val pron: LiveData<String>
-    fun onDeleteWord()
-    val onTransDeleted: LiveEvent<suspend () -> Unit>
-    val onWordDeleted: LiveEvent<suspend () -> Unit>
-}
-
-@InternalCoroutinesApi
-class WordDetailsImp(
+internal class WordDetailsImp(
     private val wordText: String,
     private val repo: Repo,
     private val scope: CoroutineScope
 ) : WordDetails {
 
     private val word = repo.getWord(wordText).filterNotNull().toStateFlow(scope)
+
     override val text = word.mapNotNull { it?.text }.onStart { emit(wordText) }.asLiveData()
+    override val pron = word.map { it?.pron ?: "" }.asLiveData()
     override val translations = word.map { it?.translations }.onStart { emit(null) }.asLiveData()
     override val onTransDeleted = MutableLiveEvent<suspend () -> Unit>()
     override val onWordDeleted = MutableLiveEvent<suspend () -> Unit>()
@@ -59,9 +48,6 @@ class WordDetailsImp(
             onTransDeleted.send { repo.updateTranslations(wordText, currentTrans) }
         }
     }
-
-    override val pron = word.map { it?.pron ?: "" }.asLiveData()
-
 
     override fun onDeleteWord() {
         word.value?.let { word ->

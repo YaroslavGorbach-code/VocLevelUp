@@ -1,10 +1,13 @@
-package com.example.yaroslavgorbach.voclevelup.feature.worddetails
+package com.example.yaroslavgorbach.voclevelup.feature.worddetails.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yaroslavgorbach.voclevelup.data.api.Repo
 import com.example.yaroslavgorbach.voclevelup.data.RepoProvider
+import com.example.yaroslavgorbach.voclevelup.data.api.Repo
 import com.example.yaroslavgorbach.voclevelup.feature.ViewModelScope
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.model.WordDetails
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.model.WordDetailsImp
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -14,7 +17,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 @InternalCoroutinesApi
 @ViewModelScope
 @Component(dependencies = [RepoProvider::class], modules = [WordModule::class])
-interface WordComponent {
+internal interface WordComponent {
 
     fun inject(f: WordFragment)
 
@@ -28,7 +31,7 @@ interface WordComponent {
 
 @InternalCoroutinesApi
 @Module
-class WordModule {
+internal class WordModule {
 
     @ViewModelScope
     @Provides

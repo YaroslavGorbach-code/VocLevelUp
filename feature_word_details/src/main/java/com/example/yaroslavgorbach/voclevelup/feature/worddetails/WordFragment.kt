@@ -8,6 +8,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.example.yaroslavgorbach.voclevelup.feature.worddetails.databinding.FragmentWordBinding
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.di.WordViewModel
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.model.WordDetails
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.view.AddTransDialog
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.view.EditTransDialog
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.view.WordView
 import com.example.yaroslavgorbach.voclevelup.util.consume
 import com.example.yaroslavgorbach.voclevelup.util.host
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,7 +32,7 @@ class WordFragment : Fragment(R.layout.fragment_word), AddTransDialog.Host, Edit
     }
 
     private val vm by viewModels<WordViewModel>()
-    @Inject lateinit var detailsModel: WordDetails
+    @Inject internal lateinit var detailsModel: WordDetails
 
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)

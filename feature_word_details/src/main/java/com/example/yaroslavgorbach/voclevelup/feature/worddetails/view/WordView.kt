@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.worddetails
+package com.example.yaroslavgorbach.voclevelup.feature.worddetails.view
 
 import android.annotation.SuppressLint
 import androidx.core.content.ContextCompat
@@ -6,11 +6,12 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.feature.SwipeDismissDecor
 import com.example.yaroslavgorbach.voclevelup.feature.setNavAsBack
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.R
 import com.example.yaroslavgorbach.voclevelup.feature.worddetails.databinding.FragmentWordBinding
 import com.google.android.material.snackbar.Snackbar
 
 
-class WordView(
+internal class WordView(
     private val bind: FragmentWordBinding,
     private val callback: Callback
 ) {

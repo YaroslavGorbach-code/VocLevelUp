@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.worddetails
+package com.example.yaroslavgorbach.voclevelup.feature.worddetails.view
 
 import android.annotation.SuppressLint
 import android.graphics.Canvas
@@ -12,7 +12,7 @@ import com.example.yaroslavgorbach.voclevelup.feature.inflateBind
 import com.example.yaroslavgorbach.voclevelup.feature.worddetails.databinding.ItemTransBinding
 import java.util.*
 
-class TransListAdapter(
+internal class TransListAdapter(
     private val onReorder: (List<String>) -> Unit,
     private val onClick: (String) -> Unit
 ) : ListAdapter<String, TransListAdapter.TransVh>(
