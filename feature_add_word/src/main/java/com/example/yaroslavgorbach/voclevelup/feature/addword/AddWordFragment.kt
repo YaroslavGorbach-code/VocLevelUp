@@ -8,6 +8,7 @@ import com.example.yaroslavgorbach.voclevelup.data.api.Language
 import com.example.yaroslavgorbach.voclevelup.feature.addword.databinding.FragmentAddWordBinding
 import com.example.yaroslavgorbach.voclevelup.feature.addword.di.AddWordViewModel
 import com.example.yaroslavgorbach.voclevelup.feature.addword.model.AddWord
+import com.example.yaroslavgorbach.voclevelup.feature.addword.view.AddWordView
 import com.example.yaroslavgorbach.voclevelup.util.host
 import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject

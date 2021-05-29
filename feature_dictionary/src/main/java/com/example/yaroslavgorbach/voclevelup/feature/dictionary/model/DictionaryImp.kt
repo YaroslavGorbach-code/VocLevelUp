@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary
+package com.example.yaroslavgorbach.voclevelup.feature.dictionary.model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
@@ -12,17 +12,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
-interface Dictionary {
-    val words: LiveData<List<Word>>
-    val loading: LiveData<Boolean>
-    val onWordRemoved: LiveEvent<suspend () -> Unit>
-    fun onRemove(word: Word)
-}
-
-class DictionaryImp(
+internal class DictionaryImp(
     private val repo: Repo,
     private val scope: CoroutineScope
 ) : Dictionary {
+
     override val onWordRemoved = MutableLiveEvent<suspend () -> Unit>()
     override val words: LiveData<List<Word>> = repo.getAllWords().asLiveData()
     override val loading: LiveData<Boolean> =

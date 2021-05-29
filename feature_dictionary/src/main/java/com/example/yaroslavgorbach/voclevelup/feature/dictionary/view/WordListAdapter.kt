@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary
+package com.example.yaroslavgorbach.voclevelup.feature.dictionary.view
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.yaroslavgorbach.voclevelup.data.api.Word
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.ItemWordBinding
 import com.example.yaroslavgorbach.voclevelup.feature.inflateBind
 
-class WordListAdapter(
+internal class WordListAdapter(
     private val onWordClick: (Word) -> Unit
 ) : ListAdapter<Word, WordListAdapter.WordVh>(object : DiffUtil.ItemCallback<Word>() {
     override fun areItemsTheSame(oldItem: Word, newItem: Word) = oldItem.text == newItem.text

@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.addword
+package com.example.yaroslavgorbach.voclevelup.feature.addword.view
 
 import android.text.InputFilter
 import android.view.View
@@ -11,9 +11,8 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.data.api.Language
+import com.example.yaroslavgorbach.voclevelup.feature.addword.R
 import com.example.yaroslavgorbach.voclevelup.feature.addword.model.AddWord.*
-import com.example.yaroslavgorbach.voclevelup.feature.addword.view.CompletionAdapter
-import com.example.yaroslavgorbach.voclevelup.feature.addword.view.DefListAdapter
 import com.example.yaroslavgorbach.voclevelup.feature.addword.databinding.FragmentAddWordBinding
 import com.example.yaroslavgorbach.voclevelup.feature.addword.model.AddWord
 import com.example.yaroslavgorbach.voclevelup.feature.setNavAsBack

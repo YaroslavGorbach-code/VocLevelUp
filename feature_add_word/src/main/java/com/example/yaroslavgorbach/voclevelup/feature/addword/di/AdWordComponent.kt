@@ -2,12 +2,12 @@ package com.example.yaroslavgorbach.voclevelup.feature.addword.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.yaroslavgorbach.voclevelup.data.api.Repo
 import com.example.yaroslavgorbach.voclevelup.data.RepoProvider
+import com.example.yaroslavgorbach.voclevelup.data.api.Repo
 import com.example.yaroslavgorbach.voclevelup.feature.ViewModelScope
-import com.example.yaroslavgorbach.voclevelup.feature.addword.AddWord
 import com.example.yaroslavgorbach.voclevelup.feature.addword.AddWordFragment
-import com.example.yaroslavgorbach.voclevelup.feature.addword.AddWordImp
+import com.example.yaroslavgorbach.voclevelup.feature.addword.model.AddWord
+import com.example.yaroslavgorbach.voclevelup.feature.addword.model.AddWordImp
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module

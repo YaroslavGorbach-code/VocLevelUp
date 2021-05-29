@@ -1,4 +1,4 @@
-package com.example.yaroslavgorbach.voclevelup.feature.dictionary
+package com.example.yaroslavgorbach.voclevelup.feature.dictionary.view
 
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -6,10 +6,11 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.data.api.Word
 import com.example.yaroslavgorbach.voclevelup.feature.SwipeDismissDecor
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.R
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.FragmentDictBinding
 import com.google.android.material.snackbar.Snackbar
 
-class DictView(
+internal class DictView(
     private val bind: FragmentDictBinding,
     private val callback: Callback
 ) {

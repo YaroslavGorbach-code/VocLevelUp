@@ -17,7 +17,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 @InternalCoroutinesApi
 @ViewModelScope
 @Component(dependencies = [RepoProvider::class], modules = [DictModule::class])
-interface DictComponent {
+internal interface DictComponent {
 
     fun inject(f: DictFragment)
 
@@ -28,7 +28,7 @@ interface DictComponent {
 }
 
 @Module
-class DictModule {
+internal class DictModule {
 
     @ViewModelScope
     @Provides

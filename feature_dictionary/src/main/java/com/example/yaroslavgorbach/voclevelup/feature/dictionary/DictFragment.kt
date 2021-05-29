@@ -7,13 +7,16 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.example.yaroslavgorbach.voclevelup.data.api.Word
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.FragmentDictBinding
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.di.DictViewModel
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.model.Dictionary
+import com.example.yaroslavgorbach.voclevelup.feature.dictionary.view.DictView
 import com.example.yaroslavgorbach.voclevelup.util.*
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @InternalCoroutinesApi
-class DictFragment : Fragment(R.layout.fragment_dict){
+internal class DictFragment : Fragment(R.layout.fragment_dict){
     interface Router {
         fun openWord(text: String, target: Fragment)
         fun openAddWord()
