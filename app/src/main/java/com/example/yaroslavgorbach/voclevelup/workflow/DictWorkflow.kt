@@ -7,13 +7,14 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.DictFragment
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment
 import com.example.yaroslavgorbach.voclevelup.util.host
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @InternalCoroutinesApi
-class DictWorkflow : Fragment(R.layout.workflow_dict), DictFragment.Router, com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment.Router {
+class DictWorkflow : Fragment(R.layout.workflow_dict), DictFragment.Router, WordFragment.Router {
 
     interface Router {
         fun openAddWord()
@@ -30,7 +31,7 @@ class DictWorkflow : Fragment(R.layout.workflow_dict), DictFragment.Router, com.
 
     override fun openWord(text: String, target: Fragment) {
         childFragmentManager.commit {
-            replace(R.id.dict_container, com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment::class.java, com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment.argsOf(text))
+            replace(R.id.dict_container, WordFragment::class.java, WordFragment.argsOf(text))
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             addToBackStack(null)
         }

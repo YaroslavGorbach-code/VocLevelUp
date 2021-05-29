@@ -37,7 +37,7 @@ class NavFragment : Fragment(R.layout.workflow_nav), DictWorkflow.Router {
                 if (selectedItemId != it.itemId) {
                     val fragment = when (it.itemId) {
                         R.id.menu_nav_dict -> DictWorkflow()
-                        R.id.menu_nav_learn -> com.example.yaroslavgorbach.voclevelup.feature.learn.LearnFragment()
+                        R.id.menu_nav_learn -> LearnFragment()
                         R.id.menu_nav_explore -> ExploreFragment()
                         else -> error("Unknown menu: ${it.title}")
                     }

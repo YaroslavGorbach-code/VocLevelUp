@@ -6,20 +6,22 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
 import androidx.lifecycle.lifecycleScope
 import com.example.yaroslavgorbach.voclevelup.R
+import com.example.yaroslavgorbach.voclevelup.feature.addword.AddWordFragment
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment
 
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @InternalCoroutinesApi
-class AddWordWorkflow : Fragment(R.layout.workflow_add_word), com.example.yaroslavgorbach.voclevelup.feature.addword.AddWordFragment.Router, com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment.Router {
+class AddWordWorkflow : Fragment(R.layout.workflow_add_word), AddWordFragment.Router, WordFragment.Router {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             childFragmentManager.commit {
                 add(R.id.add_word_container,
-                    com.example.yaroslavgorbach.voclevelup.feature.addword.AddWordFragment()
+                    AddWordFragment()
                 )
             }
         }
@@ -27,7 +29,7 @@ class AddWordWorkflow : Fragment(R.layout.workflow_add_word), com.example.yarosl
 
     override fun openWord(text: String) {
         childFragmentManager.commit {
-            replace(R.id.add_word_container, com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment::class.java, com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment.argsOf(text))
+            replace(R.id.add_word_container, WordFragment::class.java, WordFragment.argsOf(text))
             addToBackStack(null)
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
         }

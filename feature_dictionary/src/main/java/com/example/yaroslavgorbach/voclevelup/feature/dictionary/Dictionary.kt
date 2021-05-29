@@ -17,7 +17,6 @@ interface Dictionary {
     val loading: LiveData<Boolean>
     val onWordRemoved: LiveEvent<suspend () -> Unit>
     fun onRemove(word: Word)
-
 }
 
 class DictionaryImp(
