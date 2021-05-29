@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="VocLevelUp.app" target="11" />
+      <module name="VocLevelUp.base_feature" target="11" />
+      <module name="VocLevelUp.base_ui" target="11" />
+      <module name="VocLevelUp.base_util" target="11" />
+      <module name="VocLevelUp.data" target="11" />
+      <module name="VocLevelUp.data_imp" target="11" />
+      <module name="VocLevelUp.feature_add_word" target="11" />
+      <module name="VocLevelUp.feature_dictionary" target="11" />
+      <module name="VocLevelUp.feature_explore" target="11" />
+      <module name="VocLevelUp.feature_learn" target="11" />
+      <module name="VocLevelUp.feature_word_details" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>
