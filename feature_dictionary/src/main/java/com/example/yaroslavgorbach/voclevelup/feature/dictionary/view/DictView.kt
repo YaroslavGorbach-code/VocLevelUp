@@ -1,5 +1,6 @@
 package com.example.yaroslavgorbach.voclevelup.feature.dictionary.view
 
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -18,7 +19,7 @@ internal class DictView(
     interface Callback {
         fun onAdd()
         fun onSwipe(word: Word)
-        fun onClick(word: Word)
+        fun onClick(word: Word, srcItem: View)
     }
 
     private val listAdapter = WordListAdapter(callback::onClick)
