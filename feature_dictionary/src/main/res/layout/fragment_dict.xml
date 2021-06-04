@@ -1,32 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize">
+        android:layout_height="?actionBarSize"
+        android:transitionName="dict_toolbar"
+        >
 
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:title="@string/title_dict"/>
+            app:title="@string/title_dict"
+            />
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <ProgressBar
         android:id="@+id/dict_progress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dict_list"
-        android:layout_marginTop="?actionBarSize"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_word" />
+        android:layout_marginTop="?actionBarSize"
+        tools:listitem="@layout/item_word"
+        />
 
     <TextView
         android:id="@+id/dict_empty"
@@ -35,7 +43,8 @@
         android:layout_gravity="center"
         android:text="@string/no_words"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:visibility="gone" />
+        android:visibility="gone"
+        />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/dict_add"
@@ -44,7 +53,8 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:text="@string/add_word"
-        app:icon="@drawable/ic_add" />
-
+        android:transitionName="dict_add"
+        app:icon="@drawable/ic_add"
+        />
 
 </FrameLayout>

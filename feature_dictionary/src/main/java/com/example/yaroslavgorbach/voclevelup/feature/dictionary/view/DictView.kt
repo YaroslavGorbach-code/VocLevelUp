@@ -1,6 +1,6 @@
 package com.example.yaroslavgorbach.voclevelup.feature.dictionary.view
 
-import androidx.core.content.ContextCompat
+import android.view.View
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +18,7 @@ internal class DictView(
     interface Callback {
         fun onAdd()
         fun onSwipe(word: Word)
-        fun onClick(word: Word)
+        fun onClick(word: Word, srcItem: View)
     }
 
     private val listAdapter = WordListAdapter(callback::onClick)
@@ -30,9 +30,7 @@ internal class DictView(
             layoutManager = LinearLayoutManager(context)
             addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
             val swipeDecor =
-                SwipeDismissDecor(
-                    ContextCompat.getDrawable(context, R.drawable.delete_item_hint_bg)!!
-                ) {
+                SwipeDismissDecor(context.getDrawable(R.drawable.delete_item_hint_bg)!!) {
                     callback.onSwipe(listAdapter.currentList[it.adapterPosition])
                 }
             addItemDecoration(swipeDecor.also { it.attachToRecyclerView(this) })
@@ -49,8 +47,8 @@ internal class DictView(
     }
 
     fun showRemoveWordUndo(undo: () -> Unit) = with(bind) {
-    Snackbar.make(root, R.string.word_removed, Snackbar.LENGTH_LONG)
-        .setAction(R.string.undo) { undo() }
-        .show()
+        Snackbar.make(root, R.string.word_removed, Snackbar.LENGTH_LONG)
+            .setAction(R.string.undo) { undo() }
+            .show()
     }
 }

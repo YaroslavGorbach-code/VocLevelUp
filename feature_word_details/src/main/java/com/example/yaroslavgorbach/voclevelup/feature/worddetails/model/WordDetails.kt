@@ -1,4 +1,5 @@
 package com.example.yaroslavgorbach.voclevelup.feature.worddetails.model
+
 import androidx.lifecycle.LiveData
 import com.example.yaroslavgorbach.voclevelup.util.LiveEvent
 

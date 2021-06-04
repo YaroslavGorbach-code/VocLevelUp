@@ -2,19 +2,16 @@ package com.example.yaroslavgorbach.voclevelup.feature.dictionary
 
 import android.content.Context
 import android.graphics.*
-import android.graphics.Paint.ANTI_ALIAS_FLAG
+import android.graphics.Paint.*
+import android.graphics.Shader.TileMode
 import android.util.AttributeSet
-import android.view.View
-import android.view.View.MeasureSpec.EXACTLY
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.res.use
-import androidx.core.graphics.rotationMatrix
 import androidx.core.math.MathUtils
 import androidx.core.view.isVisible
-import java.lang.Math.max
-import java.lang.Math.min
+import kotlin.math.min
 
 class WordProgressView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
@@ -49,14 +46,14 @@ class WordProgressView(context: Context, attrs: AttributeSet) : FrameLayout(cont
     }
 
     private val progressPaint = Paint(ANTI_ALIAS_FLAG).apply {
-        style = Paint.Style.STROKE
-        strokeCap = Paint.Cap.ROUND
+        style = Style.STROKE
+        strokeCap = Cap.ROUND
         strokeWidth = progressStrokeWidth
     }
 
     private val outlinePaint = Paint(ANTI_ALIAS_FLAG).apply {
-        style = Paint.Style.STROKE
-        strokeCap = Paint.Cap.ROUND
+        style = Style.STROKE
+        strokeCap = Cap.ROUND
         strokeWidth = outlineStrokeWidth
         color = outlineColor
     }
@@ -70,7 +67,7 @@ class WordProgressView(context: Context, attrs: AttributeSet) : FrameLayout(cont
 
     private fun updateShader() {
         progressPaint.shader = LinearGradient(
-            cen, size, cen, 0f, progressStartColor, progressEndColor, Shader.TileMode.MIRROR
+            cen, size, cen, 0f, progressStartColor, progressEndColor, TileMode.MIRROR
         )
     }
 

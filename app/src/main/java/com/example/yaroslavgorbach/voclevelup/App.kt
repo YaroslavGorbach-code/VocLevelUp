@@ -5,9 +5,9 @@ import com.example.yaroslavgorbach.voclevelup.data.DaggerRepoComponent
 import com.example.yaroslavgorbach.voclevelup.data.RepoProvider
 import com.example.yaroslavgorbach.voclevelup.di.DaggerAppComponent
 
-
 @Suppress("unused")
 class App : Application(), RepoProvider {
+
     private val appComponent by lazy {
         DaggerAppComponent.factory().create(DaggerRepoComponent.factory().create(this))
     }

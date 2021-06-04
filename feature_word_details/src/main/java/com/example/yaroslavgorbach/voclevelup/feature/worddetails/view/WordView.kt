@@ -1,7 +1,6 @@
 package com.example.yaroslavgorbach.voclevelup.feature.worddetails.view
 
 import android.annotation.SuppressLint
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.yaroslavgorbach.voclevelup.feature.SwipeDismissDecor
@@ -9,7 +8,6 @@ import com.example.yaroslavgorbach.voclevelup.feature.setNavAsBack
 import com.example.yaroslavgorbach.voclevelup.feature.worddetails.R
 import com.example.yaroslavgorbach.voclevelup.feature.worddetails.databinding.FragmentWordBinding
 import com.google.android.material.snackbar.Snackbar
-
 
 internal class WordView(
     private val bind: FragmentWordBinding,
@@ -25,11 +23,7 @@ internal class WordView(
         fun onListen()
     }
 
-    private val transAdapter =
-        TransListAdapter(
-            callback::onReorderTrans,
-            callback::onEditTrans
-        )
+    private val transAdapter = TransListAdapter(callback::onReorderTrans, callback::onEditTrans)
 
     init {
         bind.wordToolbar.apply {
@@ -43,9 +37,7 @@ internal class WordView(
             adapter = transAdapter
             layoutManager = LinearLayoutManager(context)
             val swipeDecor =
-                SwipeDismissDecor(
-                    ContextCompat.getDrawable(context, R.drawable.delete_item_hint_bg)!!
-                ) {
+                SwipeDismissDecor(context.getDrawable(R.drawable.delete_item_hint_bg)!!) {
                     callback.onDeleteTrans(transAdapter.currentList[it.adapterPosition])
                 }
             addItemDecoration(swipeDecor.also { it.attachToRecyclerView(this) })

@@ -6,9 +6,9 @@ android {
     compileSdkVersion rootProject.ext.sdk_version
 
     defaultConfig {
-        applicationId "ru.uxapps.vocup"
+        applicationId "com.example.yaroslavgorbach.voclevelup"
         minSdkVersion 21
-        compileSdkVersion rootProject.ext.sdk_version
+        targetSdkVersion rootProject.ext.sdk_version
         versionCode 1
         versionName "1.0"
 
@@ -18,7 +18,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -39,15 +39,15 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation project(path: ':feature_dictionary')
     implementation project(path: ':feature_add_word')
     implementation project(path: ':feature_word_details')
-    implementation project(path: ':feature_explore')
     implementation project(path: ':feature_learn')
+    implementation project(path: ':feature_explore')
 
     kapt "com.google.dagger:dagger-compiler:${rootProject.ext.dagger_version}"
 }

@@ -1,4 +1,5 @@
 package com.example.yaroslavgorbach.voclevelup.feature
+
 import javax.inject.Scope
 
 @Scope

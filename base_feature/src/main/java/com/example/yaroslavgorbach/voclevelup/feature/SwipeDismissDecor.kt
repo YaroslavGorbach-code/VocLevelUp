@@ -8,9 +8,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import kotlin.math.abs
 import kotlin.math.round
 
-import kotlin.math.roundToInt
-
-
 class SwipeDismissDecor(
     private val itemBg: Drawable,
     private val onSwipe: (ViewHolder) -> Unit

@@ -12,7 +12,6 @@ import com.example.yaroslavgorbach.voclevelup.feature.worddetails.R
 import com.example.yaroslavgorbach.voclevelup.feature.worddetails.databinding.DialogTransBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-
 internal class EditTransDialog : DialogFragment() {
 
     interface Host {

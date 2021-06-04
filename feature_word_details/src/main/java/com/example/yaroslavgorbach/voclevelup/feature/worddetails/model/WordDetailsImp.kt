@@ -21,7 +21,8 @@ internal class WordDetailsImp(
 
     private val word = repo.getWord(wordText).filterNotNull().toStateFlow(scope)
 
-    override val text = word.mapNotNull { it?.text }.onStart { emit(wordText) }.asLiveData(Dispatchers.IO)
+    override val text =
+        word.mapNotNull { it?.text }.onStart { emit(wordText) }.asLiveData(Dispatchers.IO)
     override val pron = word.map { it?.pron ?: "" }.asLiveData(Dispatchers.IO)
     override val translations = word.map { it?.translations }.onStart { emit(null) }
         .asLiveData(Dispatchers.IO)

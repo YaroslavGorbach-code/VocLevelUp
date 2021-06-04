@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.yaroslavgorbach.voclevelup.feature.inflateBind
 import com.example.yaroslavgorbach.voclevelup.feature.worddetails.databinding.ItemTransBinding
 import java.util.*
+
 
 internal class TransListAdapter(
     private val onReorder: (List<String>) -> Unit,
@@ -28,7 +30,7 @@ internal class TransListAdapter(
 
         private var prevList: List<String>? = null
 
-        override fun onMove(rv: RecyclerView, vh: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+        override fun onMove(rv: RecyclerView, vh: ViewHolder, target: ViewHolder): Boolean {
             currentList.toMutableList().apply {
                 Collections.swap(this, vh.adapterPosition, target.adapterPosition)
                 submitList(this)
@@ -36,7 +38,7 @@ internal class TransListAdapter(
             return true
         }
 
-        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+        override fun clearView(recyclerView: RecyclerView, viewHolder: ViewHolder) {
             prevList?.let {
                 if (prevList != currentList) {
                     onReorder(currentList)
@@ -47,7 +49,7 @@ internal class TransListAdapter(
             super.clearView(recyclerView, viewHolder)
         }
 
-        override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+        override fun onSelectedChanged(viewHolder: ViewHolder?, actionState: Int) {
             if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
                 prevList = currentList
                 viewHolder?.itemView?.isActivated = true
@@ -58,7 +60,7 @@ internal class TransListAdapter(
         override fun isLongPressDragEnabled() = false
 
         override fun onChildDraw(
-            c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder,
+            c: Canvas, recyclerView: RecyclerView, viewHolder: ViewHolder,
             dx: Float, dy: Float, actionState: Int, isCurrentlyActive: Boolean
         ) {
             super.onChildDraw(c, recyclerView, viewHolder, dx, dy, actionState, isCurrentlyActive)
@@ -76,7 +78,7 @@ internal class TransListAdapter(
             }
         }
 
-        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+        override fun onSwiped(viewHolder: ViewHolder, direction: Int) {
             // TODO: 8/16/2020
         }
     })
@@ -92,7 +94,7 @@ internal class TransListAdapter(
     override fun onBindViewHolder(holder: TransVh, position: Int) = holder.bind(getItem(position))
 
     @SuppressLint("ClickableViewAccessibility")
-    inner class TransVh(private val bind: ItemTransBinding) : RecyclerView.ViewHolder(bind.root) {
+    inner class TransVh(private val bind: ItemTransBinding) : ViewHolder(bind.root) {
 
         init {
             bind.transDrag.setOnTouchListener { _, event ->

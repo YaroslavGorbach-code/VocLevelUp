@@ -8,10 +8,10 @@ import androidx.lifecycle.lifecycleScope
 import com.example.yaroslavgorbach.voclevelup.R
 import com.example.yaroslavgorbach.voclevelup.feature.addword.AddWordFragment
 import com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment
-
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
+
 
 @InternalCoroutinesApi
 class AddWordWorkflow : Fragment(R.layout.workflow_add_word), AddWordFragment.Router, WordFragment.Router {
@@ -20,9 +20,7 @@ class AddWordWorkflow : Fragment(R.layout.workflow_add_word), AddWordFragment.Ro
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             childFragmentManager.commit {
-                add(R.id.add_word_container,
-                    AddWordFragment()
-                )
+                add(R.id.add_word_container, AddWordFragment())
             }
         }
     }
@@ -41,5 +39,4 @@ class AddWordWorkflow : Fragment(R.layout.workflow_add_word), AddWordFragment.Ro
             .setAction(R.string.undo) { lifecycleScope.launch { undo() } }
             .show()
     }
-
 }

@@ -5,16 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.yaroslavgorbach.voclevelup.data.RepoProvider
 import com.example.yaroslavgorbach.voclevelup.data.api.Repo
 import com.example.yaroslavgorbach.voclevelup.feature.ViewModelScope
-import com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment
-import com.example.yaroslavgorbach.voclevelup.feature.worddetails.model.WordDetails
-import com.example.yaroslavgorbach.voclevelup.feature.worddetails.model.WordDetailsImp
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
-import kotlinx.coroutines.InternalCoroutinesApi
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.model.WordDetails
+import com.example.yaroslavgorbach.voclevelup.feature.worddetails.model.WordDetailsImp
 
-@InternalCoroutinesApi
 @ViewModelScope
 @Component(dependencies = [RepoProvider::class], modules = [WordModule::class])
 internal interface WordComponent {
@@ -29,7 +27,6 @@ internal interface WordComponent {
     }
 }
 
-@InternalCoroutinesApi
 @Module
 internal class WordModule {
 
