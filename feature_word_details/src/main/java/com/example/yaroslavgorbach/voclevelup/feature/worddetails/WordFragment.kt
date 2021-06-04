@@ -1,16 +1,13 @@
 package com.example.yaroslavgorbach.voclevelup.feature.worddetails
 
-import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.example.yaroslavgorbach.voclevelup.feature.BaseFragment
 import com.example.yaroslavgorbach.voclevelup.feature.awaitValue
-import com.example.yaroslavgorbach.voclevelup.feature.delayTransition
 import com.example.yaroslavgorbach.voclevelup.feature.worddetails.databinding.FragmentWordBinding
 import com.example.yaroslavgorbach.voclevelup.feature.worddetails.di.WordViewModel
 import com.example.yaroslavgorbach.voclevelup.feature.worddetails.model.WordDetails
@@ -21,7 +18,8 @@ import com.example.yaroslavgorbach.voclevelup.util.consume
 import com.example.yaroslavgorbach.voclevelup.util.host
 import javax.inject.Inject
 
-class WordFragment : BaseFragment(R.layout.fragment_word), AddTransDialog.Host, EditTransDialog.Host {
+class WordFragment : BaseFragment(R.layout.fragment_word), AddTransDialog.Host,
+    EditTransDialog.Host {
 
     interface Router {
         fun onWordDeleted(undo: suspend () -> Unit)
@@ -34,7 +32,8 @@ class WordFragment : BaseFragment(R.layout.fragment_word), AddTransDialog.Host, 
 
     private val vm by viewModels<WordViewModel>()
 
-    @Inject internal lateinit var detailsModel: WordDetails
+    @Inject
+    internal lateinit var detailsModel: WordDetails
 
     override fun onViewReady(view: View, init: Boolean) {
         vm.getWordComponent(word).inject(this)
@@ -43,10 +42,15 @@ class WordFragment : BaseFragment(R.layout.fragment_word), AddTransDialog.Host, 
             override fun onDelete() = detailsModel.onDeleteWord()
             override fun onAddTrans() = AddTransDialog().show(childFragmentManager, null)
             override fun onDeleteTrans(trans: String) = detailsModel.onDeleteTrans(trans)
-            override fun onReorderTrans(newTrans: List<String>) = detailsModel.onReorderTrans(newTrans)
+            override fun onReorderTrans(newTrans: List<String>) =
+                detailsModel.onReorderTrans(newTrans)
 
             override fun onListen() {
-                Toast.makeText(context, "You're listening ${detailsModel.text.value}", Toast.LENGTH_SHORT)
+                Toast.makeText(
+                    context,
+                    "You're listening ${detailsModel.text.value}",
+                    Toast.LENGTH_SHORT
+                )
                     .show()
             }
 
@@ -66,7 +70,7 @@ class WordFragment : BaseFragment(R.layout.fragment_word), AddTransDialog.Host, 
                 host<Router>().onWordDeleted(it)
             }
         }
-        delayTransition {
+        postponeUntil {
             detailsModel.translations.awaitValue()
             detailsModel.text.awaitValue()
             detailsModel.pron.awaitValue()
@@ -74,6 +78,8 @@ class WordFragment : BaseFragment(R.layout.fragment_word), AddTransDialog.Host, 
     }
 
     override fun onAddTrans(text: String) = detailsModel.onAddTrans(text)
-    override fun onEditTrans(trans: String, newText: String) = detailsModel.onEditTrans(trans, newText)
+    override fun onEditTrans(trans: String, newText: String) =
+        detailsModel.onEditTrans(trans, newText)
+
     override fun onDeleteTrans(trans: String) = detailsModel.onDeleteTrans(trans)
 }

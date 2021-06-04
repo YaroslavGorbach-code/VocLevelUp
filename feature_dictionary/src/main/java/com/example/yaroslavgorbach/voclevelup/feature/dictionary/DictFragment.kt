@@ -1,17 +1,12 @@
 package com.example.yaroslavgorbach.voclevelup.feature.dictionary
 
-import android.os.Bundle
-import android.os.Parcelable
-import android.util.SparseArray
 import android.view.View
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.example.yaroslavgorbach.voclevelup.data.api.Word
 import com.example.yaroslavgorbach.voclevelup.feature.BaseFragment
 import com.example.yaroslavgorbach.voclevelup.feature.awaitValue
-import com.example.yaroslavgorbach.voclevelup.feature.delayTransition
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.FragmentDictBinding
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.di.DictViewModel
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.model.Dictionary
@@ -30,14 +25,16 @@ class DictFragment : BaseFragment(R.layout.fragment_dict) {
 
     private val vm by viewModels<DictViewModel>()
 
-    @Inject internal lateinit var dictModel: Dictionary
+    @Inject
+    internal lateinit var dictModel: Dictionary
 
     override fun onViewReady(view: View, init: Boolean) {
         vm.dictComponent.inject(this)
         val v = DictView(FragmentDictBinding.bind(view), object : DictView.Callback {
             override fun onAdd(srcView: View) = host<Router>().openAddWord(srcView)
             override fun onSwipe(word: Word) = dictModel.onRemove(word)
-            override fun onClick(word: Word, srcView: View) = host<Router>().openWord(word.text, srcView)
+            override fun onClick(word: Word, srcView: View) =
+                host<Router>().openWord(word.text, srcView)
         })
         with(dictModel) {
             words.observe(viewLifecycleOwner, v::setWords)
@@ -46,7 +43,9 @@ class DictFragment : BaseFragment(R.layout.fragment_dict) {
                 v.showRemoveWordUndo { lifecycleScope.launch { it() } }
             }
         }
-        delayTransition { dictModel.words.awaitValue() }
+        postponeUntil {
+            dictModel.words.awaitValue()
+        }
     }
 
     override fun getViewsSavedForTransition() = intArrayOf(R.id.dict_list)

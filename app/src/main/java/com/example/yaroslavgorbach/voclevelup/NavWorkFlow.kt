@@ -7,7 +7,6 @@ import androidx.fragment.app.commit
 import com.example.yaroslavgorbach.voclevelup.databinding.WorkflowNavBinding
 import com.example.yaroslavgorbach.voclevelup.feature.BaseFragment
 import com.example.yaroslavgorbach.voclevelup.feature.awaitReady
-import com.example.yaroslavgorbach.voclevelup.feature.delayTransition
 import com.example.yaroslavgorbach.voclevelup.feature.explore.ExploreFragment
 import com.example.yaroslavgorbach.voclevelup.feature.learn.LearnFragment
 import com.example.yaroslavgorbach.voclevelup.util.host
@@ -22,19 +21,17 @@ class NavWorkflow : BaseFragment(R.layout.workflow_nav), DictWorkflow.Router {
     }
 
     override fun onViewReady(view: View, init: Boolean) {
-        val currentFragment = if (init) {
-            val dictFragment = DictWorkflow()
+        if (init) {
+            val dictWorkflow = DictWorkflow()
             childFragmentManager.commit {
-                add(R.id.nav_container, dictFragment)
-                setPrimaryNavigationFragment(dictFragment)
+                add(R.id.nav_container, dictWorkflow)
+                setPrimaryNavigationFragment(dictWorkflow)
                 setReorderingAllowed(true)
             }
-            dictFragment
-        } else {
-            childFragmentManager.findFragmentById(R.id.nav_container) as BaseFragment
+            postponeUntil {
+                dictWorkflow.awaitReady()
+            }
         }
-        delayTransition { currentFragment.awaitReady() }
-
         val bind = WorkflowNavBinding.bind(view)
         bind.navPager.apply {
             setOnNavigationItemSelectedListener {
@@ -51,10 +48,7 @@ class NavWorkflow : BaseFragment(R.layout.workflow_nav), DictWorkflow.Router {
                         setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     }
                 } else {
-                    childFragmentManager.popBackStack(
-                        null,
-                        FragmentManager.POP_BACK_STACK_INCLUSIVE
-                    )
+                    childFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 }
                 true
             }

@@ -14,29 +14,16 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-fun Fragment.delayTransition(timeout: Long = 500, await: suspend () -> Unit) {
-    postponeEnterTransition()
-    lifecycleScope.launch {
-        withTimeoutOrNull(timeout) {
-            await()
-            delay(100) // workaround to let things like async submit list finish
-        }
-        (view?.parent as? ViewGroup)?.let {
-            it.doOnPreDraw {
-                startPostponedEnterTransition()
-            }
-            it.invalidate()
-        }
-    }
-}
-
 suspend fun BaseFragment.awaitReady() {
-    suspendCoroutine<Unit> {
-        doOnReadyForTransition { it.resume(Unit) }
+    suspendCancellableCoroutine<Unit> {
+        doOnReadyForTransition {
+            it.resume(Unit)
+        }
     }
 }
 
