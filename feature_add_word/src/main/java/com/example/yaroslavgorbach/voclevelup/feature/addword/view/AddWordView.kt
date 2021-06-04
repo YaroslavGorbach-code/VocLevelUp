@@ -16,7 +16,9 @@ import com.example.yaroslavgorbach.voclevelup.feature.addword.model.AddWord.*
 import com.example.yaroslavgorbach.voclevelup.feature.addword.databinding.FragmentAddWordBinding
 import com.example.yaroslavgorbach.voclevelup.feature.addword.model.AddWord
 import com.example.yaroslavgorbach.voclevelup.feature.setNavAsBack
+import com.example.yaroslavgorbach.voclevelup.feature.softInput
 import com.google.android.material.snackbar.Snackbar
+
 
 internal class AddWordView(
     private val bind: FragmentAddWordBinding,
@@ -24,8 +26,8 @@ internal class AddWordView(
 ) {
 
     interface Callback {
-        fun onOpen(item: AddWord.DefItem)
-        fun onSave(item: AddWord.DefItem)
+        fun onOpen(item: DefItem)
+        fun onSave(item: DefItem)
         fun onInput(input: String)
         fun onLangClick(lang: Language)
         fun onRetry()
@@ -33,36 +35,33 @@ internal class AddWordView(
         fun onCompClick(text: String)
     }
 
-    private val defAdapter =
-        DefListAdapter { item ->
-            if (!item.saved || item.trans?.any { !it.second } == true) {
-                callback.onSave(item)
-            } else {
-                callback.onOpen(item)
-            }
+    private val defAdapter = DefListAdapter { item ->
+        if (!item.saved || item.trans?.any { !it.second } == true) {
+            callback.onSave(item)
+        } else {
+            callback.onOpen(item)
         }
-    private val errorSnack =
-        Snackbar.make(bind.root, R.string.cant_load_translations, Snackbar.LENGTH_INDEFINITE)
-            .setAction(R.string.retry) { callback.onRetry() }
-            .also {
-                bind.root.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
-                    override fun onViewAttachedToWindow(v: View?) {}
-                    override fun onViewDetachedFromWindow(v: View?) {
-                        it.dismiss()
-                    }
-                })
-            }
+    }
+    private val errorSnack = Snackbar.make(bind.root, R.string.cant_load_translations, Snackbar.LENGTH_INDEFINITE)
+        .setAction(R.string.retry) { callback.onRetry() }
+        .also {
+            bind.root.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                override fun onViewAttachedToWindow(v: View?) {}
+                override fun onViewDetachedFromWindow(v: View?) {
+                    it.dismiss()
+                }
+            })
+        }
 
     private var handlingCompletion = false
-    private val compAdapter =
-        CompletionAdapter {
-            handlingCompletion = true
-            bind.addWordInput.text.apply {
-                replace(0, length, it)
-                callback.onCompClick(this.toString()) // get new input with applied filters
-            }
-            handlingCompletion = false
+    private val compAdapter = CompletionAdapter {
+        handlingCompletion = true
+        bind.addWordInput.text.apply {
+            replace(0, length, it)
+            callback.onCompClick(this.toString()) // get new input with applied filters
         }
+        handlingCompletion = false
+    }
 
     init {
         bind.addWordInput.apply {
@@ -71,8 +70,7 @@ internal class AddWordView(
                     callback.onInput(it.toString())
                 }
             }
-            val imm = context.getSystemService<InputMethodManager>()
-            imm?.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+            softInput.show(this)
             setOnEditorActionListener { v, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     callback.onInputDone(v.text.toString())
@@ -103,8 +101,7 @@ internal class AddWordView(
                 errorSnack.dismiss()
             }
             defAdapter.submitList((state as? State.Definitions)?.items ?: emptyList())
-            isInvisible =
-                state !is State.Definitions // gone delays animations -> see blink on new list shown
+            isInvisible = state !is State.Definitions // gone delays animations -> see blink on new list shown
         }
         bind.addWordCompList.apply {
             compAdapter.submitList((state as? State.Completions)?.items ?: emptyList())
@@ -125,7 +122,7 @@ internal class AddWordView(
                 true
             }
             if (i == 0) {
-                item.icon = ContextCompat.getDrawable(root.context, R.drawable.ic_done)?.apply {
+                item.icon = root.context.getDrawable(R.drawable.ic_done)?.apply {
                     setTintList(
                         ContextCompat.getColorStateList(root.context, R.color.target_lang_tint)
                     )

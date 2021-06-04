@@ -1,11 +1,14 @@
 package com.example.yaroslavgorbach.voclevelup.workflow
 
 import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
+import androidx.fragment.app.commitNow
 import androidx.lifecycle.lifecycleScope
 import com.example.yaroslavgorbach.voclevelup.R
+import com.example.yaroslavgorbach.voclevelup.feature.BaseFragment
 import com.example.yaroslavgorbach.voclevelup.feature.addword.AddWordFragment
 import com.example.yaroslavgorbach.voclevelup.feature.worddetails.WordFragment
 import com.google.android.material.snackbar.Snackbar
@@ -14,12 +17,11 @@ import kotlinx.coroutines.launch
 
 
 @InternalCoroutinesApi
-class AddWordWorkflow : Fragment(R.layout.workflow_add_word), AddWordFragment.Router, WordFragment.Router {
+class AddWordWorkflow : BaseFragment(R.layout.workflow_add_word), AddWordFragment.Router, WordFragment.Router {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            childFragmentManager.commit {
+    override fun onViewReady(view: View, init: Boolean) {
+        if (init) {
+            childFragmentManager.commitNow {
                 add(R.id.add_word_container, AddWordFragment())
             }
         }

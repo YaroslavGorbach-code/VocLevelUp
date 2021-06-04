@@ -9,6 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.observe
 import com.example.yaroslavgorbach.voclevelup.data.api.Word
+import com.example.yaroslavgorbach.voclevelup.feature.BaseFragment
+import com.example.yaroslavgorbach.voclevelup.feature.awaitValue
 import com.example.yaroslavgorbach.voclevelup.feature.delayTransition
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.databinding.FragmentDictBinding
 import com.example.yaroslavgorbach.voclevelup.feature.dictionary.di.DictViewModel
@@ -19,26 +21,23 @@ import com.example.yaroslavgorbach.voclevelup.util.host
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class DictFragment : Fragment(R.layout.fragment_dict) {
+class DictFragment : BaseFragment(R.layout.fragment_dict) {
 
     interface Router {
-        fun openWord(text: String, srcItem: View)
-        fun openAddWord()
+        fun openWord(text: String, srcView: View)
+        fun openAddWord(srcView: View)
     }
 
     private val vm by viewModels<DictViewModel>()
 
     @Inject internal lateinit var dictModel: Dictionary
 
-    private val viewState = SparseArray<Parcelable>()
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
+    override fun onViewReady(view: View, init: Boolean) {
         vm.dictComponent.inject(this)
-        val v = DictView(FragmentDictBinding.bind(requireView()), object : DictView.Callback {
-            override fun onAdd() = host<Router>().openAddWord()
+        val v = DictView(FragmentDictBinding.bind(view), object : DictView.Callback {
+            override fun onAdd(srcView: View) = host<Router>().openAddWord(srcView)
             override fun onSwipe(word: Word) = dictModel.onRemove(word)
-            override fun onClick(word: Word, srcItem: View) = host<Router>().openWord(word.text, srcItem)
+            override fun onClick(word: Word, srcView: View) = host<Router>().openWord(word.text, srcView)
         })
         with(dictModel) {
             words.observe(viewLifecycleOwner, v::setWords)
@@ -47,11 +46,8 @@ class DictFragment : Fragment(R.layout.fragment_dict) {
                 v.showRemoveWordUndo { lifecycleScope.launch { it() } }
             }
         }
-        delayTransition(dictModel.words) { view?.restoreHierarchyState(viewState) }
+        delayTransition { dictModel.words.awaitValue() }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        view?.saveHierarchyState(viewState)
-    }
+    override fun getViewsSavedForTransition() = intArrayOf(R.id.dict_list)
 }

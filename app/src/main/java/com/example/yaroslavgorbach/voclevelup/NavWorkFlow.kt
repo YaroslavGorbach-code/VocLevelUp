@@ -1,11 +1,13 @@
 package com.example.yaroslavgorbach.voclevelup
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.view.View
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.fragment.app.commit
-import com.example.yaroslavgorbach.voclevelup.databinding.FragmentNavBinding
+import com.example.yaroslavgorbach.voclevelup.databinding.WorkflowNavBinding
+import com.example.yaroslavgorbach.voclevelup.feature.BaseFragment
+import com.example.yaroslavgorbach.voclevelup.feature.awaitReady
+import com.example.yaroslavgorbach.voclevelup.feature.delayTransition
 import com.example.yaroslavgorbach.voclevelup.feature.explore.ExploreFragment
 import com.example.yaroslavgorbach.voclevelup.feature.learn.LearnFragment
 import com.example.yaroslavgorbach.voclevelup.util.host
@@ -13,24 +15,27 @@ import com.example.yaroslavgorbach.voclevelup.workflow.DictWorkflow
 import kotlinx.coroutines.InternalCoroutinesApi
 
 @InternalCoroutinesApi
-class NavFragment : Fragment(R.layout.fragment_nav), DictWorkflow.Router {
+class NavWorkflow : BaseFragment(R.layout.workflow_nav), DictWorkflow.Router {
 
     interface Router {
-        fun openAddWord()
+        fun openAddWord(srcView: View)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        if (savedInstanceState == null) {
+    override fun onViewReady(view: View, init: Boolean) {
+        val currentFragment = if (init) {
+            val dictFragment = DictWorkflow()
             childFragmentManager.commit {
-                add(R.id.nav_container, DictWorkflow().also { setPrimaryNavigationFragment(it) })
+                add(R.id.nav_container, dictFragment)
+                setPrimaryNavigationFragment(dictFragment)
+                setReorderingAllowed(true)
             }
+            dictFragment
+        } else {
+            childFragmentManager.findFragmentById(R.id.nav_container) as BaseFragment
         }
-    }
+        delayTransition { currentFragment.awaitReady() }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        val bind = FragmentNavBinding.bind(requireView())
+        val bind = WorkflowNavBinding.bind(view)
         bind.navPager.apply {
             setOnNavigationItemSelectedListener {
                 if (selectedItemId != it.itemId) {
@@ -56,5 +61,5 @@ class NavFragment : Fragment(R.layout.fragment_nav), DictWorkflow.Router {
         }
     }
 
-    override fun openAddWord() = host<Router>().openAddWord()
+    override fun openAddWord(srcView: View) = host<Router>().openAddWord(srcView)
 }
