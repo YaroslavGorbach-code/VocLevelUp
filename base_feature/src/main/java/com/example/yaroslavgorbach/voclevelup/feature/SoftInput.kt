@@ -19,26 +19,3 @@ interface SoftInputProvider {
 }
 
 val View.softInput: SoftInput get() = (context as SoftInputProvider).softInput
-
-class SoftInputImp(private val activity: FragmentActivity) : SoftInput {
-
-    private val imm = activity.getSystemService<InputMethodManager>()
-
-    override var nextShowDelay = 0L
-
-    override fun show(view: View) {
-        activity.lifecycleScope.launch {
-            delay(nextShowDelay)
-            view.clearFocus() // weird bug, without resetting focus keyboard not opens next time
-            view.requestFocus()
-            imm?.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-            nextShowDelay = 0L
-        }
-    }
-
-    override fun hide() {
-        activity.currentFocus?.windowToken?.let {
-            imm?.hideSoftInputFromWindow(it, 0)
-        }
-    }
-}
