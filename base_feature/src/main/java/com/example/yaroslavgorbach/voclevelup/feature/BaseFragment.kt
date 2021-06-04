@@ -24,6 +24,7 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int) : Fragment(layoutRes) {
     private var savedViewState: Map<Int, SparseArray<Parcelable>>? = null
     private var postponeRequested = false
     private var postponeUntilFunctions = mutableSetOf<suspend () -> Unit>()
+    protected var postponeTimeout = 500L
 
     fun postpone() {
         postponeRequested = true
@@ -112,7 +113,7 @@ abstract class BaseFragment(@LayoutRes layoutRes: Int) : Fragment(layoutRes) {
             startPostponedEnterTransitionInner()
         } else {
             viewLifecycleOwner.lifecycleScope.launch {
-                withTimeoutOrNull(500) {
+                withTimeoutOrNull(postponeTimeout) {
                     postponeUntilFunctions.forEach { it() }
                     delay(100) // workaround to let things like async submit list finish
                 }
