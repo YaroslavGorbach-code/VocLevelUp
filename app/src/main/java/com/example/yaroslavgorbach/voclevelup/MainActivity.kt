@@ -9,6 +9,7 @@ import com.example.yaroslavgorbach.voclevelup.feature.SoftInputProvider
 import com.example.yaroslavgorbach.voclevelup.feature.loadTransition
 import com.example.yaroslavgorbach.voclevelup.utill.SoftInputImp
 import com.example.yaroslavgorbach.voclevelup.workflow.AddWordWorkflow
+import com.example.yaroslavgorbach.voclevelup.workflow.NavWorkflow
 import kotlinx.coroutines.InternalCoroutinesApi
 
 @InternalCoroutinesApi
